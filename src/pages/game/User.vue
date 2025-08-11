@@ -66,7 +66,7 @@ const getActionText = (action: IOptItem) => {
   let str = ''
   switch (action) {
     case IOptItem.OptItemAllIn:
-      str = 'ALL-IN:' + props.user.bet_amount
+      str = 'ALL-IN:$' + props.user.bet_amount
       break;
     case IOptItem.OptItemBet:
       str = '跟注' + props.user.bet_amount
@@ -79,10 +79,10 @@ const getActionText = (action: IOptItem) => {
       break;
 
     case IOptItem.OptItemRaise:
-      str = '加注:'+ props.user.bet_amount
+      str = '加注:$'+ props.user.bet_amount
       break;
     case IOptItem.OptItemFirstBet:
-      str = '下注:' + props.user.bet_amount
+      str = '下注:$' + props.user.bet_amount
       break;
 
     default:
