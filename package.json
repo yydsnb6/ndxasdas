@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "type": "module",
-  "homepage": "https://yydsnb6-mini-apps.github.io/dzGame",
+  "homepage": "https://yydsnb6.github.io/is-awesome",  
   "scripts": {
     "deploy": "gh-pages -d dist",
     "dev": "vite --host 0.0.0.0",
