@@ -15,7 +15,7 @@ import fs from 'fs'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: 'is-awesome',
+  base: '',
   // base: '/dzGame/',
   plugins: [
     vue(),

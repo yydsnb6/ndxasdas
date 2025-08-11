@@ -45,9 +45,9 @@ const buyAndSitDown = () => {
 <template>
 
   <van-overlay z-index="20000" :show="show" @click="emit('onClose')" class="bg-op-50!">
-    <div class="wrapper2">
+    <div class="wrapper2 pos-relative">
       <div
-        class="text-[12px] p-5 px-4 h-[60%] w-[90%] bg-[rgb(29,29,29,0.8)]   flex flex-col pos-relative  border-rd-[15px]! items-center justify-evenly"
+        class="pos-absolute bottom-0 left-[5%]  text-[12px] p-5 px-4 h-[60%] w-[90%] bg-[rgb(29,29,29,0.8)]   flex flex-col   border-rd-[15px]! items-center justify-evenly"
         @click.stop>
         <GlowBorder :color="['#A07CFE', '#FE8FB5', '#FFBE7B']" class="rounded h-[98%]! w-[98%]!" :border-radius="10" />
         <van-slider bar-height="10px" class="w-[95%]! mr-[10px]" active-color="#e1bf65" v-model="buyMoney" :step="5"
@@ -62,7 +62,7 @@ const buyAndSitDown = () => {
             class="bg-red! text-amber! font-bold  text-center  text-[16px] w-[80px]! bg-op-0!" />
         </div>
         <van-button size="26" block @click="buyAndSitDown" color="linear-gradient(to right, #638ccb, #f2c14b)">
-          确认买入并坐在座位 {{ props.seatid }} 上面
+          确认买入${{ buyMoney }}并坐在座位 {{ props.seatid }} 上面
         </van-button>
       </div>
     </div>

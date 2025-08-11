@@ -276,7 +276,7 @@ onMounted(() => {
         </div>
 
         <van-checkbox-group v-model="checked" shape="square" v-if="createRoomData.is_push_group">
-          <van-checkbox class="ml-5" v-for="item in tg_group_list" :name="item.group_id">
+          <van-checkbox class="ml-5 my-1" v-for="item in tg_group_list" :name="item.group_id">
             <span class=" font-bold text-[var(--my-text)]">{{ item.group_name }}</span>
           </van-checkbox>
         </van-checkbox-group>

@@ -221,7 +221,7 @@ export const useSocketStore = defineStore('socket', () => {
           roomStore.buySeatIds = data.buy_in_seat_id
           if (userStore.userInfo.balance < roomStore.sceneMsg.min_buy) {
             showNotify({
-              message: '餘額不足請充值'
+              message: '余额不足请充值'
             })
             router.replace('/home')
             disconnect()
@@ -243,7 +243,7 @@ export const useSocketStore = defineStore('socket', () => {
           roomStore.buySeatIds = data.buy_in_seat_id
           if (userStore.userInfo.balance < roomStore.sceneMsg.min_buy) {
             showNotify({
-              message: '餘額不足請充值'
+              message: '余额不足请充值'
             })
             router.replace('/home')
             disconnect()
@@ -251,7 +251,9 @@ export const useSocketStore = defineStore('socket', () => {
           }
           break;
 
-
+        case 1018:
+          roomStore.sceneMsg = data
+          break
         // 离开房间通知
         case 501:
           showToast({

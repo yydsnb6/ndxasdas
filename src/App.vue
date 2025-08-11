@@ -5,10 +5,10 @@ import { useUserStore } from './stores/user';
 
 import { themes } from '@/utils/theme'
 import { useSignal, initData, useLaunchParams, retrieveLaunchParams } from '@telegram-apps/sdk-vue';
-import { useRoomStore } from './stores/room';
+import { useBackButton } from '@/composables/useBackButton'
+useBackButton()
+const lp = useLaunchParams()
 import LocalUtil from './utils/LocalUtil';
-
-
 
 
 import xipai from '@/assets/sound/xipai.mp3'
@@ -77,7 +77,6 @@ const domairu = useSound(mairu, { volume: 1 })
 const domaibaoxian = useSound(maibaoxian, { volume: 1 })
 const dolikaizuowei = useSound(likaizuowei, { volume: 1 })
 const dofapai = useSound(fapai, { volume: 1 })
-const lp = useLaunchParams()
 const userStore = useUserStore()
 onMounted(() => {
   bus.on('playSound', playMySound)
@@ -155,9 +154,9 @@ watch(selectedTheme, (val) => {
   document.body.style.background = val.bg;
 }, { immediate: true });
 
-import { useBackButton } from '@/composables/useBackButton'
+
+
 import router from './router';
-useBackButton()
 
 
 const show = ref(false)
@@ -172,6 +171,18 @@ const user = ref({
 
 
 const login = () => {
+
+
+    // userStore.login({
+    //     first_name: '1111',
+    //     head_url: '1111',
+    //     last_name: '1111',
+    //     tgid: 1111,
+    //     user_name: '1111',
+    //   }).finally(() => {
+    //   })
+    //   return
+
 
   LocalUtil.setString(user.value?.firstName, 'first_name')
   LocalUtil.setString(user.value?.photoUrl, 'head_url')

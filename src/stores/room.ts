@@ -154,6 +154,7 @@ export const useRoomStore = defineStore('room', () => {
     })
     if (findUser) {
       roomUserInfo.value = findUser.user
+      roomUserInfo.value.balance = Number(roomUserInfo.value.balance)
     }
   }
 

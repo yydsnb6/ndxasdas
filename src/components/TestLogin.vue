@@ -1,23 +1,31 @@
 <script setup lang="ts">
-import { initData, useSignal, useLaunchParams } from '@telegram-apps/sdk-vue';
+// import { initData, useSignal, useLaunchParams } from '@telegram-apps/sdk-vue';
 import { onMounted, ref } from 'vue';
 import { useUserStore } from '@/stores/user';
 import { useRoomStore } from '@/stores/room';
 import LocalUtil from '@/utils/LocalUtil';
 import { encode, decode } from 'js-base64';
 
-const initDataRef = useSignal(initData.state);
-const lp = useLaunchParams();
+// const initDataRef = useSignal(initData.state);
+// const lp = useLaunchParams();
 
 defineProps({
   show: Boolean,
 })
 const emit = defineEmits(['onClose', 'changeIndex']);
+// const user = ref({
+//   // firstName: LocalUtil.stringForKey('first_name', initDataRef.value?.user?.firstName),
+//   // photoUrl: LocalUtil.stringForKey('head_url', initDataRef.value?.user?.photoUrl),
+//   // id: LocalUtil.stringForKey('tgid', initDataRef.value?.user?.id.toString()),
+//   // username: LocalUtil.stringForKey('username', initDataRef.value?.user?.username),
+//   // lastName: LocalUtil.stringForKey('lastName', 'lastName'),
+// })
+
 const user = ref({
-  firstName: LocalUtil.stringForKey('first_name', initDataRef.value?.user?.firstName),
-  photoUrl: LocalUtil.stringForKey('head_url', initDataRef.value?.user?.photoUrl),
-  id: LocalUtil.stringForKey('tgid', initDataRef.value?.user?.id.toString()),
-  username: LocalUtil.stringForKey('username', initDataRef.value?.user?.username),
+  firstName: LocalUtil.stringForKey('first_name', 'test'),
+  photoUrl: LocalUtil.stringForKey('head_url', 'test'),
+  id: LocalUtil.stringForKey('tgid', '1111'),
+  username: LocalUtil.stringForKey('username', 'test111'),
   lastName: LocalUtil.stringForKey('lastName', 'lastName'),
 })
 const userStore = useUserStore()
@@ -29,40 +37,7 @@ onMounted(() => {
 const login = () => {
   console.log('調了嗎2222');
 
-  LocalUtil.setString(user.value?.firstName, 'first_name')
-  LocalUtil.setString(user.value?.photoUrl, 'head_url')
-  LocalUtil.setString(user.value?.id, 'tgid')
-  LocalUtil.setString(user.value?.username, 'username')
-  LocalUtil.setString(user.value?.lastName, 'lastName')
-
-  if (lp.startParam && lp.startParam != 'ABC') {
-    let startParam = JSON.parse(decode(lp.startParam))
-    if (startParam.agentId) {
-      userStore.login({
-        first_name: user.value?.firstName,
-        head_url: user.value?.photoUrl,
-        last_name: user.value?.lastName,
-        tgid: Number(user.value?.id),
-        user_name: user.value?.username,
-        agent_id: startParam.agentId
-      }).finally(() => {
-      emit('onClose')
-
-      })
-    } else {
-      userStore.login({
-        first_name: user.value?.firstName,
-        head_url: user.value?.photoUrl,
-        last_name: user.value?.lastName,
-        tgid: Number(user.value?.id),
-        user_name: user.value?.username,
-      }).finally(() => {
-      emit('onClose')
-
-      })
-    }
-  } else {
-    userStore.login({
+  userStore.login({
       first_name: user.value?.firstName,
       head_url: user.value?.photoUrl,
       last_name: user.value?.lastName,
@@ -71,7 +46,50 @@ const login = () => {
     }).finally(() => {
       emit('onClose')
     })
-  }
+
+  // LocalUtil.setString(user.value?.firstName, 'first_name')
+  // LocalUtil.setString(user.value?.photoUrl, 'head_url')
+  // LocalUtil.setString(user.value?.id, 'tgid')
+  // LocalUtil.setString(user.value?.username, 'username')
+  // LocalUtil.setString(user.value?.lastName, 'lastName')
+
+  // if (lp.startParam && lp.startParam != 'ABC') {
+  //   let startParam = JSON.parse(decode(lp.startParam))
+  //   if (startParam.agentId) {
+  //     userStore.login({
+  //       first_name: user.value?.firstName,
+  //       head_url: user.value?.photoUrl,
+  //       last_name: user.value?.lastName,
+  //       tgid: Number(user.value?.id),
+  //       user_name: user.value?.username,
+  //       agent_id: startParam.agentId
+  //     }).finally(() => {
+  //     emit('onClose')
+
+  //     })
+  //   } else {
+  //     userStore.login({
+  //       first_name: user.value?.firstName,
+  //       head_url: user.value?.photoUrl,
+  //       last_name: user.value?.lastName,
+  //       tgid: Number(user.value?.id),
+  //       user_name: user.value?.username,
+  //     }).finally(() => {
+  //     emit('onClose')
+
+  //     })
+  //   }
+  // } else {
+  //   userStore.login({
+  //     first_name: user.value?.firstName,
+  //     head_url: user.value?.photoUrl,
+  //     last_name: user.value?.lastName,
+  //     tgid: Number(user.value?.id),
+  //     user_name: user.value?.username,
+  //   }).finally(() => {
+  //     emit('onClose')
+  //   })
+  // }
 }
 
 

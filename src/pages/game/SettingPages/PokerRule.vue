@@ -135,9 +135,9 @@ const emit = defineEmits(['onClose', 'changeIndex']);
 <template>
 
   <van-overlay z-index="2000" :show="show" @click="emit('onClose')" class="bg-op-50!">
-    <div class="wrapper-poker">
+    <div class="wrapper-poker pos-relative">
       <div
-        class=" items-center text-[12px] mb-[5px] h-[60%]  p-2 px-4 w-[85%] bg-[rgb(29,29,29,0.8)]   flex flex-col pos-relative  border-rd-[15px]!"
+        class=" pos-absolute bottom-0 left-[7.5%] items-center text-[12px] mb-[5px] h-[60%]  p-2 px-4 w-[85%] bg-[rgb(29,29,29,0.8)]   flex flex-col   border-rd-[15px]!"
         @click.stop>
         <GlowBorder :color="['#A07CFE', '#FE8FB5', '#FFBE7B']" class="rounded h-[98%]! w-[98%]!" :border-radius="10" />
         <div
@@ -201,11 +201,14 @@ const emit = defineEmits(['onClose', 'changeIndex']);
 
 <style scoped>
 .wrapper-poker {
-  display: flex;
-  align-items: end;
+  /* display: flex;
+  align-items: end; */
   justify-content: center;
   height: 100%;
+
 }
+
+
 
 .block {
   width: 120px;

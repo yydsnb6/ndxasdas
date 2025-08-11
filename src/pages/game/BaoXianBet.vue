@@ -36,9 +36,9 @@ const addBet = () => {
 <template>
 
   <van-overlay z-index="2000" :show="show" @click="emit('onClose')" class="bg-op-50!">
-    <div class="wrapper2">
+    <div class="wrapper2 pos-relative">
       <div
-        class="text-[12px] p-5 px-4 h-[60%] w-[90%] bg-[rgb(29,29,29,0.8)]   flex flex-col pos-relative  border-rd-[15px]! items-center justify-evenly"
+        class="pos-absolute bottom-0 left-[5%] text-[12px] p-5 px-4 h-[60%] w-[90%] bg-[rgb(29,29,29,0.8)]   flex flex-col   border-rd-[15px]! items-center justify-evenly"
         @click.stop>
         <GlowBorder :color="['#A07CFE', '#FE8FB5', '#FFBE7B']" class="rounded h-[98%]! w-[98%]!" :border-radius="10" />
         <van-slider bar-height="10px" class="w-[95%]! mr-[10px]" active-color="#e1bf65" v-model="buyMoney" :step="5"

@@ -2,9 +2,9 @@ import './assets/index.css'
 import 'virtual:uno.css'
 import 'vant/lib/index.css';
 import { createApp } from 'vue'
-import { retrieveLaunchParams } from '@telegram-apps/sdk-vue'
 import App from './App.vue'
 import router from './router'
+import { retrieveLaunchParams } from '@telegram-apps/sdk-vue'
 import { errorHandler } from './errorHandler'
 import { init } from './init'
 import { TonConnectUIPlugin } from './tonconnect'
@@ -18,7 +18,7 @@ const app = createApp(App)
 // Mock the environment in case, we are outside Telegram.
 // Configure all application dependencies.
 import './mockEnv'
-init( import.meta.env.DEV) // retrieveLaunchParams().startParam === 'debug' ||
+init( retrieveLaunchParams().startParam === 'debug' || import.meta.env.DEV)
 // app.config.errorHandler = errorHandler
 app.use(TonConnectUIPlugin, { manifestUrl: publicUrl('tonconnect-manifest.json') })
 

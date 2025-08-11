@@ -245,11 +245,12 @@ const getImg = (path: string) => {
 
 
     <PublicPoker />
+    <!--  -->
     <Poker v-if="roomStore.roomUserInfo.hand_cards[0]"
-      class=" mx-1 z-[9] h-[50px]! poker1   absolute bottom-[180px] right-[38%]"
+      class=" mx-1 z-[9] h-[50px]! poker1 w-[36.216px]!   absolute bottom-[180px] right-[38%]"
       :point="roomStore.roomUserInfo.hand_cards[0]" />
     <Poker v-if="roomStore.roomUserInfo.hand_cards[1]"
-      class=" mx-1 z-[9] h-[50px]! poker2  absolute bottom-[180px] right-[50%]"
+      class=" mx-1 z-[9] h-[50px]! poker2 w-[36.216px]! absolute bottom-[180px] right-[50%]"
       :point="roomStore.roomUserInfo.hand_cards[1]" />
 
   </AppPage>
@@ -260,14 +261,11 @@ const getImg = (path: string) => {
     class="pos-fixed! top-1 left-1 z-[2000] w-[40px] h-[40px] flex items-center justify-center bg-[#1a1c23] bg-op-70 rounded-full">
     <van-icon name="wap-nav" color="#fff" size="24" />
   </div>
-  <div @click="; showHandRecord = !showHandRecord; socketStore.getHand()"
+  <div @click="; showBlindRecord = !showBlindRecord; socketStore.getBlind()"
     class="pos-fixed! bottom-[1px] left-1 z-[2000] w-[40px] h-[40px] flex items-center justify-center bg-[#1a1c23] bg-op-70 rounded-full">
     <van-icon name="todo-list" color="#fff" size="24" />
   </div>
-  <div @click="; showBlindRecord = !showBlindRecord; socketStore.getBlind()"
-    class="pos-fixed! bottom-[1px] right-1 z-[2000] w-[40px] h-[40px] flex items-center justify-center bg-[#1a1c23] bg-op-70 rounded-full">
-    <van-icon name="cluster" color="#fff" size="24" />
-  </div>
+
   <Setting :show="showSetting" @onClose="showSetting = !showSetting" />
   <TopPokers class="z-999999" />
   <BlindRecord class="z-999999!" :show="showBlindRecord" @onClose="showBlindRecord = !showBlindRecord" />

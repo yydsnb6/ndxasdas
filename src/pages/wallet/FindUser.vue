@@ -35,9 +35,9 @@ const checkUserId = ()=>{
 <template>
 
   <van-overlay z-index="2000" :show="show" @click="emit('onClose')" class="bg-op-50!">
-    <div class="wrapper-find">
+    <div class="wrapper-find pos-relative">
       <div
-        class="text-[12px] p-5 px-4 h-[40%] w-full  bg-[var(--my-cardBg)]   flex flex-col pos-relative border-rd-t-[15px]   items-center justify-start"
+        class="pos-absolute bottom-0 text-[12px] p-5 px-4 h-[40%] w-full  bg-[var(--my-cardBg)]   flex flex-col  border-rd-t-[15px]   items-center justify-start"
         @click.stop>
         <h2 class="text-[var(--my-accent)]">向游戏内转账</h2>
         <div class="w-full mt-6">

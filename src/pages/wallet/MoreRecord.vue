@@ -55,13 +55,9 @@ const clickBtn = async (type: number) => {
       <v-btn v-for="item in btns" :key="item.type" @click="clickBtn(item.type)"
         :style="selectType == item.type ? 'background:var(--my-buttonPrimaryBg) ' : 'background:var(--my-buttonSecondaryBg);border:var(--my-buttonSecondaryBorder)'"
         class="my-2" height="25" min-width="50">
-
         <p :class="selectType == item.type ? 'text-[var(--my-buttonPrimaryText)]' : 'text-[var(--my-buttonSecondaryText)]'"
           class="text-[12px] font-bold ">{{ item.text }}</p>
-
       </v-btn>
-
-
     </div>
     <div class="h-[calc(100%-330px)] px-[3px]">
       <v-virtual-scroll class="h-full w-full" :items="dataList">

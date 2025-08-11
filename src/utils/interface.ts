@@ -253,12 +253,33 @@ export interface IHandCard {
   opt_item: number  // 操作项
 }
 
+// export interface IOutHandCard {
+//   username: string         // 昵称
+//   seat_type: number  // 位
+//   cards: number[] // 手牌
+//   opt_item: number  // 操作项
+// }
 export interface IOutHandCard {
-  username: string         // 昵称
-  seat_type: number  // 位
-  cards: number[] // 手牌
-  opt_item: number  // 操作项
+  game_id: string;
+  room_id: string;
+  game_record_list: HandCardInfo[];
 }
+
+
+export interface HandCardInfo {
+  cards: number[];
+  opt_item: number;
+  seat_type: number;
+  username: string;
+  public_card: number[];
+  bet_amount: string;
+  win_amount: string;
+  is_win: boolean;
+  bet_all_amount: string;
+  card_type: number;
+}
+
+
 
 
 

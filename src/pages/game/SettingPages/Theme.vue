@@ -60,9 +60,9 @@ const emit = defineEmits(['onClose']);
 <template>
 
   <van-overlay z-index="2000" :show="show" @click="emit('onClose')" class="bg-op-50!">
-    <div class="wrapper-theme">
+    <div class="wrapper-theme pos-relative ">
       <div
-        class=" items-center text-[12px] mb-[5px] h-[85%]   w-[95%] bg-[rgb(29,29,29,0.8)]   flex flex-col pos-relative  border-rd-[15px]!"
+        class="pos-absolute bottom-0 left-[2.5%]  items-center text-[12px] mb-[5px] h-[85%]   w-[95%] bg-[rgb(29,29,29,0.8)]   flex flex-col  border-rd-[15px]!"
         @click.stop>
         <GlowBorder :color="['#A07CFE', '#FE8FB5', '#FFBE7B']" class="rounded h-[98%]! w-[98%]!" :border-radius="10" />
         <div

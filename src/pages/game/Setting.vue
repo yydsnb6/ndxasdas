@@ -9,6 +9,7 @@ import Theme from './SettingPages/Theme.vue';
 import UserAvatr from '@/components/UserAvatr.vue';
 import UserBalance from '@/components/UserBalance.vue'
 import { useSocketStore } from '@/stores/mysocket';
+import HandRecord from './HandRecord.vue'
 
 const router = useRouter()
 
@@ -28,6 +29,7 @@ const userStore = useUserStore()
 const showPokerRule = ref(false)
 const showBaoXian = ref(false)
 const showTheme = ref(false)
+const showHandRecord = ref(false)
 const socketStore = useSocketStore()
 const standUp = ()=>{
   socketStore.standUp()
@@ -79,7 +81,17 @@ const standUp = ()=>{
           </svg>
           <p class="ml-5">玩法教学</p>
         </div>
-        <div @click="showBaoXian = !showBaoXian; emit('onClose');"
+        <div @click="showHandRecord = !showHandRecord; emit('onClose');"
+          class="border-0 border-[rgba(255,255,255,0.1)] border-t-1 border-solid pt-2 flex  mb-2 flex-row w-auto px-2  text-white font-bold ">
+          <svg t="1751740318027" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
+            p-id="16527" width="20" height="20">
+            <path
+              d="M512 1024c-56.096-89.344-97.184-137.728-123.296-145.184C201.216 825.248 64 652.672 64 448 64 200.576 264.576 0 512 0s448 200.576 448 448c0 203.168-135.232 374.72-320.608 429.632-26.88 7.968-69.376 56.768-127.392 146.368z m280.32-811.2l-16.416-2.4L515.2 160h-4.672L256.864 210.4l-23.456 2.4c-4.704 0-9.408 4.8-9.408 12v331.2c0 21.6 4.704 43.2 16.448 64.8 9.376 21.6 23.488 40.8 39.904 60 16.448 19.2 35.232 36 54.016 52.8 21.12 16.8 39.936 31.2 61.056 45.6 21.152 14.4 42.272 24 61.088 33.6 18.784 9.6 37.568 14.4 51.648 19.2h11.744l7.04-2.4c14.08-2.4 32.896-9.6 51.68-19.2s39.904-19.2 58.72-33.6c21.12-12 39.904-28.8 58.688-45.6s37.6-36 51.68-55.2c16.448-19.2 28.16-38.4 37.568-60 9.408-21.6 14.08-43.2 14.08-64.8v-326.4c2.368-4.8-2.336-9.6-7.04-12z m-243.808 351.104h130.976c21.984 0 39.84 18.24 39.84 40.8s-17.856 40.832-39.84 40.832H548.48v78.72c0 24.16-19.104 43.744-42.688 43.744-23.584 0-42.72-19.584-42.72-43.744v-78.72H332.16c-22.016 0-39.84-18.272-39.84-40.832 0-22.528 17.824-40.8 39.84-40.8h130.944v-72.864H332.16c-22.016 0-39.84-18.24-39.84-40.8 0-22.528 17.824-40.8 39.84-40.8h106.752L349.984 308.48c-11.008-19.52-4.48-44.48 14.592-55.776a39.36 39.36 0 0 1 54.464 14.976l86.656 96.96 86.656-96.96a39.36 39.36 0 0 1 54.432-14.976c19.072 11.264 25.6 36.256 14.592 55.776l-88.864 100.928h106.976c21.984 0 39.84 18.24 39.84 40.8 0 22.528-17.856 40.8-39.84 40.8H548.48v72.864z"
+              fill="#ffffff" p-id="16528"></path>
+          </svg>
+          <p class="ml-5">牌局回顾</p>
+        </div>
+        <!-- <div @click="showBaoXian = !showBaoXian; emit('onClose');"
           class="border-0 border-[rgba(255,255,255,0.1)] border-t-1 border-solid pt-2 flex  mb-2 flex-row w-auto px-2  text-white font-bold ">
           <svg t="1751740318027" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
             p-id="16527" width="20" height="20">
@@ -88,7 +100,7 @@ const standUp = ()=>{
               fill="#ffffff" p-id="16528"></path>
           </svg>
           <p class="ml-5">保险规则</p>
-        </div>
+        </div> -->
          <!-- <div @click="showBaoXian = !showBaoXian; emit('onClose');"
           class="border-0 border-[rgba(255,255,255,0.1)] border-t-1 border-solid pt-2 flex  mb-2 flex-row w-auto px-2  text-white font-bold ">
           <svg t="1751740318027" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
@@ -99,7 +111,7 @@ const standUp = ()=>{
           </svg>
           <p class="ml-5">返水规则</p>
         </div> -->
-        <div @click="showTheme = !showTheme"
+        <div @click="showTheme = !showTheme;emit('onClose')"
           class="border-0 border-[rgba(255,255,255,0.1)] border-t-1 border-solid pt-2 flex  mb-2 flex-row w-auto px-2  text-white font-bold ">
           <svg t="1751740357188" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
             p-id="20376" id="mx_n_1751740357189" width="20" height="20">
@@ -117,7 +129,7 @@ const standUp = ()=>{
           <p class="ml-5">站起</p>
         </div>
 
-        <div @click="roomStore.showBlind = !roomStore.showBlind"
+        <div @click="roomStore.showBlind = !roomStore.showBlind;emit('onClose')"
           class=" justify-between  border-0 border-[rgba(255,255,255,0.1)] border-t-1 border-solid pt-2 flex  mb-2 flex-row w-auto px-2  text-white font-bold ">
           <div class="flex flex-row">
             <svg v-if="roomStore.showBlind" t="1751740410260" class="icon" viewBox="0 0 1792 1024" version="1.1"
@@ -182,6 +194,7 @@ const standUp = ()=>{
   <BaoXian :show="showBaoXian" @on-close="showBaoXian = !showBaoXian" />
   <Theme :show="showTheme" @on-close="showTheme = !showTheme" />
 
+  <HandRecord class="z-999999!" :show="showHandRecord" @onClose="showHandRecord = !showHandRecord" />
 
 
 </template>

@@ -132,7 +132,7 @@ const cardType = [
   <div class=" pos-relative ">
     <div v-if="props.pos == ESeatPos.Left" class="flex flex-row  text-[var(--my-text)] text-[12px]">
       <div class="flex-col flex justify-center items-center pos-relative">
-        <p class="px-[8px] py-0 absolute bg-white   top-[-25px] rounded  text-[10px] text-black text-nowrap">{{
+        <p class="px-[2px] py-0 absolute bg-white   top-[-25px] rounded  text-[10px] text-black text-nowrap">{{
           getActionText(props.user.action) }}</p>
         <div class="w-[3rem] h-[3rem] pos-relative bg-amber rounded-full "
           :class="`${Number(winData.win_amount) > 0 ? 'avatar-shadow' : ''}`">
@@ -161,7 +161,7 @@ const cardType = [
 
     <div v-if="props.pos == ESeatPos.Right" class="flex flex-row  text-[var(--my-text)] text-[12px]">
       <div class="flex-col flex justify-center items-center pos-relative">
-        <p class="px-[8px] py-0 absolute bg-white   top-[-25px] rounded  text-[10px] text-black text-nowrap">{{
+        <p class="px-[2px] py-0 absolute bg-white   top-[-25px] rounded  text-[10px] text-black text-nowrap">{{
           getActionText(props.user.action) }}</p>
         <div class="w-[3rem] h-[3rem] pos-relative bg-amber rounded-full "
           :class="`${Number(winData.win_amount) > 0 ? 'avatar-shadow' : ''}`">
@@ -192,7 +192,7 @@ const cardType = [
 
     <div v-if="props.pos == ESeatPos.Top" class="flex flex-col  text-[var(--my-text)] text-[10px] items-center  ">
       <div class="flex-col flex justify-center items-center pos-relative ">
-        <p class="px-[8px] py-0 absolute bg-white  bottom-[10px] rounded shadow-blue  text-[12px] text-black text-nowrap">{{
+        <p class="px-[2px] py-0 absolute bg-white  bottom-[10px] rounded shadow-blue  text-[12px] text-black text-nowrap">{{
           getActionText(props.user.action) }}</p>
         <div class="w-[3rem] h-[3rem] pos-relative bg-amber rounded-full "
           :class="`${Number(winData.win_amount) > 0 ? 'avatar-shadow' : ''}`">
@@ -225,7 +225,7 @@ const cardType = [
 
     <div v-if="props.pos == ESeatPos.Bottom" class="flex flex-col  text-[var(--my-text)] text-[12px] items-center  ">
       <div class="flex-col flex justify-center items-center pos-relative ">
-        <p class="px-[8px] py-0 absolute bg-white   top-[-15px] rounded  text-[10px] text-black text-nowrap">{{
+        <p class="px-[2px] py-0 absolute bg-white   top-[-15px] rounded  text-[10px] text-black text-nowrap">{{
           getActionText(props.user.action) }}</p>
         <div class="w-[3rem] h-[3rem] pos-relative bg-amber rounded-full "
           :class="`${Number(winData.win_amount) > 0 ? 'avatar-shadow' : ''}`">

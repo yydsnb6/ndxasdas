@@ -58,9 +58,9 @@ const saveQR = () => {
 <template>
 
   <van-overlay z-index="2000" :show="show" @click="emit('onClose')" class="bg-op-50!">
-    <div class="wrapper-poker">
+    <div class="wrapper-poker pos-relative">
       <div
-        class=" items-center text-[12px] mb-[-5px] h-[60%]   w-[100%]  bg-[var(--my-cardBg)]   flex flex-col pos-relative  border-rd-t-[15px]!"
+        class="pos-absolute bottom-0  items-center text-[12px] mb-[-5px] h-[60%]   w-[100%]  bg-[var(--my-cardBg)]   flex flex-col  border-rd-t-[15px]!"
         @click.stop>
 
         <h2 class="bg-[var(--my-cardBg)] w-full text-center py-2 border-rd-t-[15px] font-500 text-[var(--my-text)]">邀请玩家

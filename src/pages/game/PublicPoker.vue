@@ -115,7 +115,7 @@ const flyPublicPoker = () => {
     for (let index = 0; index < 3; index++) {
 
       createTimeline({
-        defaults: { duration: 1000, delay: 0 },
+        defaults: { duration: 500, delay: 0 },
         loop: 0,
         onComplete: () => { }
       })
@@ -182,7 +182,7 @@ const clearTable = () => {
   let public_card = ['.ppoker0', '.ppoker1', '.ppoker2', '.ppoker3', '.ppoker4',]
   for (let index = 0; index < public_card.length; index++) {
     createTimeline({
-      defaults: { duration: 2000, delay: 0 },
+      defaults: { duration: 1000, delay: 0 },
       loop: 0,
       onComplete: () => { }
     })
@@ -212,42 +212,42 @@ const clearTable = () => {
 
 <template>
   <div v-for="(waitPoker, index) in roomStore.sceneMsg?.public_card" :key="waitPoker"
-    :style="'right:' + (22 + index * 11) + '%'" class=" scale-100 my-scale absolute bottom-[45%] h-[55px]! ">
+    :style="'right:' + (22 + index * 11) + '%'" class=" scale-100 my-scale absolute bottom-[45%] h-[55px]! w-[39.83px!] ">
     <div class="w-full h-full" :class="`relative`">
       <Poker :no-poker="true" />
     </div>
   </div>
 <!-- ${roomStore.win_card.includes(0) ? 'scale-element' : ''} -->
   <div style="right: 1.5%;bottom: 90%;opacity: 0; " :class="`ppoker0  `"
-    class="scale-100 my-scale absolute  h-[55px]!">
+    class="scale-100 my-scale absolute  h-[55px]! w-[39.83px]!">
     <div class="w-full h-full" :class="`relative`">
       <Poker :point="roomStore.sceneMsg?.public_card[0]" />
       <!-- <WinBg v-if="roomStore.win_card.includes(roomStore.sceneMsg?.public_card[0])" /> -->
     </div>
   </div>
   <div style="right: 1.5%;bottom: 90%;opacity: 0; " :class="`ppoker1  `"
-    class="scale-100 my-scale absolute  h-[55px]!">
+    class="scale-100 my-scale absolute  h-[55px]! w-[39.83px]!">
     <div class="w-full h-full" :class="`relative`">
       <Poker :point="roomStore.sceneMsg?.public_card[1]" />
       <!-- <WinBg v-if="roomStore.win_card.includes(roomStore.sceneMsg?.public_card[1])" /> -->
     </div>
   </div>
   <div style="right: 1.5%;bottom: 90%;opacity: 0; " :class="`ppoker2  `"
-    class="scale-100 my-scale absolute  h-[55px]!">
+    class="scale-100 my-scale absolute  h-[55px]! w-[39.83px]! ">
     <div class="w-full h-full" :class="`relative`">
       <Poker :point="roomStore.sceneMsg?.public_card[2]" />
       <!-- <WinBg v-if="roomStore.win_card.includes(roomStore.sceneMsg?.public_card[2])" /> -->
     </div>
   </div>
   <div style="right: 1.5%;bottom: 90%;opacity: 0; " :class="`ppoker3  `"
-    class="scale-100 my-scale absolute  h-[55px]!">
+    class="scale-100 my-scale absolute  h-[55px]! w-[39.83px]!">
     <div class="w-full h-full" :class="`relative`">
       <Poker :point="roomStore.sceneMsg?.public_card[3]" />
       <!-- <WinBg v-if="roomStore.win_card.includes(roomStore.sceneMsg?.public_card[3])" /> -->
     </div>
   </div>
   <div style="right: 1.5%;bottom: 90%;opacity: 0; " :class="`ppoker4  `"
-    class="scale-100 my-scale absolute  h-[55px]!">
+    class="scale-100 my-scale absolute  h-[55px]! w-[39.83px]!">
     <div class="w-full h-full" :class="`relative`">
       <Poker :point="roomStore.sceneMsg?.public_card[4]" />
       <!-- <WinBg v-if="roomStore.win_card.includes(roomStore.sceneMsg?.public_card[4])" /> -->

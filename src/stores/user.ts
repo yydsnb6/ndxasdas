@@ -82,7 +82,7 @@ export const useUserStore = defineStore('user', () => {
   }
 
   const loadingText = ref('登录中。。。')
-  const showLoading = ref(true)
+  const showLoading = ref(false)
 
   return { token, userInfo, tgid, customer_url, loadingText, showLoading, get_customer_url, login, getUserInfo, update_balance }
 })

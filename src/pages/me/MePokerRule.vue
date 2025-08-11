@@ -136,9 +136,9 @@ const emit = defineEmits(['onClose', 'changeIndex']);
 <template>
 
   <van-overlay :lockScroll="false" z-index="2000" :show="show" @click="emit('onClose')" class="bg-op-50!">
-    <div class="wrapper-poker">
+    <div class="wrapper-poker pos-relative">
       <div
-        class=" items-center text-[12px] h-[60%]  p-2 px-4 w-[100%] bg-[var(--my-cardBg)]  flex flex-col pos-relative  border-rd-t-[15px]!"
+        class="pos-absolute bottom-0  items-center text-[12px] h-[60%]  p-2 px-4 w-[100%] bg-[var(--my-cardBg)]  flex flex-col  border-rd-t-[15px]!"
         @click.stop>
         <div
           class="mt-2 bg-[#15181c] text-[14px] font-bold text-[#6f757a] flex flex-row justify-center rounded-full w-[70%] h-[30px]! ">
