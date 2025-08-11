@@ -56,7 +56,7 @@ const flyPublicPoker = () => {
     let public_card = ['.ppoker0', '.ppoker1', '.ppoker2', '.ppoker3', '.ppoker4',]
 
     createTimeline({
-      defaults: { duration: 1000, delay: 0 },
+      defaults: { duration: 500, delay: 0 },
       loop: 0,
       onComplete: () => { }
     })
@@ -84,7 +84,7 @@ const flyPublicPoker = () => {
     console.log("飞第4张");
 
     createTimeline({
-      defaults: { duration: 1000, delay: 0 },
+      defaults: { duration: 500, delay: 0 },
       loop: 0,
       onComplete: () => { }
     })
