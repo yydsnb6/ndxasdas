@@ -8,11 +8,19 @@ import { useUserStore } from "./user"
 import bus from "@/utils/bus"
 import { showConfirmDialog } from 'vant';
 import { useRoute, useRouter } from "vue-router"
+import { encode } from 'js-base64';
 
 
 
 
 export const useSocketStore = defineStore('socket', () => {
+
+  const chatList = ref<{
+    head: string,
+    first_name: string,
+    msg: string
+  }[]>([])
+
   const socket = ref<WebSocket | null>(null)
   const roomStore = useRoomStore()
   const userStore = useUserStore()
@@ -237,6 +245,7 @@ export const useSocketStore = defineStore('socket', () => {
         case 1016:
           roomStore.blindRecored = data
           break;
+        // 玩家买入后
         case 1017:
           roomStore.buyWaitTime = data.wait_time
           roomStore.sceneMsg = data.scene_msg
@@ -250,9 +259,17 @@ export const useSocketStore = defineStore('socket', () => {
             return
           }
           break;
-
+        // 秀牌
         case 1018:
           roomStore.sceneMsg = data
+          break
+        // 聊天
+        case 1020:
+          chatList.value = chatList.value.concat(data)
+          setTimeout(() => {
+            bus.emit('chat')
+          }, 500)
+
           break
         // 离开房间通知
         case 501:
@@ -294,6 +311,7 @@ export const useSocketStore = defineStore('socket', () => {
     }
     // 连接关闭时触发
     socket.value.onclose = () => {
+      roomStore.initRoomSceneMsg()
       userStore.showLoading = false
       if (route.path == '/game') {
         // bus.emit('playSound', 'dowangluo')
@@ -337,7 +355,7 @@ export const useSocketStore = defineStore('socket', () => {
   const joinRoomAction = () => {
     const data = {
       action: 100,
-      data: btoa(JSON.stringify({
+      data: encode(JSON.stringify({
         room_id: roomStore.roomId
       }))
     }
@@ -365,6 +383,7 @@ export const useSocketStore = defineStore('socket', () => {
   }
 
   const disconnect = () => {
+    roomStore.initRoomSceneMsg()
     leave()
     clearInterval(heartTimer)
     socket.value?.close()
@@ -387,7 +406,7 @@ export const useSocketStore = defineStore('socket', () => {
     setTimeout(() => {
       const data = {
         action: 101,
-        data: btoa(JSON.stringify({
+        data: encode(JSON.stringify({
           seat_id,
           buy_amount
         }))
@@ -408,7 +427,7 @@ export const useSocketStore = defineStore('socket', () => {
   const doSomething = (opt: IOptItem, bet_amount?: number) => {
     const data = {
       action: 102,
-      data: btoa(JSON.stringify({
+      data: encode(JSON.stringify({
         action: opt,
         bet_amount
       }))
@@ -477,7 +496,7 @@ export const useSocketStore = defineStore('socket', () => {
   const buyMoney = (money: string) => {
     const data = {
       action: 106,
-      data: btoa(JSON.stringify({
+      data: encode(JSON.stringify({
         bet_amount: money,
       }))
     }
@@ -495,7 +514,8 @@ export const useSocketStore = defineStore('socket', () => {
   const buyBaoXian = (money: string) => {
     const data = {
       action: 106,
-      data: btoa(JSON.stringify({
+
+      data: encode(JSON.stringify({
         bet_amount: money,
         // gameId:roomStore.sceneMsg
       }))
@@ -542,7 +562,27 @@ export const useSocketStore = defineStore('socket', () => {
     }
   }
 
+  // 109
+  const sendMsg = (msg: string) => {
+    console.log(123123);
+
+    const data = {
+      action: 109,
+      data: encode(JSON.stringify({
+        content: msg,
+      }))
+    }
+
+    if (socket.value?.readyState === WebSocket.OPEN) {
+      try {
+        socket.value.send(JSON.stringify(data));
+      } catch (error) {
+        // inRoom.value = false
+      }
+    }
+  }
 
 
-  return { init, reconnect, joinRoomAction, disconnect, sitDown, doSomething, standUp, leave, buyMoney, getHand, getBlind, buyBaoXian }
+
+  return { chatList, init, reconnect, joinRoomAction, disconnect, sitDown, doSomething, standUp, leave, buyMoney, getHand, getBlind, buyBaoXian, sendMsg }
 })

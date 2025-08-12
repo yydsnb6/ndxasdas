@@ -66,10 +66,10 @@ const getActionText = (action: IOptItem) => {
   let str = ''
   switch (action) {
     case IOptItem.OptItemAllIn:
-      str = 'ALL-IN:$' + props.user.bet_amount
+      str = 'ALL-IN:$' + Number(props.user.bet_amount).toFixed(2)
       break;
     case IOptItem.OptItemBet:
-      str = '跟注' + props.user.bet_amount
+      str = '跟注' + Number(props.user.bet_amount).toFixed(2)
       break;
     case IOptItem.OptItemFold:
       str = '弃牌'
@@ -79,10 +79,10 @@ const getActionText = (action: IOptItem) => {
       break;
 
     case IOptItem.OptItemRaise:
-      str = '加注:$'+ props.user.bet_amount
+      str = '加注:$'+ Number(props.user.bet_amount).toFixed(2)
       break;
     case IOptItem.OptItemFirstBet:
-      str = '下注:$' + props.user.bet_amount
+      str = '下注:$' + Number(props.user.bet_amount).toFixed(2)
       break;
 
     default:
@@ -143,9 +143,9 @@ const cardType = [
             class=" pos-absolute left-[3rem] bottom-[0px] h-[15px] bg-[#000] bg-op-30 rounded-3xl p-[2px] flex flex-row items-center px-[4px]">
             <img class="h-[80%] aspect-ratio-[266/201]" src="../../assets/imgae/chip_icon.png" alt="" srcset="">
             <p v-if="winData.win_seat_id != -1" :class="`${Number(winData.win_amount) > 0 ? 'text-green!' : ''}`"
-              class="px-[8px] py-0 absolute    top-[-20px] rounded  text-[12px] text-[var(--my-text)]">+{{
-                winData.win_amount }}</p>
-            <p class="text-[10px] text-amber font-bold ml-[2px]">{{ props.user.total_bet_amount }}</p>
+              class="px-[8px] py-0 absolute    top-[-20px] rounded  text-[12px] text-[var(--my-text)]">
+              {{`${Number(winData.win_amount) > 0 ? '+'+ Number(winData.win_amount).toFixed(2)  : Number(winData.win_amount).toFixed(2)}`   }}</p>
+            <p class="text-[10px] text-amber font-bold ml-[2px]">{{ Number(props.user.total_bet_amount).toFixed(2) }}</p>
           </div>
 
         </div>
@@ -153,7 +153,7 @@ const cardType = [
           <p class="p-0 m-0 mt-[2px] text-[10px] text-ellipsis! w-[50px] overflow-hidden whitespace-nowrap">{{
             user.first_name }}</p>
           <van-divider dashed hairline class="m-0! !border-[rgba(255,255,255,0.5)]" />
-          <p class="text-amber font-bold border-t border-t-blue">$:{{ props.user.balance }}</p>
+          <p class="text-amber font-bold border-t border-t-blue">$:{{ Number(props.user.balance).toFixed(2) }}</p>
         </div>
 
       </div>
@@ -172,16 +172,15 @@ const cardType = [
             class=" pos-absolute right-[3rem] bottom-[0px] h-[15px] bg-[#000] bg-op-30 rounded-3xl p-[2px] flex flex-row items-center px-[4px]">
             <img class="h-[80%] aspect-ratio-[266/201]" src="../../assets/imgae/chip_icon.png" alt="" srcset="">
             <p v-if="winData.win_seat_id != -1" :class="`${Number(winData.win_amount) > 0 ? 'text-green!' : ''}`"
-              class="px-[8px] py-0 absolute    top-[-20px] rounded  text-[12px] text-[var(--my-text)]">+{{
-                winData.win_amount }}</p>
-            <p class="text-[10px] text-amber font-bold ml-[2px]">{{ props.user.total_bet_amount }}</p>
+              class="px-[8px] py-0 absolute    top-[-20px] rounded  text-[12px] text-[var(--my-text)]">{{`${Number(winData.win_amount) > 0 ? '+'+ Number(winData.win_amount).toFixed(2)  : Number(winData.win_amount).toFixed(2)}`   }}</p>
+            <p class="text-[10px] text-amber font-bold ml-[2px]">{{ Number(props.user.total_bet_amount).toFixed(2) }}</p>
           </div>
         </div>
         <div class="flex flex-col bg-[#000] bg-op-20  w-[55px] h-[35px] text-center rounded-lg px-1 mt-2">
           <p class="p-0 m-0 mt-[2px] text-[10px] text-ellipsis! w-[50px] overflow-hidden whitespace-nowrap">{{
             user.first_name }}</p>
           <van-divider dashed hairline class="m-0! !border-[rgba(255,255,255,0.5)]" />
-          <p class="text-amber font-bold border-t border-t-blue">$:{{ props.user.balance }}</p>
+          <p class="text-amber font-bold border-t border-t-blue">$:{{ Number(props.user.balance).toFixed(2) }}</p>
         </div>
 
 
@@ -202,9 +201,8 @@ const cardType = [
             class=" pos-absolute left-[50px] top-[15px] h-[15px] bg-[#000] bg-op-30 rounded-3xl p-[2px] flex flex-row items-center px-[4px]">
             <img class="h-[80%] aspect-ratio-[266/201]" src="../../assets/imgae/chip_icon.png" alt="" srcset="">
             <p v-if="winData.win_seat_id != -1" :class="`${Number(winData.win_amount) > 0 ? 'text-green!' : ''}`"
-              class="px-[8px] py-0 absolute    top-[-20px] rounded  text-[12px] text-[var(--my-text)]">+{{
-                winData.win_amount }}</p>
-            <p class="text-[10px] text-amber font-bold ml-[2px]">{{ props.user.total_bet_amount }}</p>
+              class="px-[8px] py-0 absolute    top-[-20px] rounded  text-[12px] text-[var(--my-text)]">{{`${Number(winData.win_amount) > 0 ? '+'+ Number(winData.win_amount).toFixed(2)  : Number(winData.win_amount).toFixed(2)}`   }}</p>
+            <p class="text-[10px] text-amber font-bold ml-[2px]">{{ Number(props.user.total_bet_amount).toFixed(2) }}</p>
           </div>
           <van-image class=" !pos-absolute bottom-0" round width="3rem" height="3rem" :src="props.user.head_url" />
         </div>
@@ -216,7 +214,7 @@ const cardType = [
           <p class="p-0 m-0 mt-[2px] text-[10px] text-ellipsis! w-[50px] overflow-hidden whitespace-nowrap">{{
             user.first_name }}</p>
           <van-divider dashed hairline class="m-0! !border-[rgba(255,255,255,0.5)]" />
-          <p class="text-amber font-bold border-t border-t-blue">$:{{ props.user.balance }}</p>
+          <p class="text-amber font-bold border-t border-t-blue">$:{{ Number(props.user.balance).toFixed(2) }}</p>
         </div>
       </div>
 
@@ -235,9 +233,8 @@ const cardType = [
             class=" pos-absolute left-[50px] top-[15px] h-[15px] bg-[#000] bg-op-30 rounded-3xl p-[2px] flex flex-row items-center px-[4px]">
             <img class="h-[80%] aspect-ratio-[266/201]" src="../../assets/imgae/chip_icon.png" alt="" srcset="">
             <p v-if="winData.win_seat_id != -1" :class="`${Number(winData.win_amount) > 0 ? 'text-green!' : ''}`"
-              class="px-[8px] py-0 absolute    top-[-20px] rounded  text-[12px] text-[var(--my-text)]">+{{
-                winData.win_amount }}</p>
-            <p class="text-[10px] text-amber font-bold ml-[2px]">{{ props.user.total_bet_amount }}</p>
+              class="px-[8px] py-0 absolute    top-[-20px] rounded  text-[12px] text-[var(--my-text)]">{{`${Number(winData.win_amount) > 0 ? '+'+ Number(winData.win_amount).toFixed(2)  : Number(winData.win_amount).toFixed(2)}`   }}</p>
+            <p class="text-[10px] text-amber font-bold ml-[2px]">{{ Number(props.user.total_bet_amount).toFixed(2) }}</p>
           </div>
           <van-image class=" !pos-absolute bottom-0" round width="3rem" height="3rem" :src="props.user.head_url" />
         </div>
@@ -245,7 +242,7 @@ const cardType = [
           <p class="p-0 m-0 mt-[2px] text-[10px] text-ellipsis! w-[50px] overflow-hidden whitespace-nowrap">{{
             user.first_name }}</p>
           <van-divider dashed hairline class="m-0! !border-[rgba(255,255,255,0.5)]" />
-          <p class="text-amber font-bold border-t border-t-blue">$:{{ props.user.balance }}</p>
+          <p class="text-amber font-bold border-t border-t-blue">$:{{ Number(props.user.balance).toFixed(2) }}</p>
         </div>
       </div>
 

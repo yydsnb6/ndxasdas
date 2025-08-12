@@ -12,7 +12,7 @@ const emit = defineEmits(['onClose']);
 
 <template>
 
-  <van-overlay z-index="2000" :show="show" @click="emit('onClose')" class="bg-op-50!">
+  <van-overlay z-index="2000" :show="show" @click="emit('onClose')" class="bg-op-20!">
     <div class="wrapper pos-relative">
       <div
         class="pos-absolute bottom-0 text-[12px] p-2 px-4 h-[calc(100%-70px)] w-[80%] bg-[rgb(29,29,29,0.8)]   flex flex-col   border-rd-[15px]!"

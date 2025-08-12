@@ -10,6 +10,7 @@ import UserAvatr from '@/components/UserAvatr.vue';
 import UserBalance from '@/components/UserBalance.vue'
 import { useSocketStore } from '@/stores/mysocket';
 import HandRecord from './HandRecord.vue'
+import { useRecordStore } from '@/stores/record';
 
 const router = useRouter()
 
@@ -35,11 +36,13 @@ const standUp = ()=>{
   socketStore.standUp()
 }
 
+const recordStore = useRecordStore()
+
 </script>
 
 <template>
 
-  <van-overlay z-index="2000" :show="show" @click="emit('onClose')" class="bg-op-50!">
+  <van-overlay z-index="2000" :show="show" @click="emit('onClose')" class="bg-op-20!">
     <div class="wrapper">
       <div class="text-[12px] p-2 px-4 w-[200px] bg-[rgb(29,29,29,0.8)]   flex flex-col pos-relative  border-rd-[15px]!"
         @click.stop>
@@ -81,7 +84,7 @@ const standUp = ()=>{
           </svg>
           <p class="ml-5">玩法教学</p>
         </div>
-        <div @click="showHandRecord = !showHandRecord; emit('onClose');"
+        <div @click="showHandRecord = !showHandRecord; emit('onClose');recordStore.get_hand_card_list()"
           class="border-0 border-[rgba(255,255,255,0.1)] border-t-1 border-solid pt-2 flex  mb-2 flex-row w-auto px-2  text-white font-bold ">
           <svg t="1751740318027" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
             p-id="16527" width="20" height="20">

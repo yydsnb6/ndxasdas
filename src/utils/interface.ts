@@ -260,9 +260,16 @@ export interface IHandCard {
 //   opt_item: number  // 操作项
 // }
 export interface IOutHandCard {
-  game_id: string;
-  room_id: string;
-  game_record_list: HandCardInfo[];
+   cards: number[];
+  opt_item: number;
+  seat_type: number;
+  username: string;
+  public_card: number[];
+  bet_amount: string;
+  win_amount: string;
+  is_win: boolean;
+  bet_all_amount: string;
+  card_type: number;
 }
 
 
@@ -291,6 +298,8 @@ export interface BlindRecord {
 }
 
 export interface UserBlind {
+  game_number: number;
+  bet_number: number;
   name: string     // 昵称
   buy_amount: string// 买入金额
   phase: string// 盈亏

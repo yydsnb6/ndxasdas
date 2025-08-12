@@ -34,7 +34,7 @@ const checkUserId = ()=>{
 
 <template>
 
-  <van-overlay z-index="2000" :show="show" @click="emit('onClose')" class="bg-op-50!">
+  <van-overlay z-index="2000" :show="show" @click="emit('onClose')" class="bg-op-20!">
     <div class="wrapper-find pos-relative">
       <div
         class="pos-absolute bottom-0 text-[12px] p-5 px-4 h-[40%] w-full  bg-[var(--my-cardBg)]   flex flex-col  border-rd-t-[15px]   items-center justify-start"

@@ -98,7 +98,7 @@ const login = () => {
 
 <template>
 
-  <van-overlay z-index="2000" :show="show" @click="emit('onClose')" class="bg-op-50!">
+  <van-overlay z-index="2000" :show="show" @click="emit('onClose')" class="bg-op-20!">
     <div class="wrapper-poker">
       <div
         class=" items-center text-[12px] mb-[5px] h-[50%] p-5   w-[100%] bg-[rgb(255,255,255,1)]   flex flex-col pos-relative  border-rd-t-[15px]!"

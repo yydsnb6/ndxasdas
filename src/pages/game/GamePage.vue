@@ -20,6 +20,7 @@ import { useUserStore } from '@/stores/user';
 import BalanceBet from './BalanceBet.vue';
 import BaoXianBet from './BaoXianBet.vue';
 import HomeCountDown from './HomeCountDown.vue';
+import Chat from './Chat.vue';
 import { useRoute } from 'vue-router';
 import LocalUtil from '@/utils/LocalUtil';
 
@@ -104,6 +105,7 @@ const flyMyPoker = () => {
 const showSetting = ref(false)
 const showHandRecord = ref(false)
 const showBlindRecord = ref(false)
+const showChat = ref(false)
 
 const clearTable = () => {
   let userPoker = ['.poker1', '.poker2']
@@ -198,17 +200,16 @@ const getImg = (path: string) => {
             class=" mb-2 h-[18px] bg-op-10 rounded-3xl p-[2px] flex flex-row items-center px-[10px] justify-center text-nowrap!">
             <HomeCountDown v-if="(roomStore.sceneMsg.end_time - new Date().getTime()) / 1000 > 0"
               class=" text-[10px] text-[var(--my-accent)]! op-70 font-bold!  mt-[1px] ml-[9px] text-nowrap!"
-              :duration="(roomStore.sceneMsg.end_time - new Date().getTime()) / 1000" progress-color="#3498db" auto-start progressColorBg="rgba(0,0,0,0.5)"
-              @completed="() => {  }" />
+              :duration="(roomStore.sceneMsg.end_time - new Date().getTime()) / 1000" progress-color="#3498db"
+              auto-start progressColorBg="rgba(0,0,0,0.5)" @completed="() => { }" />
           </div>
 
-          <div
-            class="bg-[#000] bg-op-10 rounded-full w-[75px] h-[75px] flex justify-center items-center pos-relative">
+          <div class="bg-[#000] bg-op-10 rounded-full w-[75px] h-[75px] flex justify-center items-center pos-relative">
             <img class="w-[50px] aspect-ratio-[266/201]" src="../../assets/imgae/chip_icon.png" alt="" srcset="">
             <div
               class=" pos-absolute  bottom-[0px] h-[18px] bg-[#000] bg-op-30! rounded-3xl p-[2px] flex flex-row items-center px-[4px]">
               <p class="text-[var(--my-accent)] font-bold  text-center w-full text-[16px]">${{
-                roomStore.sceneMsg?.pot_amount }}</p>
+                Number(roomStore.sceneMsg?.pot_amount).toFixed(2) }}</p>
             </div>
           </div>
           <p class="text-[11px] mt-1">房间：#{{ roomStore.sceneMsg?.room_id }}</p>
@@ -261,9 +262,13 @@ const getImg = (path: string) => {
     class="pos-fixed! top-1 left-1 z-[2000] w-[40px] h-[40px] flex items-center justify-center bg-[#1a1c23] bg-op-70 rounded-full">
     <van-icon name="wap-nav" color="#fff" size="24" />
   </div>
-  <div @click="; showBlindRecord = !showBlindRecord; socketStore.getBlind()"
+  <div @click=" showBlindRecord = !showBlindRecord; socketStore.getBlind()"
     class="pos-fixed! bottom-[1px] left-1 z-[2000] w-[40px] h-[40px] flex items-center justify-center bg-[#1a1c23] bg-op-70 rounded-full">
     <van-icon name="todo-list" color="#fff" size="24" />
+  </div>
+  <div @click=" showChat = !showChat; "
+    class="pos-fixed! bottom-[1px] left-12 z-[2000] w-[40px] h-[40px] flex items-center justify-center bg-[#1a1c23] bg-op-70 rounded-full">
+    <van-icon name="chat-o" color="#fff" size="24" />
   </div>
 
   <Setting :show="showSetting" @onClose="showSetting = !showSetting" />
@@ -274,7 +279,9 @@ const getImg = (path: string) => {
   <!-- @on-close="showBuyMoney = !showBuyMoney" -->
   <BalanceBet :show="roomStore.buySeatIds.includes(roomStore.sceneMsg.self_seat_id) && roomStore.buyWaitTime > 0" />
 
-  <BaoXianBet :show="roomStore.buySeatIds.includes(roomStore.sceneMsg.self_seat_id) && roomStore.buyWaitTime > 0" />
+  <!-- <BaoXianBet :show="roomStore.buySeatIds.includes(roomStore.sceneMsg.self_seat_id) && roomStore.buyWaitTime > 0" /> -->
+
+  <Chat class="z-999999!" :show="showChat" @onClose="showChat = !showChat" />
+
   <!-- <WinTitle v-if="roomStore.win_seat_id != -1" /> -->
 </template>
-

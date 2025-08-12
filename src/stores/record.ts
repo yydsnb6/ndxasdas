@@ -1,6 +1,6 @@
 import { defineStore } from "pinia"
 import { ref } from "vue"
-import type { PokerRoomConfig } from "@/utils/interface"
+import type { IOutHandCard, PokerRoomConfig } from "@/utils/interface"
 import api from "@/api/api"
 
 export const useRecordStore = defineStore('record', () => {
@@ -10,7 +10,28 @@ export const useRecordStore = defineStore('record', () => {
   const getRoomList = async () => {
     const { data } = await api.get_room_list(0)
     roomList.value = data.room_list
+  }
 
+
+  const handList = ref<IOutHandCard[]>([
+    {
+      cards: [],
+      opt_item: 0,
+      seat_type: 0,
+      username: "",
+      public_card: [],
+      bet_amount: "",
+      win_amount: "",
+      is_win: false,
+      bet_all_amount: "",
+      card_type: 0
+    }
+  ])
+
+  const get_hand_card_list = async () => {
+    handList.value = []
+    const { data } = await api.get_hand_card_list()
+    handList.value = data
   }
 
 
@@ -23,9 +44,11 @@ export const useRecordStore = defineStore('record', () => {
   }
 
   return {
+    handList,
     bannerList,
     roomList,
     getRoomList,
-    getBanner
+    getBanner,
+    get_hand_card_list
   }
 })

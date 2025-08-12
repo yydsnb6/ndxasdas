@@ -57,7 +57,7 @@ const saveQR = () => {
 
 <template>
 
-  <van-overlay z-index="2000" :show="show" @click="emit('onClose')" class="bg-op-50!">
+  <van-overlay z-index="2000" :show="show" @click="emit('onClose')" class="bg-op-20!">
     <div class="wrapper-poker pos-relative">
       <div
         class="pos-absolute bottom-0  items-center text-[12px] mb-[-5px] h-[60%]   w-[100%]  bg-[var(--my-cardBg)]   flex flex-col  border-rd-t-[15px]!"
