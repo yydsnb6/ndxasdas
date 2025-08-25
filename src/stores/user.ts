@@ -44,16 +44,28 @@ export const useUserStore = defineStore('user', () => {
   const recoredStore = useRecordStore()
   const login = async (req_data: { first_name: string; head_url: string; last_name: string; tgid: number; user_name: string, agent_id?: number }) => {
     showLoading.value = true
-    const { data } = await api.login(req_data)
-    showLoading.value = false
+    // const { data } = await api.login(req_data)
 
-    token.value = data.token
-    LocalUtil.setString(data.token, 'token')
-    userInfo.value = data.user_info
-    console.log("登录结果", data);
-    tgid.value = data.user_info.tgid
-    LocalUtil.setString(data.user_info.tgid, 'tgid')
-    recoredStore.getBanner()
+    api.login(req_data).then((res: any) => {
+      console.log(res);
+
+      if (res.code == 200) {
+        showLoading.value = false
+        token.value = res.data.token
+        userInfo.value = res.data.user_info
+        console.log("登录结果", res.data);
+        tgid.value = res.data.user_info.tgid
+        recoredStore.getBanner()
+
+      } else {
+        login(req_data)
+      }
+    }).catch((e) => {
+      login(req_data)
+    }).finally(() => {
+    })
+
+
 
   }
 
@@ -81,7 +93,7 @@ export const useUserStore = defineStore('user', () => {
 
   const balanceLoading = ref(false)
   const update_balance = async () => {
-   balanceLoading.value = true
+    balanceLoading.value = true
     const { data } = await api.update_balance()
     balanceLoading.value = false
     userInfo.value.balance = data.balance
@@ -97,5 +109,5 @@ export const useUserStore = defineStore('user', () => {
   const loadingText = ref('登录中。。。')
   const showLoading = ref(false)
 
-  return {balanceLoading, token, userInfo, tgid, customer_url, loadingText, showLoading, get_customer_url, login, getUserInfo, update_balance }
+  return { balanceLoading, token, userInfo, tgid, customer_url, loadingText, showLoading, get_customer_url, login, getUserInfo, update_balance }
 })

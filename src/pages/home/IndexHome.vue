@@ -30,8 +30,12 @@ watch(roomId, (newRoomId) => {
 const toRoom = (room: string) => {
   api.in_room(room).then((data) => {
     roomStore.roomId = room
-    LocalUtil.setString(room, 'roomId')
-    router.push('/game')
+    router.replace({
+      path: '/game',
+      query: {
+        roomId: room
+      }
+    })
   }).catch((er) => {
     console.log(er);
     setTimeout(() => {

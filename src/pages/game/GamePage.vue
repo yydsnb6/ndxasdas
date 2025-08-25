@@ -49,7 +49,7 @@ onMounted(() => {
   console.log(roomId);
 
   roomStore.roomId = roomId as string
-  LocalUtil.setString(roomId as string, 'roomId')
+  // LocalUtil.setString(roomId as string, 'roomId')
   userStore.getUserInfo(true)
   bus.on('EventFlyMe', flyMyPoker)
   bus.on('clearTable', clearTable)
