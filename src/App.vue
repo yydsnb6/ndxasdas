@@ -1,16 +1,13 @@
 <script setup lang="ts">
-import { onBeforeMount, onMounted, onUnmounted, ref, watch } from 'vue';
-import TestLogin from './components/TestLogin.vue';
+import { onMounted, onUnmounted, ref, watch } from 'vue';
 import { useUserStore } from './stores/user';
 
 import { themes } from '@/utils/theme'
-import { useSignal, initData, useLaunchParams, retrieveLaunchParams } from '@telegram-apps/sdk-vue';
+import { useSignal, initData, useLaunchParams } from '@telegram-apps/sdk-vue';
 import { useBackButton } from '@/composables/useBackButton'
 useBackButton()
 const lp = useLaunchParams()
-import LocalUtil from './utils/LocalUtil';
-
-
+// import LocalUtil from './utils/LocalUtil';
 import xipai from '@/assets/sound/xipai.mp3'
 import bet from '@/assets/sound/bet.mp3'
 import allin from '@/assets/sound/allin.mp3'
@@ -162,38 +159,23 @@ import router from './router';
 const show = ref(false)
 const initDataRef = useSignal(initData.state);
 const user = ref({
-  firstName: LocalUtil.stringForKey('first_name', initDataRef.value?.user?.firstName),
-  photoUrl: LocalUtil.stringForKey('head_url', initDataRef.value?.user?.photoUrl),
-  id: LocalUtil.stringForKey('tgid', initDataRef.value?.user?.id.toString()),
-  username: LocalUtil.stringForKey('username', initDataRef.value?.user?.username),
-  lastName: LocalUtil.stringForKey('lastName', 'lastName'),
+  firstName:initDataRef.value?.user?.firstName || '',//  LocalUtil.stringForKey('first_name', initDataRef.value?.user?.firstName),
+  photoUrl: initDataRef.value?.user?.photoUrl || '',// LocalUtil.stringForKey('head_url', initDataRef.value?.user?.photoUrl),
+  id: initDataRef.value?.user?.id.toString() || '', // LocalUtil.stringForKey('tgid', initDataRef.value?.user?.id.toString()),
+  username: initDataRef.value?.user?.username || '',//LocalUtil.stringForKey('username', initDataRef.value?.user?.username),
+  lastName: '',//LocalUtil.stringForKey('lastName', 'lastName'),
 })
 
 
 const login = () => {
-
-
-    // userStore.login({
-    //     first_name: '1111',
-    //     head_url: '1111',
-    //     last_name: '1111',
-    //     tgid: 1111,
-    //     user_name: '1111',
-    //   }).finally(() => {
-    //   })
-    //   return
-
-
-  LocalUtil.setString(user.value?.firstName, 'first_name')
-  LocalUtil.setString(user.value?.photoUrl, 'head_url')
-  LocalUtil.setString(user.value?.id, 'tgid')
-  LocalUtil.setString(user.value?.username, 'username')
-  LocalUtil.setString(user.value?.lastName, 'lastName')
+  // LocalUtil.setString(user.value?.firstName, 'first_name')
+  // LocalUtil.setString(user.value?.photoUrl, 'head_url')
+  // LocalUtil.setString(user.value?.id, 'tgid')
+  // LocalUtil.setString(user.value?.username, 'username')
+  // LocalUtil.setString(user.value?.lastName, 'lastName')
 
   if (lp.startParam && lp.startParam != 'ABC') {
     let startParam = JSON.parse(decode(lp.startParam))
-    console.log('調了嗎', startParam);
-
     if (startParam.agentId) {
       userStore.login({
         first_name: user.value?.firstName,
@@ -247,8 +229,8 @@ const login = () => {
 
   <!-- <van-floating-bubble axis="xy" magnetic="x" @click="show = !show" teleport="body">
     测试
-  </van-floating-bubble> -->
-  <!-- <TestLogin :show="show" @on-close="show = !show" /> -->
+  </van-floating-bubble>
+  <TestLogin :show="show" @on-close="show = !show" /> -->
   <div class="pos-fixed top-0 left-0 bg-[rgba(0,0,0,0.5)] w-full h-full z-999999" v-if="userStore.showLoading">
     <div class="w-full h-full items-center flex justify-center">
       <van-loading size="24px"><p class="text-[white]">{{ userStore.loadingText }}</p></van-loading>
@@ -321,4 +303,15 @@ const login = () => {
    background: var(--my-primary) !important;
   border-color: var(--my-accent);
 }
+
+:deep(.van-field__label){
+  color: var(--my-text) !important;
+}
+
+.van-field__control{
+  /* font-size: 15px !important; */
+  color: var(--my-text) !important;
+}
+
+
 </style>

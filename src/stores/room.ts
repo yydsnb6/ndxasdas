@@ -29,7 +29,7 @@ export const useRoomStore = defineStore('room', () => {
     public_card: [0, 0, 0, 0, 0],
     self_seat_id: -1,
     max_bet_amount: 0,
-    end_time:0,
+    end_time: 0,
   })
   const userStore = useUserStore()
   const roomId = ref<string>(LocalUtil.stringForKey('roomId'))
@@ -58,9 +58,21 @@ export const useRoomStore = defineStore('room', () => {
   const buyWaitTime = ref(0)
   const buySeatIds = ref<number[]>([])
   const winSeats = ref<IWinSeat[]>([])
+  const win_card = ref<number[]>([])
+
+
+  const baoxianSecond = ref(0)
+  const baoxianSeatIds = ref<number[]>([])
+  const baoxianMaxAmount = ref<number>(0)
+  const baoxianMinAmount = ref<number>(0)
+
+
+
 
   const handRecored = ref<IHandCard[]>([])
   const blindRecored = ref<BlindRecord>()
+  const showUserInfo = ref<IUserInfo>()
+  const showUser = ref(false)
 
   const seats = computed(() => {
     let topSeats: ISeatInfo[] = []
@@ -146,6 +158,12 @@ export const useRoomStore = defineStore('room', () => {
   })
 
 
+  const getShowUserInfo = async (id: number) => {
+    const { data } = await api.get_showuser_info(id)
+    showUserInfo.value = data
+    showUser.value = true
+  }
+
   const setRoomUserInfo = () => {
     const findUser = sceneMsg.value.seats.find((item) => {
       if (item.user) {
@@ -202,8 +220,11 @@ export const useRoomStore = defineStore('room', () => {
   }
 
   const initRoomSceneMsg = () => {
+    showBuyEnter.value = false
+    showCheMa.value = false
+    showUser.value = false
     sceneMsg.value = {
-      end_time:0,
+      end_time: 0,
       room_name: "",
       room_id: "",
       room_type: -1,
@@ -246,20 +267,35 @@ export const useRoomStore = defineStore('room', () => {
       opt_item: [],
       hand_cards: [0, 0],
     }
+    baoxianSecond.value = 0
+    baoxianMaxAmount.value = 0
+    baoxianMinAmount.value = 0
+    baoxianSeatIds.value = []
     buyWaitTime.value = 0
     buySeatIds.value = []
-
+    winSeats.value = []
+    opt_items.value = []
+    action_seat_id.value = -2
+    action_second.value = 0
     initWinSeat()
   }
 
-  const initWinSeat = ()=>{
+  const initWinSeat = () => {
     winSeats.value = []
+    win_card.value = []
   }
 
-  const showBlind = ref(true)
+  const showBuyEnter = ref(false)
+  const showCheMa = ref(false)
 
   return {
-    showBlind,
+    baoxianMinAmount,
+    baoxianSecond,
+    baoxianMaxAmount,
+    baoxianSeatIds,
+    win_card,
+    showBuyEnter,
+    showCheMa,
     blindRecored,
     handRecored,
     buyWaitTime,
@@ -276,6 +312,9 @@ export const useRoomStore = defineStore('room', () => {
     configPoker,
     configBaoXianDes,
     winSeats,
+    showUserInfo,
+    showUser,
+    getShowUserInfo,
     initWinSeat,
     initRoomSceneMsg,
     setRoomUserInfo,

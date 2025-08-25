@@ -14,36 +14,36 @@ const roomStore = useRoomStore()
 
 <template>
 	<div v-if="roomStore.action_seat_id == roomStore.sceneMsg.self_seat_id && roomStore.action_second > 0"
-	    class="fixed bottom-[40px] w-full  flex flex-row justify-evenly   z-[1999]">
-	    <button class="image-button" v-if="roomStore.opt_items.includes(2)">
+	    class="fixed bottom-[15px] w-full  flex flex-row justify-evenly   z-[1999]">
+	    <button v-ripple="{ class: `text-info` }"  class="image-button" v-if="roomStore.opt_items.includes(2)">
 	      <div @click="socketStore.doSomething(IOptItem.OptItemPass)"
 	        class=" pos-relative flex justify-center items-center w-[70px] aspect-ratio-[14/5]">
 	        <img class="absolute top-0 left-0 w-full  " src="../../assets/imgae/gamebtn/btn_blue.png" />
 	        <p class="z-10 text-white font-bold text-[15px]">过牌</p>
 	      </div>
 	    </button>
-	    <button class="image-button" v-if="roomStore.opt_items.includes(5)">
+	    <button v-ripple="{ class: `text-info` }" class="image-button" v-if="roomStore.opt_items.includes(5)">
 	      <div @click="socketStore.doSomething(IOptItem.OptItemFold)"
 	        class=" pos-relative flex justify-center items-center w-[70px] aspect-ratio-[14/5]">
 	        <img class="absolute top-0 left-0 w-full  " src="../../assets/imgae/gamebtn/btn_green.png" />
 	        <p class="z-10 text-white font-bold text-[15px]">弃牌</p>
 	      </div>
 	    </button>
-	    <button class="image-button" v-if="roomStore.opt_items.includes(3)">
+	    <button v-ripple="{ class: `text-info` }" class="image-button" v-if="roomStore.opt_items.includes(3)">
 	      <div @click="socketStore.doSomething(IOptItem.OptItemBet)"
 	        class=" pos-relative flex justify-center items-center w-[70px] aspect-ratio-[14/5]">
 	        <img class="absolute top-0 left-0 w-full  " src="../../assets/imgae/gamebtn/btn_yellow.png" />
 	        <p class="z-10 text-white font-bold text-[15px]">跟注</p>
 	      </div>
 	    </button>
-	    <button class="image-button" v-if="roomStore.opt_items.includes(4)">
+	    <button v-ripple="{ class: `text-info` }" class="image-button" v-if="roomStore.opt_items.includes(4)">
 	      <div @click="showAddBet =!showAddBet"
 	        class=" pos-relative flex justify-center items-center w-[70px] aspect-ratio-[14/5]">
 	        <img class="absolute top-0 left-0 w-full  " src="../../assets/imgae/gamebtn/btn_yellow.png" />
 	        <p class="z-10 text-white font-bold text-[15px]">加注</p>
 	      </div>
 	    </button>
-	    <button class="image-button" v-if="roomStore.opt_items.includes(6)">
+	    <button v-ripple="{ class: `text-info` }" class="image-button" v-if="roomStore.opt_items.includes(6)">
 	      <div @click="socketStore.doSomething(IOptItem.OptItemAllIn)"
 	        class=" pos-relative flex justify-center items-center w-[70px] aspect-ratio-[14/5]">
 	        <img class="absolute top-0 left-0 w-full  " src="../../assets/imgae/gamebtn/btn_yellow.png" />
@@ -51,7 +51,7 @@ const roomStore = useRoomStore()
 	      </div>
 	    </button>
 
-       <button class="image-button" v-if="roomStore.opt_items.includes(7)">
+       <button v-ripple="{ class: `text-info` }" class="image-button" v-if="roomStore.opt_items.includes(7)">
 	      <div @click="showFirstBet = !showFirstBet"
 	        class=" pos-relative flex justify-center items-center w-[70px] aspect-ratio-[14/5]">
 	        <img class="absolute top-0 left-0 w-full  " src="../../assets/imgae/gamebtn/btn_yellow.png" />
@@ -67,7 +67,7 @@ const roomStore = useRoomStore()
 
 </template>
 
-<style>
+<style lang="css" scoped>
 
 
 .image-button {

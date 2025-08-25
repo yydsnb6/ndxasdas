@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "type": "module",
-  "homepage": "https://yydsnb6.github.io/is-awesome",  
+  "homepage": "https://yydsnb6.github.io/is-awesome",
   "scripts": {
     "deploy": "gh-pages -d dist",
     "dev": "vite --host 0.0.0.0",
@@ -24,6 +24,7 @@
     "animejs": "^4.0.2",
     "axios": "^1.10.0",
     "eruda": "^3.4.1",
+    "gsap": "^3.13.0",
     "html2canvas": "^1.4.1",
     "i18next": "^25.2.1",
     "js-base64": "^3.7.7",

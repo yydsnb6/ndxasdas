@@ -30,6 +30,7 @@ export interface ISeatInfo {
 }
 
 export interface IUserInfo {
+  id: number,
   tgid: number;              // tgid
   user_name: string;         // tg用户账号
   first_name: string;        // tg用户昵称
@@ -41,14 +42,20 @@ export interface IUserInfo {
   is_sb: boolean;            // 是否小盲
   is_bb: boolean;            // 是否大盲
   is_sbb: boolean;           // 是否额外盲注
-  status: EPlayerStatus;       // 玩家状态（使用枚举更清晰）
+  status?: EPlayerStatus;       // 玩家状态（使用枚举更清晰）
   is_open_hand_card: boolean;// 是否公开手牌
   hand_card_size: number;    // 手牌数量
   opt_item: IOptItem[];         // 操作项（需要进一步定义）
   hand_cards: number[],
-  action: IOptItem[],
+  action?: IOptItem,
   total_bet_amount: string,
   user_id: number,
+  total_bet_number: number,
+  total_game_number: number,
+  total_show_number: number,
+  total_win_number: number,
+  is_auto_buy: boolean
+  auto_buy_amount: number
 }
 
 // 枚举定义 - 玩家状态
@@ -62,6 +69,7 @@ export enum EPlayerStatus {
 // 操作项接口（需要根据实际业务补充字段）
 export enum IOptItem {
   // 示例字段 - 根据实际业务补充
+  No = -1,
   OptItemPass = 2, // 过牌 2
   OptItemBet = 3,  // 跟注 3
   OptItemRaise = 4, // 加注 4
@@ -199,7 +207,7 @@ export interface IAgentRakeBackResp {
   current_reward_level: number;
   /**​ 当前返佣等级信息 */
   current_reward_level_info: RewardInfo[];
-  share_url:number
+  share_url: number
 }
 
 export interface Reward {
@@ -220,6 +228,7 @@ interface RewardInfo {
   pump: string;
 }
 export interface ICreateRoom {
+  is_open_insurance: boolean
   action_second: number,
   auto_start_num: number,
   big_blind: number,
@@ -260,7 +269,7 @@ export interface IHandCard {
 //   opt_item: number  // 操作项
 // }
 export interface IOutHandCard {
-   cards: number[];
+  cards: number[];
   opt_item: number;
   seat_type: number;
   username: string;
@@ -270,6 +279,8 @@ export interface IOutHandCard {
   is_win: boolean;
   bet_all_amount: string;
   card_type: number;
+  buy_insurance_amount: string;
+  insurance_compensation_amount: string
 }
 
 
@@ -295,6 +306,11 @@ export interface BlindRecord {
   big_blind: string       // 大盲
   user_num: string        // 玩家数量
   user_blind_list: UserBlind[] // 玩家列表
+  stand_by_user: {
+    first_name: string,
+    head_url: string,
+    id: number
+  }[]
 }
 
 export interface UserBlind {

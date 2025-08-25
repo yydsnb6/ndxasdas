@@ -4,10 +4,12 @@ import NoRecord from '@/components/NoRecord.vue'
 import { onMounted, onUnmounted, ref } from 'vue';
 import { useSocketStore } from '@/stores/mysocket';
 import bus from '@/utils/bus';
+import { useUserStore } from '@/stores/user';
 defineProps({
   show: Boolean
 })
 const roomStore = useRoomStore()
+const userStore = useUserStore()
 const emit = defineEmits(['onClose']);
 
 const virtual = ref()
@@ -15,17 +17,19 @@ const virtual = ref()
 const chatMsg = ref('')
 const socketStore = useSocketStore()
 
-onMounted(()=>{
-  bus.on('chat',()=>{
-    virtual.value && virtual.value.scrollToIndex(socketStore.chatList.length-1)
+onMounted(() => {
+  bus.on('chat', () => {
+    virtual.value && virtual.value.scrollToIndex(socketStore.chatList.length - 1)
   })
 })
-onUnmounted(()=>{
+onUnmounted(() => {
   bus.off('chat')
 })
 const send = () => {
+
   socketStore.sendMsg(chatMsg.value)
-  chatMsg.value= ''
+  chatMsg.value = ''
+
 }
 
 </script>
@@ -43,7 +47,18 @@ const send = () => {
           <div class="h-[calc(100%-55px)] w-full ">
             <v-virtual-scroll ref="virtual" class="h-full w-full" :items="socketStore.chatList">
               <template v-slot:default="{ item }">
-                <v-card class="my-1 py-2 w-[98%] ml-2" style="background: rgba(0,0,0,0);">
+                <v-card  v-ripple="{ class: `text-info` }" v-if="item.id == userStore.userInfo?.user_id" class="my-1 py-2 w-[98%] ml-2"
+                  style="background: rgba(0,0,0,0);">
+                  <div
+                    class=" flex flex-row justify-end w-full items-start text-[var(--my-text)] text-[10px] font-bold ">
+                    <div class="mr-2 max-w-[80%]">
+                      <p class="text-[rgba(178,217,96,0.7)] text-right">{{ item.first_name }}</p>
+                      <p class="text-[rgba(178,217,96,0.7)]">{{ item.msg }}</p>
+                    </div>
+                    <van-image :src="item.head" round class="w-[35px] h-[35px] mr-1" fit="contain" />
+                  </div>
+                </v-card>
+                <v-card  v-ripple="{ class: `text-info` }" v-else class="my-1 py-2 w-[98%] ml-2" style="background: rgba(0,0,0,0);">
                   <div
                     class=" flex flex-row justify-start w-full items-start text-[var(--my-text)] text-[10px] font-bold">
                     <van-image :src="item.head" round class="w-[35px] h-[35px]" fit="contain" />
@@ -53,13 +68,16 @@ const send = () => {
                     </div>
                   </div>
                 </v-card>
+
               </template>
             </v-virtual-scroll>
           </div>
           <div class="h-[55px]  w-full flex flex-row justify-between px-2  items-center">
-            <van-field :border="false" class="bg-[rgba(0,0,0,0.5)]! w-[80%]! text-[10px]!" v-model="chatMsg"
-              placeholder="说点什么吧。。。" />
-            <van-button @click="send" icon="guide-o" class="bg-[var(--my-buttonPrimaryBg)]! text-[20px]!" />
+            <van-field :border="false" class="bg-[rgba(0,0,0,0.5)]! w-[80%]! " v-model="chatMsg"
+              :placeholder="`${roomStore.sceneMsg.self_seat_id > -1 ? '说点什么吧。。。' : '观众模式无法参与发言,请先坐下'}`"
+              :disabled="roomStore.sceneMsg.self_seat_id <= -1" />
+            <van-button  v-ripple="{ class: `text-info` }" @click="send" :disabled="roomStore.sceneMsg.self_seat_id <= -1" icon="guide-o"
+              class="bg-[var(--my-buttonPrimaryBg)]! text-[20px]!" />
           </div>
         </div>
       </div>
@@ -68,7 +86,7 @@ const send = () => {
 </template>
 
 
-<style>
+<style lang="css" scoped>
 .wrapper-1 {
   display: flex;
   align-items: start;
@@ -79,5 +97,11 @@ const send = () => {
 .block {
   width: 120px;
   height: 120px;
+}
+
+
+:deep(.van-field__control) {
+  color: var(--my-text) !important;
+  font-size: 12px !important;
 }
 </style>

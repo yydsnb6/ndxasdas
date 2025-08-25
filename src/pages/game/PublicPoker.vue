@@ -13,6 +13,8 @@ onMounted(() => {
   bus.on('EventFlyPublic', flyPublicPoker)
   bus.on('clearTable', clearTable)
 
+  flyAllPublicPoker()
+
   // setTimeout(() => {
   //   roomStore.sceneMsg.public_card = [102, 103, 104, 0, 0,]
   //   flyPublicPoker()
@@ -42,7 +44,7 @@ onUnmounted(() => {
 })
 
 
-const flyPublicPoker = () => {
+const flyAllPublicPoker = () => {
   let public_card = ['.ppoker0', '.ppoker1', '.ppoker2', '.ppoker3', '.ppoker4',]
   let flyNum = 0
   roomStore.sceneMsg!.public_card.forEach((item) => {
@@ -62,11 +64,97 @@ const flyPublicPoker = () => {
     })
       .add(public_card[4], {
         bottom: {
-          to: '45%', // From 0px to 16rem
+          to: '44%', // From 0px to 16rem
           ease: 'outCubic',
         },
         right: {
-          to: '22%', // From 0px to 16rem
+          to: '18%', // From 0px to 16rem
+          ease: 'outCubic',
+        },
+        opacity: {
+          to: '1'
+        },
+
+        rotate: {
+          to: '1turn', // From 0turn to .75turn
+          ease: 'outCubic'
+        },
+      })
+
+    for (let index = 0; index < 3; index++) {
+
+      createTimeline({
+        defaults: { duration: 500, delay: 0 },
+        loop: 0,
+        onComplete: () => { }
+      })
+        .add(public_card[0], {
+          bottom: {
+            to: '44%', // From 0px to 16rem
+            ease: 'outCubic',
+          },
+          right: {
+            to: '66%', // 66 -0   55  44  33 22
+            ease: 'outCubic',
+          },
+          opacity: {
+            to: '1'
+          },
+
+          rotate: {
+            to: '1turn', // From 0turn to .75turn
+            ease: 'outCubic'
+          },
+        })
+        .add(public_card[1], {
+          bottom: {
+            to: '44%', // From 0px to 16rem
+            ease: 'outCubic',
+          },
+          right: {
+            to: '55%', // 66 -0   55  44  33 22
+            ease: 'outCubic',
+          },
+          opacity: {
+            to: '1'
+          },
+
+          rotate: {
+            to: '1turn', // From 0turn to .75turn
+            ease: 'outCubic'
+          },
+        })
+        .add(public_card[2], {
+          bottom: {
+            to: '44%', // From 0px to 16rem
+            ease: 'outCubic',
+          },
+          right: {
+            to: '44%', // 66 -0   55  44  33 22
+            ease: 'outCubic',
+          },
+          opacity: {
+            to: '1'
+          },
+
+          rotate: {
+            to: '1turn', // From 0turn to .75turn
+            ease: 'outCubic'
+          },
+        })
+    }
+    createTimeline({
+      defaults: { duration: 500, delay: 0 },
+      loop: 0,
+      onComplete: () => { }
+    })
+      .add(public_card[3], {
+        bottom: {
+          to: '44%', // From 0px to 16rem
+          ease: 'outCubic',
+        },
+        right: {
+          to: '33%', // From 0px to 16rem
           ease: 'outCubic',
         },
         opacity: {
@@ -90,11 +178,11 @@ const flyPublicPoker = () => {
     })
       .add(public_card[3], {
         bottom: {
-          to: '45%', // From 0px to 16rem
+          to: '44%', // From 0px to 16rem
           ease: 'outCubic',
         },
         right: {
-          to: '33%', // From 0px to 16rem
+          to: '31%', // From 0px to 16rem
           ease: 'outCubic',
         },
         opacity: {
@@ -106,12 +194,6 @@ const flyPublicPoker = () => {
           ease: 'outCubic'
         },
       })
-  }
-  // 飞前3张
-  if (flyNum == 2) {
-    console.log('飞前3张');
-
-
     for (let index = 0; index < 3; index++) {
 
       createTimeline({
@@ -121,7 +203,7 @@ const flyPublicPoker = () => {
       })
         .add(public_card[0], {
           bottom: {
-            to: '45%', // From 0px to 16rem
+            to: '44%', // From 0px to 16rem
             ease: 'outCubic',
           },
           right: {
@@ -139,7 +221,7 @@ const flyPublicPoker = () => {
         })
         .add(public_card[1], {
           bottom: {
-            to: '45%', // From 0px to 16rem
+            to: '44%', // From 0px to 16rem
             ease: 'outCubic',
           },
           right: {
@@ -157,7 +239,7 @@ const flyPublicPoker = () => {
         })
         .add(public_card[2], {
           bottom: {
-            to: '45%', // From 0px to 16rem
+            to: '44%', // From 0px to 16rem
             ease: 'outCubic',
           },
           right: {
@@ -172,6 +254,233 @@ const flyPublicPoker = () => {
             to: '1turn', // From 0turn to .75turn
             ease: 'outCubic'
           },
+        })
+    }
+  }
+  // 飞前3张
+  if (flyNum == 2) {
+    console.log('飞前3张');
+
+
+    for (let index = 0; index < 3; index++) {
+
+      createTimeline({
+        defaults: { duration: 500, delay: 0 },
+        loop: 0,
+        onComplete: () => { }
+      })
+        .add(public_card[0], {
+          bottom: {
+            to: '44%', // From 0px to 16rem
+            ease: 'outCubic',
+          },
+          right: {
+            to: '70%', // 66 -0   55  44  33 22
+            ease: 'outCubic',
+          },
+          opacity: {
+            to: '1'
+          },
+
+          rotate: {
+            to: '1turn', // From 0turn to .75turn
+            ease: 'outCubic'
+          },
+        });
+
+      createTimeline({
+        defaults: { duration: 500, delay: 0 },
+        loop: 0,
+        onComplete: () => { }
+      })
+        .add(public_card[1], {
+          bottom: {
+            to: '44%', // From 0px to 16rem
+            ease: 'outCubic',
+          },
+          right: {
+            to: '57%', // 66 -0   55  44  33 22
+            ease: 'outCubic',
+          },
+          opacity: {
+            to: '1'
+          },
+
+          rotate: {
+            to: '1turn', // From 0turn to .75turn
+            ease: 'outCubic'
+          },
+        });
+
+      createTimeline({
+        defaults: { duration: 500, delay: 0 },
+        loop: 0,
+        onComplete: () => { }
+      })
+        .add(public_card[2], {
+          bottom: {
+            to: '44%', // From 0px to 16rem
+            ease: 'outCubic',
+          },
+          right: {
+            to: '44%', // 66 -0   55  44  33 22
+            ease: 'outCubic',
+          },
+          opacity: {
+            to: '1'
+          },
+
+          rotate: {
+            to: '1turn', // From 0turn to .75turn
+            ease: 'outCubic'
+          },
+        })
+    }
+  }
+}
+
+const flyPublicPoker = () => {
+  let public_card = ['.ppoker0', '.ppoker1', '.ppoker2', '.ppoker3', '.ppoker4',]
+  let flyNum = 0
+  roomStore.sceneMsg!.public_card.forEach((item) => {
+    if (item == 0) {
+      flyNum++
+    }
+  })
+  // 飞第5张
+  if (flyNum == 0) {
+    console.log("飞第5张");
+    let public_card = ['.ppoker0', '.ppoker1', '.ppoker2', '.ppoker3', '.ppoker4',]
+
+    createTimeline({
+      defaults: { duration: 500, delay: 0 },
+      loop: 0,
+      onComplete: () => { }
+    })
+      .add(public_card[4], {
+        bottom: {
+          to: '44%', // From 0px to 16rem
+          ease: 'outCubic',
+        },
+        right: {
+          to: '18%', // From 0px to 16rem
+          ease: 'outCubic',
+        },
+        opacity: {
+          to: '1'
+        },
+
+        // rotate: {
+        //   to: '1turn', // From 0turn to .75turn
+        //   ease: 'outCubic'
+        // },
+      })
+  }
+  // 飞第4张
+  if (flyNum == 1) {
+    console.log("飞第4张");
+
+    createTimeline({
+      defaults: { duration: 500, delay: 0 },
+      loop: 0,
+      onComplete: () => { }
+    })
+      .add(public_card[3], {
+        bottom: {
+          to: '44%', // From 0px to 16rem
+          ease: 'outCubic',
+        },
+        right: {
+          to: '31%', // From 0px to 16rem
+          ease: 'outCubic',
+        },
+        opacity: {
+          to: '1'
+        },
+
+        // rotate: {
+        //   to: '1turn', // From 0turn to .75turn
+        //   ease: 'outCubic'
+        // },
+      })
+  }
+  // 飞前3张
+  if (flyNum == 2) {
+    console.log('飞前3张');
+
+
+    for (let index = 0; index < 3; index++) {
+
+      createTimeline({
+        defaults: { duration: 500, delay: 0 },
+        loop: 0,
+        onComplete: () => { }
+      })
+        .add(public_card[0], {
+          bottom: {
+            to: '44%', // From 0px to 16rem
+            ease: 'outCubic',
+          },
+          right: {
+            to: '70%', // 66 -0   55  44  33 22
+            ease: 'outCubic',
+          },
+          opacity: {
+            to: '1'
+          },
+
+          // rotate: {
+          //   to: '1turn', // From 0turn to .75turn
+          //   ease: 'outCubic'
+          // },
+        });
+
+      createTimeline({
+        defaults: { duration: 500, delay: 0 },
+        loop: 0,
+        onComplete: () => { }
+      })
+        .add(public_card[1], {
+          bottom: {
+            to: '44%', // From 0px to 16rem
+            ease: 'outCubic',
+          },
+          right: {
+            to: '57%', // 66 -0   55  44  33 22
+            ease: 'outCubic',
+          },
+          opacity: {
+            to: '1'
+          },
+
+          // rotate: {
+          //   to: '1turn', // From 0turn to .75turn
+          //   ease: 'outCubic'
+          // },
+        });
+
+      createTimeline({
+        defaults: { duration: 500, delay: 0 },
+        loop: 0,
+        onComplete: () => { }
+      })
+        .add(public_card[2], {
+          bottom: {
+            to: '44%', // From 0px to 16rem
+            ease: 'outCubic',
+          },
+          right: {
+            to: '44%', // 66 -0   55  44  33 22
+            ease: 'outCubic',
+          },
+          opacity: {
+            to: '1'
+          },
+
+          // rotate: {
+          //   to: '1turn', // From 0turn to .75turn
+          //   ease: 'outCubic'
+          // },
         })
     }
   }
@@ -211,54 +520,64 @@ const clearTable = () => {
 </script>
 
 <template>
-  <div v-for="(waitPoker, index) in roomStore.sceneMsg?.public_card" :key="waitPoker"
-    :style="'right:' + (22 + index * 11) + '%'" class=" scale-100 my-scale absolute bottom-[45%] h-[55px]! w-[39.83px!] ">
+  <div v-for="(waitPoker, index) in 5" :key="waitPoker" :style="'right:' + (18 + index * 13) + '%'"
+    class="   absolute bottom-[44%] h-[66px]! w-[47.78px!] ">
     <div class="w-full h-full" :class="`relative`">
       <Poker :no-poker="true" />
     </div>
   </div>
-<!-- ${roomStore.win_card.includes(0) ? 'scale-element' : ''} -->
-  <div style="right: 1.5%;bottom: 90%;opacity: 0; " :class="`ppoker0  `"
-    class="scale-100 my-scale absolute  h-[55px]! w-[39.83px]!">
+
+
+  <!-- ${roomStore.win_card.includes(0) ? 'scale-element' : ''} -->
+  <div style="right: 70%;bottom: 44%;opacity: 1; " :class="`ppoker0  `"
+    class="  absolute  h-[66px]! w-[47.78px]!">
     <div class="w-full h-full" :class="`relative`">
-      <Poker :point="roomStore.sceneMsg?.public_card[0]" />
-      <!-- <WinBg v-if="roomStore.win_card.includes(roomStore.sceneMsg?.public_card[0])" /> -->
+      <Poker
+        :show-win="roomStore.win_card.length >= 5 && roomStore.win_card.includes(roomStore.sceneMsg?.public_card[0])"
+        :show-lose="roomStore.win_card.length >= 5 && !roomStore.win_card.includes(roomStore.sceneMsg?.public_card[0])"
+        :point="roomStore.sceneMsg?.public_card[0]" v-if="roomStore.sceneMsg?.public_card[0] != 0" />
     </div>
   </div>
-  <div style="right: 1.5%;bottom: 90%;opacity: 0; " :class="`ppoker1  `"
-    class="scale-100 my-scale absolute  h-[55px]! w-[39.83px]!">
+  <div style="right: 57%;bottom: 44%;opacity: 1; " :class="`ppoker1  `"
+    class="  absolute  h-[66px]! w-[47.78px]!">
     <div class="w-full h-full" :class="`relative`">
-      <Poker :point="roomStore.sceneMsg?.public_card[1]" />
-      <!-- <WinBg v-if="roomStore.win_card.includes(roomStore.sceneMsg?.public_card[1])" /> -->
+      <Poker
+        :show-win="roomStore.win_card.length >= 5 && roomStore.win_card.includes(roomStore.sceneMsg?.public_card[1])"
+        :show-lose="roomStore.win_card.length >= 5 && !roomStore.win_card.includes(roomStore.sceneMsg?.public_card[1])"
+        :point="roomStore.sceneMsg?.public_card[1]" v-if="roomStore.sceneMsg?.public_card[1] != 0" />
     </div>
   </div>
-  <div style="right: 1.5%;bottom: 90%;opacity: 0; " :class="`ppoker2  `"
-    class="scale-100 my-scale absolute  h-[55px]! w-[39.83px]! ">
+  <div style="right: 44%;bottom: 44%;opacity: 1; " :class="`ppoker2  `"
+    class="  absolute  h-[66px]! w-[47.78px]! ">
     <div class="w-full h-full" :class="`relative`">
-      <Poker :point="roomStore.sceneMsg?.public_card[2]" />
-      <!-- <WinBg v-if="roomStore.win_card.includes(roomStore.sceneMsg?.public_card[2])" /> -->
+      <Poker
+        :show-win="roomStore.win_card.length >= 5 && roomStore.win_card.includes(roomStore.sceneMsg?.public_card[2])"
+        :show-lose="roomStore.win_card.length >= 5 && !roomStore.win_card.includes(roomStore.sceneMsg?.public_card[2])"
+        :point="roomStore.sceneMsg?.public_card[2]" v-if="roomStore.sceneMsg?.public_card[2] != 0" />
     </div>
   </div>
-  <div style="right: 1.5%;bottom: 90%;opacity: 0; " :class="`ppoker3  `"
-    class="scale-100 my-scale absolute  h-[55px]! w-[39.83px]!">
+  <div style="right: 31%;bottom: 44%;opacity: 1; " :class="`ppoker3  `"
+    class="  absolute  h-[66px]! w-[47.78px]!">
     <div class="w-full h-full" :class="`relative`">
-      <Poker :point="roomStore.sceneMsg?.public_card[3]" />
-      <!-- <WinBg v-if="roomStore.win_card.includes(roomStore.sceneMsg?.public_card[3])" /> -->
+      <Poker
+        :show-win="roomStore.win_card.length >= 5 && roomStore.win_card.includes(roomStore.sceneMsg?.public_card[3])"
+        :show-lose="roomStore.win_card.length >= 5 && !roomStore.win_card.includes(roomStore.sceneMsg?.public_card[3])"
+        :point="roomStore.sceneMsg?.public_card[3]" v-if="roomStore.sceneMsg?.public_card[3] != 0" />
     </div>
   </div>
-  <div style="right: 1.5%;bottom: 90%;opacity: 0; " :class="`ppoker4  `"
-    class="scale-100 my-scale absolute  h-[55px]! w-[39.83px]!">
+  <div style="right: 18%;bottom: 44%;opacity: 1; " :class="`ppoker4  `"
+    class="  absolute  h-[66px]! w-[47.78px]!">
     <div class="w-full h-full" :class="`relative`">
-      <Poker :point="roomStore.sceneMsg?.public_card[4]" />
-      <!-- <WinBg v-if="roomStore.win_card.includes(roomStore.sceneMsg?.public_card[4])" /> -->
+      <Poker
+        :show-win="roomStore.win_card.length >= 5 && roomStore.win_card.includes(roomStore.sceneMsg?.public_card[4])"
+        :show-lose="roomStore.win_card.length >= 5 && !roomStore.win_card.includes(roomStore.sceneMsg?.public_card[4])"
+        :point="roomStore.sceneMsg?.public_card[4]" v-if="roomStore.sceneMsg?.public_card[4] != 0" />
     </div>
   </div>
 </template>
 
 
-<style>
-
-
+<style lang="css" scoped>
 @keyframes continuousScale {
   0% {
     transform: scale(1);
@@ -273,5 +592,4 @@ const clearTable = () => {
   animation: continuousScale 1.5s ease infinite alternate;
   /* 交替播放 */
 }
-
 </style>

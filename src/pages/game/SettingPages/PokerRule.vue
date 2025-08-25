@@ -142,11 +142,11 @@ const emit = defineEmits(['onClose', 'changeIndex']);
         <GlowBorder :color="['#A07CFE', '#FE8FB5', '#FFBE7B']" class="rounded h-[98%]! w-[98%]!" :border-radius="10" />
         <div
           class="mt-2 bg-[#15181c] text-[14px] font-bold text-[#6f757a] flex flex-row justify-center rounded-full w-[70%] h-[30px]! ">
-          <div @click="selectIndex = 0" :class="`${selectIndex == 0 ? 'my-active' : ''}`"
+          <div v-ripple="{ class: `text-info` }" @click="selectIndex = 0" :class="`${selectIndex == 0 ? 'my-active' : ''}`"
             class=" rounded-full h-[30px] flex flex-1 justify-center items-center">
             玩法教学
           </div>
-          <div @click="selectIndex = 1" :class="`${selectIndex == 1 ? 'my-active' : ''}`"
+          <div v-ripple="{ class: `text-info` }" @click="selectIndex = 1" :class="`${selectIndex == 1 ? 'my-active' : ''}`"
             class=" rounded-full h-[30px]  flex flex-1 justify-center items-center">
             牌型大小
           </div>

@@ -25,11 +25,16 @@ const max_buy = computed(() => {
     return roomStore.sceneMsg.max_buy
   }
 })
-const buyMoney = ref((Number(roomStore.sceneMsg.max_bet_amount) + (roomStore.roomUserInfo.balance -  Number(roomStore.sceneMsg.max_bet_amount)) * 0.33).toFixed(2))
+const buyMoney = ref((Number(roomStore.sceneMsg.max_bet_amount) + (roomStore.roomUserInfo.balance - Number(roomStore.sceneMsg.max_bet_amount)) * 0.33).toFixed(2))
 const addBet = () => {
-  socketStore.doSomething(IOptItem.OptItemRaise, Number(buyMoney.value))
   emit('onClose')
 
+  if (Number(buyMoney.value) == Number(roomStore.roomUserInfo.balance)) {
+    socketStore.doSomething(IOptItem.OptItemAllIn)
+  }else{
+    socketStore.doSomething(IOptItem.OptItemRaise, Number(buyMoney.value))
+  }
+  buyMoney.value =   Number(roomStore.roomUserInfo.balance)
 }
 
 </script>
@@ -42,89 +47,98 @@ const addBet = () => {
         class="pos-absolute bottom-0 left-[5%] text-[12px] p-5 px-4  w-[90%] bg-[rgb(29,29,29,0.8)]   flex flex-col   border-rd-[15px]! items-center justify-evenly"
         @click.stop>
         <GlowBorder :color="['#A07CFE', '#FE8FB5', '#FFBE7B']" class="rounded h-[98%]! w-[98%]!" :border-radius="10" />
-        <!-- <van-slider bar-height="10px" class="w-[95%]! mr-[10px]" active-color="#e1bf65" v-model="buyMoney" :step="5"
-          :min="Number(roomStore.sceneMsg.max_bet_amount)" :max="roomStore.roomUserInfo.balance">
-          <template #button>
-            <img class="w-[30px] aspect-ratio-[266/201]" src="../../assets/imgae/chip_icon.png" alt="" srcset="">
-          </template>
-        </van-slider>
-        <div class="flex flex-row justify-evenly items-center w-[95%] bg-white bg-op-10 px-[10px] py-[2px] rounded-md">
-          <van-field v-model="buyMoney" type="digit"
-            class="bg-red! text-amber! font-bold  text-center  text-[16px] w-[80px]! bg-op-0!" />
-        </div> -->
-        <div class="flex flex-row justify-evenly flex-wrap">
-         <button class="image-button my-2">
-          <div @click="buyMoney = (Number(roomStore.sceneMsg.pot_amount)*0.25).toFixed(2)" v-if="roomStore.roomUserInfo.balance  >  Number(roomStore.sceneMsg.pot_amount)*0.25 &&  Number(roomStore.sceneMsg.pot_amount)*0.25 > Number(roomStore.sceneMsg.big_blind)"
-            class=" pos-relative flex justify-center items-center w-[100px] aspect-ratio-[14/5]">
-            <img class="absolute top-0 left-0 w-full  " src="../../assets/imgae/gamebtn/btn_blue.png" />
-            <p class="z-10 text-white font-bold text-[15px]">{{  (Number(roomStore.sceneMsg.pot_amount)*0.25).toFixed(2)   }}</p>
-          </div>
-        </button>
-         <button class="image-button my-2">
-          <div @click="buyMoney = (Number(roomStore.sceneMsg.pot_amount)*0.33).toFixed(2)" v-if="roomStore.roomUserInfo.balance  >  Number(roomStore.sceneMsg.pot_amount)*0.33 &&  Number(roomStore.sceneMsg.pot_amount)*0.33 > Number(roomStore.sceneMsg.big_blind)"
-            class=" pos-relative flex justify-center items-center w-[100px] aspect-ratio-[14/5]">
-            <img class="absolute top-0 left-0 w-full  " src="../../assets/imgae/gamebtn/btn_green.png" />
-            <p class="z-10 text-white font-bold text-[15px]">{{  (Number(roomStore.sceneMsg.pot_amount)*0.33).toFixed(2)   }}</p>
-          </div>
-        </button>
-         <button class="image-button my-2">
-          <div @click="buyMoney = (Number(roomStore.sceneMsg.pot_amount)*0.5).toFixed(2)" v-if="roomStore.roomUserInfo.balance  >  Number(roomStore.sceneMsg.pot_amount)*0.5 &&  Number(roomStore.sceneMsg.pot_amount)*0.5 > Number(roomStore.sceneMsg.big_blind)"
-            class=" pos-relative flex justify-center items-center w-[100px] aspect-ratio-[14/5]">
-            <img class="absolute top-0 left-0 w-full  " src="../../assets/imgae/gamebtn/btn_yellow.png" />
-            <p class="z-10 text-white font-bold text-[15px]">{{  (Number(roomStore.sceneMsg.pot_amount)*0.5).toFixed(2)   }}</p>
-          </div>
-        </button>
-         <button class="image-button my-2">
-          <div @click="buyMoney = (Number(roomStore.sceneMsg.pot_amount)*1).toFixed(2)" v-if="roomStore.roomUserInfo.balance  >  Number(roomStore.sceneMsg.pot_amount)*1 &&  Number(roomStore.sceneMsg.pot_amount)*1 > Number(roomStore.sceneMsg.big_blind)"
-            class=" pos-relative flex justify-center items-center w-[100px] aspect-ratio-[14/5]">
-            <img class="absolute top-0 left-0 w-full  " src="../../assets/imgae/gamebtn/btn_blue.png" />
-            <p class="z-10 text-white font-bold text-[15px]">{{  (Number(roomStore.sceneMsg.pot_amount)*1).toFixed(2)   }}</p>
-          </div>
-        </button>
-         <button class="image-button my-2">
-          <div @click="buyMoney = (Number(roomStore.sceneMsg.pot_amount)*1.5).toFixed(2)" v-if="roomStore.roomUserInfo.balance  >  Number(roomStore.sceneMsg.pot_amount)*1.5 &&  Number(roomStore.sceneMsg.pot_amount)*1.5 > Number(roomStore.sceneMsg.big_blind)"
-            class=" pos-relative flex justify-center items-center w-[100px] aspect-ratio-[14/5]">
-            <img class="absolute top-0 left-0 w-full  " src="../../assets/imgae/gamebtn/btn_green.png" />
-            <p class="z-10 text-white font-bold text-[15px]">{{  (Number(roomStore.sceneMsg.pot_amount)*1.5).toFixed(2)   }}</p>
-          </div>
-        </button>
-         <button class="image-button my-2">
-          <div @click="buyMoney = (Number(roomStore.sceneMsg.pot_amount)*2).toFixed(2)" v-if="roomStore.roomUserInfo.balance  >  Number(roomStore.sceneMsg.pot_amount)*2 &&  Number(roomStore.sceneMsg.pot_amount)*2 > Number(roomStore.sceneMsg.big_blind)"
-            class=" pos-relative flex justify-center items-center w-[100px] aspect-ratio-[14/5]">
-            <img class="absolute top-0 left-0 w-full  " src="../../assets/imgae/gamebtn/btn_yellow.png" />
-            <p class="z-10 text-white font-bold text-[15px]">{{  (Number(roomStore.sceneMsg.pot_amount)*2).toFixed(2)   }}</p>
-          </div>
-        </button>
-         <button class="image-button my-2">
-          <div @click="buyMoney = (Number(roomStore.sceneMsg.pot_amount)*5).toFixed(2)" v-if="roomStore.roomUserInfo.balance  >  Number(roomStore.sceneMsg.pot_amount)*5 &&  Number(roomStore.sceneMsg.pot_amount)*5 > Number(roomStore.sceneMsg.big_blind)"
-            class=" pos-relative flex justify-center items-center w-[100px] aspect-ratio-[14/5]">
-            <img class="absolute top-0 left-0 w-full  " src="../../assets/imgae/gamebtn/btn_blue.png" />
-            <p class="z-10 text-white font-bold text-[15px]">{{  (Number(roomStore.sceneMsg.pot_amount)*5).toFixed(2)   }}</p>
-          </div>
-        </button>
-         <button class="image-button my-2">
-          <div @click="buyMoney = (Number(roomStore.sceneMsg.pot_amount)*10).toFixed(2)" v-if="roomStore.roomUserInfo.balance  >  Number(roomStore.sceneMsg.pot_amount)*10 &&  Number(roomStore.sceneMsg.pot_amount)*10 > Number(roomStore.sceneMsg.big_blind)"
-            class=" pos-relative flex justify-center items-center w-[100px] aspect-ratio-[14/5]">
-            <img class="absolute top-0 left-0 w-full  " src="../../assets/imgae/gamebtn/btn_green.png" />
-            <p class="z-10 text-white font-bold text-[15px]">{{  (Number(roomStore.sceneMsg.pot_amount)*10).toFixed(2)   }}</p>
-          </div>
-        </button>
-         <button class="image-button my-2">
-          <div @click="buyMoney = (Number(roomStore.sceneMsg.pot_amount)*20).toFixed(2)" v-if="roomStore.roomUserInfo.balance  >  Number(roomStore.sceneMsg.pot_amount)*20 &&  Number(roomStore.sceneMsg.pot_amount)*20 > Number(roomStore.sceneMsg.big_blind)"
-            class=" pos-relative flex justify-center items-center w-[100px] aspect-ratio-[14/5]">
-            <img class="absolute top-0 left-0 w-full  " src="../../assets/imgae/gamebtn/btn_yellow.png" />
-            <p class="z-10 text-white font-bold text-[15px]">{{  (Number(roomStore.sceneMsg.pot_amount)*20).toFixed(2)   }}</p>
-          </div>
-        </button>
 
-        <button class="image-button my-2">
-          <div @click="socketStore.doSomething(IOptItem.OptItemAllIn)"
-            class=" pos-relative flex justify-center items-center w-[100px] aspect-ratio-[14/5]">
+        <div class="flex flex-row justify-evenly flex-wrap">
+
+          <button v-ripple="{ class: `text-info` }"class="image-button my-2">
+            <div @click="buyMoney = (Number(roomStore.sceneMsg.pot_amount) * 0.33).toFixed(2)"
+              v-if="roomStore.roomUserInfo.balance > Number(roomStore.sceneMsg.pot_amount) * 0.33 && Number(roomStore.sceneMsg.pot_amount) * 0.33 > Number(roomStore.sceneMsg.max_bet_amount) && (Number(roomStore.sceneMsg.pot_amount) * 0.25).toFixed(2) != '0.01'"
+              class=" pos-relative flex justify-center items-center w-[100px] aspect-ratio-[14/5]">
+              <img class="absolute top-0 left-0 w-full  " src="../../assets/imgae/gamebtn/btn_green.png" />
+              <p class="z-10 text-white font-bold text-[15px]">{{
+                (Number(roomStore.sceneMsg.pot_amount) * 0.33).toFixed(2) }}</p>
+            </div>
+          </button>
+          <button v-ripple="{ class: `text-info` }"class="image-button my-2">
+            <div @click="buyMoney = (Number(roomStore.sceneMsg.pot_amount) * 0.5).toFixed(2)"
+              v-if="roomStore.roomUserInfo.balance > Number(roomStore.sceneMsg.pot_amount) * 0.5 && Number(roomStore.sceneMsg.pot_amount) * 0.5 > Number(roomStore.sceneMsg.max_bet_amount) && (Number(roomStore.sceneMsg.pot_amount) * 0.25).toFixed(2) != '0.01'"
+              class=" pos-relative flex justify-center items-center w-[100px] aspect-ratio-[14/5]">
+              <img class="absolute top-0 left-0 w-full  " src="../../assets/imgae/gamebtn/btn_yellow.png" />
+              <p class="z-10 text-white font-bold text-[15px]">{{ (Number(roomStore.sceneMsg.pot_amount) * 0.5).toFixed(2)
+                }}</p>
+            </div>
+          </button>
+          <button v-ripple="{ class: `text-info` }"class="image-button my-2">
+            <div @click="buyMoney = (Number(roomStore.sceneMsg.pot_amount) * 1).toFixed(2)"
+              v-if="roomStore.roomUserInfo.balance > Number(roomStore.sceneMsg.pot_amount) * 1 && Number(roomStore.sceneMsg.pot_amount) * 1 > Number(roomStore.sceneMsg.max_bet_amount)"
+              class=" pos-relative flex justify-center items-center w-[100px] aspect-ratio-[14/5]">
+              <img class="absolute top-0 left-0 w-full  " src="../../assets/imgae/gamebtn/btn_blue.png" />
+              <p class="z-10 text-white font-bold text-[15px]">{{ (Number(roomStore.sceneMsg.pot_amount) * 1).toFixed(2)
+                }}</p>
+            </div>
+          </button>
+          <button v-ripple="{ class: `text-info` }"class="image-button my-2">
+            <div @click="buyMoney = (Number(roomStore.sceneMsg.pot_amount) * 1.5).toFixed(2)"
+              v-if="roomStore.roomUserInfo.balance > Number(roomStore.sceneMsg.pot_amount) * 1.5 && Number(roomStore.sceneMsg.pot_amount) * 1.5 > Number(roomStore.sceneMsg.max_bet_amount)"
+              class=" pos-relative flex justify-center items-center w-[100px] aspect-ratio-[14/5]">
+              <img class="absolute top-0 left-0 w-full  " src="../../assets/imgae/gamebtn/btn_green.png" />
+              <p class="z-10 text-white font-bold text-[15px]">{{ (Number(roomStore.sceneMsg.pot_amount) * 1.5).toFixed(2)
+                }}</p>
+            </div>
+          </button>
+          <button v-ripple="{ class: `text-info` }"class="image-button my-2">
+            <div @click="buyMoney = (Number(roomStore.sceneMsg.pot_amount) * 2).toFixed(2)"
+              v-if="roomStore.roomUserInfo.balance > Number(roomStore.sceneMsg.pot_amount) * 2 && Number(roomStore.sceneMsg.pot_amount) * 2 > Number(roomStore.sceneMsg.max_bet_amount)"
+              class=" pos-relative flex justify-center items-center w-[100px] aspect-ratio-[14/5]">
+              <img class="absolute top-0 left-0 w-full  " src="../../assets/imgae/gamebtn/btn_yellow.png" />
+              <p class="z-10 text-white font-bold text-[15px]">{{ (Number(roomStore.sceneMsg.pot_amount) * 2).toFixed(2)
+                }}</p>
+            </div>
+          </button>
+          <button v-ripple="{ class: `text-info` }"class="image-button my-2">
+            <div @click="buyMoney = (Number(roomStore.sceneMsg.pot_amount) * 5).toFixed(2)"
+              v-if="roomStore.roomUserInfo.balance > Number(roomStore.sceneMsg.pot_amount) * 5 && Number(roomStore.sceneMsg.pot_amount) * 5 > Number(roomStore.sceneMsg.max_bet_amount)"
+              class=" pos-relative flex justify-center items-center w-[100px] aspect-ratio-[14/5]">
+              <img class="absolute top-0 left-0 w-full  " src="../../assets/imgae/gamebtn/btn_blue.png" />
+              <p class="z-10 text-white font-bold text-[15px]">{{ (Number(roomStore.sceneMsg.pot_amount) * 5).toFixed(2)
+                }}</p>
+            </div>
+          </button>
+          <button v-ripple="{ class: `text-info` }"class="image-button my-2">
+            <div @click="buyMoney = (Number(roomStore.sceneMsg.pot_amount) * 10).toFixed(2)"
+              v-if="roomStore.roomUserInfo.balance > Number(roomStore.sceneMsg.pot_amount) * 10 && Number(roomStore.sceneMsg.pot_amount) * 10 > Number(roomStore.sceneMsg.max_bet_amount)"
+              class=" pos-relative flex justify-center items-center w-[100px] aspect-ratio-[14/5]">
+              <img class="absolute top-0 left-0 w-full  " src="../../assets/imgae/gamebtn/btn_green.png" />
+              <p class="z-10 text-white font-bold text-[15px]">{{ (Number(roomStore.sceneMsg.pot_amount) * 10).toFixed(2)
+                }}</p>
+            </div>
+          </button>
+          <button v-ripple="{ class: `text-info` }"class="image-button my-2">
+            <div @click="buyMoney = (Number(roomStore.sceneMsg.pot_amount) * 20).toFixed(2)"
+              v-if="roomStore.roomUserInfo.balance > Number(roomStore.sceneMsg.pot_amount) * 20 && Number(roomStore.sceneMsg.pot_amount) * 20 > Number(roomStore.sceneMsg.max_bet_amount)"
+              class=" pos-relative flex justify-center items-center w-[100px] aspect-ratio-[14/5]">
+              <img class="absolute top-0 left-0 w-full  " src="../../assets/imgae/gamebtn/btn_yellow.png" />
+              <p class="z-10 text-white font-bold text-[15px]">{{ (Number(roomStore.sceneMsg.pot_amount) * 20).toFixed(2)
+                }}</p>
+            </div>
+          </button>
+
+          <button v-ripple="{ class: `text-info` }"class="image-button my-2">
+            <div @click="socketStore.doSomething(IOptItem.OptItemAllIn); emit('onClose')"
+              class=" pos-relative flex justify-center items-center w-[100px] aspect-ratio-[14/5]">
+              <img class="absolute top-0 left-0 w-full  " src="../../assets/imgae/gamebtn/btn_yellow.png" />
+              <p class="z-10 text-white font-bold text-[15px]">ALL-IN</p>
+            </div>
+          </button>
+          <div
+
+            class="image-button my-2 pos-relative flex justify-center items-center w-[100px] aspect-ratio-[14/5]">
             <img class="absolute top-0 left-0 w-full  " src="../../assets/imgae/gamebtn/btn_yellow.png" />
-            <p class="z-10 text-white font-bold text-[15px]">ALL-IN</p>
+            <van-field type="number" class="bg-[rgba(255,255,255,0)]!  p-0! m-0!  font-bold! w-[70%]! text-[15px]! text-amber!" :border="false"
+               v-model="buyMoney" input-align="center" placeholder="自定义" label-align="top" :max="roomStore.roomUserInfo.balance" :min="Number(roomStore.sceneMsg.pot_amount) * 0.33"/>
+
           </div>
-        </button>
-       </div>
+        </div>
         <van-button block @click="addBet" class="h-[40px]" color="linear-gradient(to right, #638ccb, #f2c14b)">
           确认加注${{ buyMoney }}
         </van-button>
@@ -134,7 +148,7 @@ const addBet = () => {
 </template>
 
 
-<style>
+<style lang="css" scoped>
 .wrapper2 {
   display: flex;
   align-items: end;
@@ -148,8 +162,12 @@ const addBet = () => {
   height: 120px;
 }
 
-.van-field__control {
-  font-size: 20px;
-  color: #ebbb32 !important;
+
+:deep(.van-field__control){
+  color: var(--my-text) !important;
+  font-size: 20px !important;
 }
+
+
+
 </style>

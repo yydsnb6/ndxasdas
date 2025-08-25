@@ -43,16 +43,17 @@ const showBuyPoint = ref(false)
 
 <template>
   <!-- icon="plus" -->
-  <div @click="sitDown"
+  <div @click="sitDown" v-ripple="{ class: `text-info` }"
     class="border-0 border-solid rounded-full flex flex-col  text-[white] text-[12px] items-center mt-[2px]">
     <!-- <van-button round  type="primary"
     icon="plus"
       class="my-bg text-[16px]! !w-[3rem] !h-[3rem]  !bg-op-40 " /> -->
 
 
-       <van-button round  type="primary"
-      class="my-bg text-[16px]! !w-[3rem] !h-[3rem]  !bg-op-40 ">
-      <i class="fas fa-couch text-[24px] text-[var(--my-accent)] op-95"></i>
+       <van-button  round  type="primary"
+      class=" op-40 my-bg text-[18px]! !w-[3rem] !h-[3rem]  !bg-op-40" style="border-style: dashed !important;">
+      <!-- <i class="fas fa-couch text-[24px] text-[var(--my-accent)] op-95"></i> -->
+            <van-icon name="plus" size="16"/>
               </van-button>
 
   </div>
@@ -60,10 +61,13 @@ const showBuyPoint = ref(false)
 
 </template>
 
-<style>
+<style lang="css" scoped>
 .my-bg {
   border-color: var(--my-accent) !important;
-  background-color: rgb(228, 228, 226, 0.3);
-  background-image: var(--my-primary);
+  background-color: rgb(30, 77, 63,0.5)  ;
+  /* background-image: var(--my-primary);
+   */
+
+
 }
 </style>

@@ -22,14 +22,21 @@ export const useUserStore = defineStore('user', () => {
     is_sb: false,
     is_bb: false,
     is_sbb: false,
-    status: EPlayerStatus.WaitingStart,
+    status: undefined,
     is_open_hand_card: false,
     hand_card_size: 0,
     opt_item: [],
     hand_cards: [],
-    action: [],
+    action: undefined,
     total_bet_amount: "",
-    user_id: 0
+    user_id: 0,
+    total_bet_number: 0,
+    total_game_number: 0,
+    total_show_number: 0,
+    total_win_number: 0,
+    is_auto_buy: false,
+    auto_buy_amount: 0,
+    id: 0
   })
   const tgid = ref<number>(Number(LocalUtil.stringForKey('tgid', '-1')))
   const socketStore = useSocketStore()
@@ -62,6 +69,9 @@ export const useUserStore = defineStore('user', () => {
 
       userInfo.value = data
       if (inGame) {
+        // if (!userInfo.value.is_auto_buy) {
+        //   roomStore.showBuyEnter = true
+        // }
         setTimeout(() => {
           socketStore.init()
         }, 2000);
@@ -69,8 +79,11 @@ export const useUserStore = defineStore('user', () => {
     }
   }
 
+  const balanceLoading = ref(false)
   const update_balance = async () => {
+   balanceLoading.value = true
     const { data } = await api.update_balance()
+    balanceLoading.value = false
     userInfo.value.balance = data.balance
   }
 
@@ -84,5 +97,5 @@ export const useUserStore = defineStore('user', () => {
   const loadingText = ref('登录中。。。')
   const showLoading = ref(false)
 
-  return { token, userInfo, tgid, customer_url, loadingText, showLoading, get_customer_url, login, getUserInfo, update_balance }
+  return {balanceLoading, token, userInfo, tgid, customer_url, loadingText, showLoading, get_customer_url, login, getUserInfo, update_balance }
 })

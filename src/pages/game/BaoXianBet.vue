@@ -1,10 +1,11 @@
-
 <script setup lang="ts">
 import { useSocketStore } from '@/stores/mysocket';
 import { useRoomStore } from '@/stores/room';
 import { useUserStore } from '@/stores/user';
 import { IOptItem } from '@/utils/interface';
+import { showConfirmDialog } from 'vant';
 import { computed, ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 const props = defineProps({
   show: Boolean,
@@ -15,20 +16,40 @@ const emit = defineEmits(['onClose']);
 const roomStore = useRoomStore()
 const socketStore = useSocketStore()
 const userStore = useUserStore()
-const max_buy = computed(() => {
-  if (Number(userStore.userInfo?.balance) < roomStore.sceneMsg.max_buy) {
-    if (userStore.userInfo.balance < roomStore.sceneMsg.min_buy) {
-      return roomStore.sceneMsg.max_buy
-    } else {
-      return Number(userStore.userInfo?.balance)
-    }
-  } else {
-    return roomStore.sceneMsg.max_buy
-  }
-})
+// const max_buy = computed(() => {
+//   if (Number(userStore.userInfo?.balance) < roomStore.baoxianMaxAmount) {
+//     return Number(userStore.userInfo?.balance)
+//   } else {
+//     return roomStore.baoxianMaxAmount
+//   }
+// })
 const buyMoney = ref(10)
+const router = useRouter()
 const addBet = () => {
-  socketStore.buyBaoXian((buyMoney.value).toString())
+  if (Number(userStore.userInfo?.balance) < roomStore.baoxianMinAmount) {
+    showConfirmDialog({
+      width: '80%',
+      title: '余额不足，是否前往请充值',
+      confirmButtonText: '前往充值',
+      cancelButtonText: '取消购买保险',
+      message:
+        '',
+    })
+      .then(() => {
+        // on confirm
+        router.replace('/home')
+      })
+      .catch(() => {
+        emit('onClose')
+        // on cancel
+      });
+  } else {
+    socketStore.buyBaoXian((buyMoney.value).toString())
+    emit('onClose')
+    buyMoney.value = Number(roomStore.baoxianMinAmount)
+
+  }
+
 }
 
 </script>
@@ -41,19 +62,20 @@ const addBet = () => {
         class="pos-absolute bottom-0 left-[5%] text-[12px] p-5 px-4 h-[60%] w-[90%] bg-[rgb(29,29,29,0.8)]   flex flex-col   border-rd-[15px]! items-center justify-evenly"
         @click.stop>
         <GlowBorder :color="['#A07CFE', '#FE8FB5', '#FFBE7B']" class="rounded h-[98%]! w-[98%]!" :border-radius="10" />
-        <van-slider bar-height="10px" class="w-[95%]! mr-[10px]" active-color="#e1bf65" v-model="buyMoney" :step="5"
-          :min="roomStore.sceneMsg.min_buy" :max="max_buy">
+        <van-slider bar-height="10px" class="w-[95%]! mr-[10px]" active-color="#e1bf65" v-model="buyMoney" :step="1"
+          :min="Number(roomStore.baoxianMinAmount)" :max="Number(roomStore.baoxianMaxAmount)">
           <template #button>
             <img class="w-[30px] aspect-ratio-[266/201]" src="../../assets/imgae/chip_icon.png" alt="" srcset="">
             <!-- <div class="custom-button">{{ buyMoney }}</div> -->
           </template>
         </van-slider>
-        <div class="flex flex-row justify-evenly items-center w-[95%] bg-white bg-op-10 px-[10px] py-[2px] rounded-md">
-          <van-field v-model="buyMoney" type="digit"
-            class="bg-red! text-amber! font-bold  text-center  text-[16px] w-[80px]! bg-op-0!" />
+        <div
+          class="flex flex-row justify-evenly items-center w-[95%] bg-[rgba(255,255,255,0.1)]  px-[10px] py-[2px] rounded-md">
+          <van-field v-model="buyMoney" type="number" :min="Number(roomStore.baoxianMinAmount)" :max="Number(roomStore.baoxianMaxAmount)"
+           input-align="center"  class="bg-red! text-amber! font-bold  text-center  text-[16px] w-4/5! bg-op-0!" />
         </div>
-        <van-button block @click="addBet" color="linear-gradient(to right, #638ccb, #f2c14b)">
-          确认买入{{ buyMoney }}
+        <van-button v-ripple="{ class: `text-info` }" block @click="addBet" color="linear-gradient(to right, #638ccb, #f2c14b)">
+          确认买入保险${{ buyMoney }}
         </van-button>
       </div>
     </div>
@@ -61,7 +83,7 @@ const addBet = () => {
 </template>
 
 
-<style>
+<style lang="css" scoped>
 .wrapper2 {
   display: flex;
   align-items: end;
@@ -74,9 +96,9 @@ const addBet = () => {
   width: 120px;
   height: 120px;
 }
-
-.van-field__control {
-  font-size: 20px;
-  color: #ebbb32 !important;
+:deep(.van-field__control){
+  color: var(--my-text) !important;
+  font-size: 20px !important;
 }
+
 </style>

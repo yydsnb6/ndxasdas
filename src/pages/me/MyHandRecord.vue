@@ -116,17 +116,26 @@ const right = () => {
         class="text-[12px] font-bold ">{{ item.text }}</p>
     </v-btn>
   </div> -->
-  <div class="h-[calc(100svh-50px)]  w-full">
-    <v-virtual-scroll class="h-[calc(100%-50px)] w-full" :items="selectType - 1 < recordStore.handList.length  ? recordStore.handList[selectType - 1] : []">
+  <div class="h-[calc(100vh-50px)]  w-full pos-relative">
+    <v-virtual-scroll v-if="recordStore.handList.length > 0" class="h-[calc(100%-50px)] w-full"
+      :items="(selectType - 1 < recordStore.handList.length) ? recordStore.handList[selectType - 1] : []">
       <template v-slot:default="{ item }">
         <v-card class="mt-2 p-2 px-2 " style="background: var(--my-cardBg);">
-          <div class=" flex flex-col justify-between w-full items-center text-[var(--my-text)] text-[12px] font-bold">
+          <div class=" flex flex-col justify-between w-full items-center text-[var(--my-text)] text-[10px] font-bold">
 
             <div class="flex flex-row justify-between w-full items-center">
               <div class="flex flex-row justify-between items-center">
-                <p class="  text-[8px] border border-solid text-center p-[2px] rounded bg-[rgba(255,255,255,0.5)] mr-1">{{ seatType[item.seat_type] }}</p>
-                <p>{{ item.first_name}}</p>
-                <p class=" text-center ml-1" :class="Number(item.win_amount) >=0 ?'text-[green]':'text-[red]'">{{ Number(item.win_amount).toFixed(2) }}</p>
+                <p class="  text-[8px] border border-solid text-center p-[2px] rounded bg-[rgba(255,255,255,0.5)] mr-1">
+                  {{ seatType[item.seat_type] }}</p>
+                <p>{{ item.first_name }}</p>
+                <p class=" text-center ml-1" :class="Number(item.win_amount) >= 0 ? 'text-[green]' : 'text-[red]'">{{
+              Number(item.win_amount) >0?'+'+    Number(item.win_amount).toFixed(2):Number(item.win_amount).toFixed(2) }}</p>
+
+                <p v-if="Number(item.buy_insurance_amount) > 0" class="ml-2">投保<span class=" text-center text-[green]" >{{
+                  Number(item.buy_insurance_amount).toFixed(2) }}</span></p>
+                   <p v-if="Number(item.insurance_compensation_amount) > 0" class="ml-2">赔付<span class=" text-center text-[green]" >{{
+                  Number(item.insurance_compensation_amount).toFixed(2) }}</span></p>
+
               </div>
               <p class=" text-center  ">{{ getActionText(item.action) }}</p>
             </div>
@@ -166,21 +175,26 @@ const right = () => {
         </v-card>
       </template>
     </v-virtual-scroll>
-    <div class="flex flex-row justify-center items-center  ">
-      <van-button v-if="selectType > 1" @click="left" icon="arrow-double-left"
-        style="background: var(--my-buttonPrimaryBg);"
-        class=" w-[30px]!  h-[30px]! text-[var(--my-buttonPrimaryText)]! text-[20px]! " />
-      <div v-else class=" w-[30px]!  h-[30px]!">
-
+    <div class="flex flex-row justify-between items-center  w-full pos-absolute bottom-[5px]">
+      <div class="flex flex-row flex-1">
+        <van-button :disabled="selectType <= 1" @click="selectType = 1" icon="arrow-double-left"
+          style="background: var(--my-buttonPrimaryBg);"
+          class=" w-[30px]!  h-[30px]! text-[var(--my-buttonPrimaryText)]! text-[12px]! mx-1" />
+        <van-button :disabled="selectType <= 1" @click="left" icon="arrow-left"
+          style="background: var(--my-buttonPrimaryBg);"
+          class=" w-[30px]!  h-[30px]! text-[var(--my-buttonPrimaryText)]! text-[12px]! mx-1" />
       </div>
-      <p class="text-[var(--my-text)] mx-2 w-[30px] text-center text-[18px] font-bold">{{ selectType }}/{{ recordStore.handList.length }}</p>
-      <van-button v-if="selectType < recordStore.handList.length" @click="right" icon="arrow-double-right"
-        style="background: var(--my-buttonPrimaryBg);"
-        class=" w-[30px]!  h-[30px]! text-[var(--my-buttonPrimaryText)]!  text-[20px]!" />
-      <div v-else class=" w-[30px]!  h-[30px]!">
-
+      <p class="text-[var(--my-text)] mx-2  text-center text-[16px] font-bold">{{ selectType }}/{{
+        recordStore.handList.length }}</p>
+      <div class="flex flex-row flex-1 justify-end">
+        <van-button :disabled="selectType >= recordStore.handList.length" @click="right" icon="arrow"
+          style="background: var(--my-buttonPrimaryBg);"
+          class=" w-[30px]!  h-[30px]! text-[var(--my-buttonPrimaryText)]!  text-[12px]! mx-1" />
+        <van-button :disabled="selectType >= recordStore.handList.length"
+          @click="selectType = recordStore.handList.length" icon="arrow-double-right"
+          style="background: var(--my-buttonPrimaryBg);"
+          class=" w-[30px]!  h-[30px]! text-[var(--my-buttonPrimaryText)]! text-[12px]! mx-1" />
       </div>
     </div>
-
   </div>
 </template>

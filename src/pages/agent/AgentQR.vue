@@ -72,7 +72,7 @@ const saveQR = () => {
           <div class="mt-2 text-[#bdbdbd] text-base" style="font-family: 'Noto Sans TC', sans-serif;">
             豐厚獎勵等你來拿！
           </div>
-          <button @click="saveQR"
+          <button v-ripple="{ class: `text-info` }"@click="saveQR"
             class="mt-2 w-[320px] h-[48px] bg-[var(--my-accent)] rounded-lg flex items-center justify-center shadow-none border-none"
             style="font-family: 'Noto Sans TC', sans-serif;">
             <i class="fas fa-download text-[var(--my-buttonPrimaryText)] text-xl mr-2"></i>
@@ -85,7 +85,7 @@ const saveQR = () => {
               <input
                 class=" font-bold flex-1 h-[38px] bg-[var(--my-accent)] border border-[#e0e0e0] rounded-sm pl-2 pr-10 py-1 text-[var(--my-buttonPrimaryText)] text-sm no-scrollbar outline-none"
                 readonly style="font-family: 'Noto Sans TC', sans-serif;" type="text" :value="text" ref="linkInput" />
-              <button @click="copyLink"
+              <button v-ripple="{ class: `text-info` }"@click="copyLink"
                 class="absolute right-2 top-5 -translate-y-1/2 text-[#bdbdbd] hover:text-[#1abc9c] focus:outline-none"
                 title="复制链接" tabindex="-1" style="background:transparent;">
                 <svg t="1752251862597" class="icon" viewBox="0 0 1024 1024" version="1.1"
@@ -108,7 +108,7 @@ const saveQR = () => {
 </template>
 
 
-<style scoped>
+<style lang="css" scoped>
 .wrapper-poker {
   display: flex;
   align-items: end;

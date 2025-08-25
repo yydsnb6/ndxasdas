@@ -10,9 +10,10 @@ const onClickLeft = () => history.back();
 const createRoomData = ref<ICreateRoom>({
   action_second: 15,
   auto_start_num: 2,
-  big_blind: 0,
-  end_time: 5,
+  big_blind: 0.02,
+  end_time: 480,
   insurance_amount: 0,
+  is_open_insurance: false,
   is_limit_gps: true,
   is_limit_ip: true,
   is_push_group: true,
@@ -21,13 +22,16 @@ const createRoomData = ref<ICreateRoom>({
   max_buy: 20,
   min_buy: 50,
   push_group_ids: [],
-  room_name: 'test',
+  room_name: '',
   room_type: 1,
   seat_num: 8,
   straddle_blind: 0,
 })
 
-const range = ref([20, 50])
+// const range = ref([20, 50])
+
+const buyMin = ref(20)
+const buyMax = ref(50)
 
 const mangSetp = ref(0)
 
@@ -58,20 +62,22 @@ const mangList = [
 
 
 
-const openIns = ref(false)
 const openLong = ref(true)
 
+const openstraddle_blind = ref(false)
+
 const initData = () => {
-  openIns.value = false
+  openstraddle_blind.value = false
   openLong.value = true
   createRoomData.value.action_second = 15
   createRoomData.value.auto_start_num = 2
-  createRoomData.value.big_blind = 0
-  createRoomData.value.end_time = 5
+  createRoomData.value.big_blind = 0.02
+  createRoomData.value.end_time = 480
   createRoomData.value.insurance_amount = 0
   createRoomData.value.is_limit_gps = true
   createRoomData.value.is_limit_ip = true
   createRoomData.value.is_push_group = true
+  createRoomData.value.is_open_insurance = false
   createRoomData.value.little_blind = 0.01
   createRoomData.value.look_num = 100
   createRoomData.value.max_buy = 20
@@ -96,16 +102,12 @@ const getTgGroup = async () => {
 
 const router = useRouter()
 const creatRoom = () => {
-
-  // console.log(checked.value);
-  // return
-
-  if (openIns.value) {
-    createRoomData.value.insurance_amount = 80
+  if (openstraddle_blind.value) {
+    createRoomData.value.straddle_blind = 2 * mangList[mangSetp.value] * 2
   } else {
-    createRoomData.value.insurance_amount = 0
-  }
+    createRoomData.value.straddle_blind = 0
 
+  }
 
 
 
@@ -115,8 +117,8 @@ const creatRoom = () => {
   })
   createRoomData.value.little_blind = mangList[mangSetp.value]
   createRoomData.value.big_blind = 2 * mangList[mangSetp.value]
-  createRoomData.value.min_buy = range.value[0]
-  createRoomData.value.max_buy = range.value[1]
+  createRoomData.value.min_buy = buyMin.value
+  createRoomData.value.max_buy = buyMax.value
 
   api.creatRoom(createRoomData.value).then((res: any) => {
     console.log(res);
@@ -159,15 +161,27 @@ onMounted(() => {
       <van-divider dashed class="w-[90%]"
         :style="{ color: 'var(--my-text)', borderColor: 'var(--my-text)', padding: '0 0px', margin: '0px' }">筹码设置</van-divider>
 
-      <!-- <div class="flex flex-col w-full">
-        <div class="flex flex-row justify-between w-full px-[10%] text-[14px] font-700">
-          <p class=" text-[var(--my-cardSubText)]">前注</p>
-          <p class="text-[var(--my-text)]">{{ createRoomData.straddle_blind }}BB</p>
+      <div class="flex flex-col w-full ">
+        <div class="flex flex-row justify-between w-full px-[10%] text-[14px]  font-700">
+          <p class=" text-[var(--my-cardSubText)]">房间名称 </p>
+
         </div>
-        <div class="w-full px-5 flex items-center justify-between">
-          <v-slider v-model="createRoomData.straddle_blind" :max="1" :min="0" :step="0.5" class="h-[30px]"></v-slider>
+        <div class="w-full px-[10%] flex items-center justify-between my-1">
+
+          <van-field  class="bg-red! bg-op-5! p-0! text-amber!" label-width="40" :border="false"
+            v-model="createRoomData.room_name" label="" placeholder="请输入房间名称" />
         </div>
-      </div> -->
+      </div>
+
+      <div class="flex flex-col w-full px-5 mb-1">
+        <div class="flex flex-row justify-between">
+          <div class="flex flex-row items-center">
+            <p class=" text-[var(--my-cardSubText)] font-700 text-[14px] ml-5">额外盲注{{ 2 * 2 * mangList[mangSetp] }}BB
+            </p>
+          </div>
+          <van-switch class=" scale-75" v-model="openstraddle_blind" />
+        </div>
+      </div>
 
 
       <div class="flex flex-col w-full">
@@ -180,27 +194,26 @@ onMounted(() => {
         </div>
       </div>
 
-
-
       <div class="flex flex-col w-full ">
         <div class="flex flex-row justify-between w-full px-[10%] text-[14px]  font-700">
           <p class=" text-[var(--my-cardSubText)]">买入 </p>
           <div class="flex flex-row">
-            <img src="../../assets/imgae/usdt.png" class="w-[20px] h-[20px]" alt="" srcset="">
-            <p class="text-[var(--my-text)]">{{ range[0] }}BB~{{ range[1] }}BB</p>
+            <img src="../../assets/imgae/m_icon.png" class="w-[20px] h-[20px]" alt="" srcset="">
+            <p class="text-[var(--my-text)]">{{ buyMin }}BB~{{ buyMax }}BB</p>
           </div>
-
         </div>
-        <div class="w-full px-[10%] flex items-center justify-between">
-          <v-range-slider v-model="range" strict :max="100" :min="0" :step="1" class="h-[30px]"></v-range-slider>
+        <div class="w-full px-[10%] flex items-center justify-between my-1">
+
+          <van-field type="number" :min="0" class="bg-red! bg-op-5! p-0! text-amber!" label-width="40" :border="false"
+            v-model="buyMin" label="最小" placeholder="请输入金额" />
+          <van-field type="number" :min="0" class="bg-red! bg-op-5! p-0! text-amber!" label-width="40" :border="false"
+            v-model="buyMax" label="最大" placeholder="请输入金额" />
+          <!-- <v-range-slider v-model="range" strict :max="1000" :min="1" :step="50" class="h-[30px]"></v-range-slider> -->
         </div>
       </div>
 
       <van-divider dashed class="w-[90%]"
         :style="{ color: 'var(--my-text)', borderColor: 'var(--my-text)', padding: '0 0px', margin: '0px' }">游戏设置</van-divider>
-
-
-
 
       <div class="flex flex-col w-full">
         <div class="flex flex-row justify-between w-full px-[10%] text-[14px] font-700">
@@ -232,7 +245,7 @@ onMounted(() => {
         </div>
       </div>
 
-      <div class="flex flex-col w-full ">
+      <!-- <div class="flex flex-col w-full ">
         <div class="flex flex-row justify-between w-full px-[10%] text-[14px] font-700">
           <p class=" text-[var(--my-cardSubText)]">牌局时间</p>
           <p class="text-[var(--my-text)]">{{ createRoomData.end_time }}分钟</p>
@@ -240,7 +253,7 @@ onMounted(() => {
         <div class="w-full px-[10%] flex items-center justify-between">
           <v-slider v-model="createRoomData.end_time" :max="480" :min="5" :step="5" class="h-[30px]"></v-slider>
         </div>
-      </div>
+      </div> -->
       <div class="flex flex-col w-full px-10 mb-1">
         <van-radio-group v-model="createRoomData.room_type" direction="horizontal">
           <van-radio shape="square" :name="1"><span class="text-[var(--my-text)]">长牌</span></van-radio>
@@ -251,17 +264,17 @@ onMounted(() => {
       <van-divider dashed class="w-[90%]"
         :style="{ color: 'var(--my-text)', borderColor: 'var(--my-text)', padding: '0 0px', margin: '0px' }">安全设置</van-divider>
 
-      <!-- <div class="flex flex-col w-full px-5 mb-1">
+
+
+      <div class="flex flex-col w-full px-5 mb-1">
         <div class="flex flex-row justify-between">
           <div class="flex flex-row items-center">
-            <p class=" text-[var(--my-cardSubText)] font-700 text-[14px] ml-5">保险(80USDT)</p>
-
+            <p class=" text-[var(--my-cardSubText)] font-700 text-[14px] ml-5">是否开启保险</p>
             <van-icon name="question" class="text-[var(--my-accent)]" />
           </div>
-          <van-switch class=" scale-75" v-model="openIns" />
-
+          <van-switch class=" scale-75" v-model="createRoomData.is_open_insurance" />
         </div>
-      </div> -->
+      </div>
 
 
       <div class="flex flex-col w-full px-5 mb-1">
@@ -270,6 +283,7 @@ onMounted(() => {
             <p class=" text-[var(--my-cardSubText)] font-700 text-[14px] ml-5">推送至群组</p>
 
             <van-icon name="question" class="text-[var(--my-accent)]" />
+
           </div>
           <van-switch class=" scale-75" v-model="createRoomData.is_push_group" />
 
@@ -320,3 +334,12 @@ onMounted(() => {
     </div>
   </AppPage>
 </template>
+
+<style lang="css" scoped>
+:deep(.van-field__control) {
+  color: var(--my-text) !important;
+  font-size: 16px !important;
+  font-weight: bolder;
+
+}
+</style>

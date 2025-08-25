@@ -40,7 +40,7 @@ const showFindUser = ref(false)
         <div class="w-full  flex flex-col items-center justify-center py-[20px]">
           <p class=" text-[var(--my-text)] text-[14px]">总数</p>
           <div class="flex flex-row items-center">
-            <img src="../../assets//imgae/usdt.png" class="w-[30px] h-[30px]" alt="" srcset="">
+            <img src="../../assets//imgae/m_icon.png" class="w-[30px] h-[30px]" alt="" srcset="">
             <h1 class="ml-1 text-[28px] text-[var(--my-text)]">{{ userStore.userInfo?.balance || 0 }}</h1>
           </div>
           <div class="flex flex-row justify-between items-center w-full mt-[25px]">

@@ -21,11 +21,11 @@ const emit = defineEmits(['onClose']);
         <GlowBorder :color="['#A07CFE', '#FE8FB5', '#FFBE7B']" class="rounded h-[98%]! w-[98%]!" :border-radius="10" />
         <div
           class="mt-2 bg-[#15181c] text-[14px] font-bold text-[#6f757a] flex flex-row justify-center rounded-full w-[80%] h-[30px] ">
-          <div @click="selectIndex = 0" :class="`${selectIndex == 0 ? 'my-active' : ''}`"
+          <div v-ripple="{ class: `text-info` }" @click="selectIndex = 0" :class="`${selectIndex == 0 ? 'my-active' : ''}`"
             class="rounded-full h-[30px] flex flex-1 justify-center items-center">
             规则
           </div>
-          <div @click="selectIndex = 1" :class="`${selectIndex == 1 ? 'my-active' : ''}`"
+          <div v-ripple="{ class: `text-info` }" @click="selectIndex = 1" :class="`${selectIndex == 1 ? 'my-active' : ''}`"
             class=" rounded-full h-[30px] flex flex-1 justify-center items-center">
             赔付
           </div>
@@ -57,7 +57,7 @@ const emit = defineEmits(['onClose']);
 </template>
 
 
-<style scoped>
+<style lang="css" scoped>
 .wrapper-poker {
   display: flex;
   align-items: end;

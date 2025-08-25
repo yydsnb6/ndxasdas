@@ -50,7 +50,7 @@ const recordStore = useRecordStore()
   <div class="flex flex-col pos-relative items-center bg-[var(--my-bg)]">
     <div class="flex flex-row w-full justify-between  items-center pos-absolute top-0 z-9">
       <UserAvatr />
-      <UserBalance class="h-[30px]" />
+      <UserBalance class=" scale-90 mt-[-10px]" />
     </div>
     <van-swipe class="w-full  h-[180px]" :autoplay="3000" indicator-color="white">
 

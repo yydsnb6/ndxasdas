@@ -132,6 +132,27 @@ const api = {
     return await axiosIns.get(`/game/get_customer_url `)
   },
 
+   /** 获取用户信息 */
+  async get_showuser_info(id:number) {
+    return await axiosIns.get(`/game/get_showuser_info`,{
+      params:{
+        id
+      }
+    })
+  },
+
+
+   /** 设置自动买入 */
+  async set_auto_buy(is_auto_buy:boolean,auto_buy_amount:number) {
+    return await axiosIns.get(`/game/set_auto_buy`,{
+      params:{
+        is_auto_buy,
+        auto_buy_amount
+      }
+    })
+  },
+
+
 
 }
 export default api

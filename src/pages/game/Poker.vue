@@ -2,7 +2,9 @@
 
 const props = defineProps({
   point: Number,
-  noPoker: Boolean
+  noPoker: Boolean,
+  showWin:Boolean,
+  showLose:Boolean
 })
 
 const pokerMap = new Map([
@@ -76,10 +78,17 @@ const getPoker = (pokerName: string) => {
 </script>
 
 <template>
-  <div class=" h-full aspect-ratio-[134/185]">
+  <div class=" h-full aspect-ratio-[134/185]" :class="showWin ? 'mt-[-5px]' : ''">
     <div v-if="props.noPoker" class="bg-white op-15 w-full h-full rd">
       <!-- <van-image class="w-full h-full " src="../../assets/imgae/poker/poker_back.png" alt="" srcset="" /> -->
     </div>
     <van-image v-else class="w-full h-full " :src="getPoker(`${props.point}`)" alt="" srcset="" />
+    <div v-if="showWin"
+      class=" rounded  flex-1  h-full  op-10!  bg-[var(--my-accent)]!  absolute bottom-0 w-full justify-center items-center flex">
+    </div>
+    <div v-if=" showLose"
+      class=" rounded  flex-1  h-full   bg-[rgba(0,0,0,0.6)]!  absolute bottom-0 w-full justify-center items-center flex">
+    </div>
+
   </div>
 </template>

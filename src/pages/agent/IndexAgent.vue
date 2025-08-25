@@ -94,13 +94,13 @@ const copy = () => {
       <div class="flex flex-col items-center text-white mt-5 pos-relative">
         <p class=" text-[var(--my-text)] text-[12px] font-600">可取现</p>
         <div class="flex flex-row items-center">
-          <img src="../../assets//imgae/usdt.png" class="w-[30px] h-[30px]" alt="" srcset="">
+          <img src="../../assets//imgae/m_icon.png" class="w-[30px] h-[30px]" alt="" srcset="">
           <h1 class="ml-1 text-[28px]">{{ agentStore.agentInfo?.rake_back_amount || 0 }}</h1>
         </div>
 
         <div class=" absolute! top-2 right-1 flex flex-col items-center">
-          <p class="text-[var(--my-text)] text-[12px] font-600 mb-1" @click="toMoneyRecord">收入记录></p>
-          <v-btn height="20" width="50" color="#6795cf" class="bg-[var(--my-accent)]!" @click="clickWithdraw">
+          <p v-ripple="{ class: `text-info` }" class="text-[var(--my-text)] text-[12px] font-600 mb-1" @click="toMoneyRecord">收入记录></p>
+          <v-btn  height="20" width="50" color="#6795cf" class="bg-[var(--my-accent)]!" @click="clickWithdraw">
             <p class="text-[12px] font-bold  text-[var(--my-buttonPrimaryText)]">点击提现</p>
           </v-btn>
         </div>

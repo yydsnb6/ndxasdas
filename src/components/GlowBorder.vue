@@ -43,7 +43,7 @@ const styles = computed(() => {
 </script>
 
 
-<style>
+<style lang="css" scoped>
 .animate-glow {
   animation: glow 6s infinite linear; /* 关键：6秒无限循环 */
 }

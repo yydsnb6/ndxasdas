@@ -5,9 +5,9 @@ import { useUserStore } from '@/stores/user';
 import pinia from '../stores/pinia';
 import LocalUtil from '../utils/LocalUtil';
 import I18n from '../utils/I18n';
-import { decryptPKCS1v15, encryptPKCS1v15 } from './key';
+// import { decryptPKCS1v15, encryptPKCS1v15 } from './key';
 import { showToast } from 'vant';
-const useKey = false
+// const useKey = false
 const userLang = navigator.language || navigator.languages[0];
 const defaultLang = userLang.includes('zh') ? 'zh' : 'en';
 let userStore;
@@ -29,7 +29,7 @@ const axiosIns = axios.create({
 let noKeyUrl = ['/app/upload', '/user/recharge']
 
 //请求拦截器
-axiosIns.interceptors.request.use((requestConfig): any => {
+axiosIns.interceptors.request.use((requestConfig:any): any => {
   requestConfig.baseURL = process.env.NODE_ENV === 'production' ? config.proBaseURL : config.devBaseURL
   userStore = useUserStore(pinia);
   requestConfig.headers = {
@@ -37,26 +37,26 @@ axiosIns.interceptors.request.use((requestConfig): any => {
     "Accept-Language": LocalUtil.stringForKey("lang", defaultLang),
     "Content-Type": 'application/json' //'application/x-www-form-urlencoded' application/json
   }
-  if (useKey) {
-    if (requestConfig.method === 'post' && requestConfig.data && noKeyUrl.includes(requestConfig.url as string) === false) {
-      let { ciphertext, error } = encryptPKCS1v15(JSON.stringify(requestConfig.data))
-      if (error) {
-        return Promise.reject(error)
-      }
-      requestConfig.data = {
-        data: ciphertext
-      }
-    }
+  // if (useKey) {
+  //   if (requestConfig.method === 'post' && requestConfig.data && noKeyUrl.includes(requestConfig.url as string) === false) {
+  //     let { ciphertext, error } = encryptPKCS1v15(JSON.stringify(requestConfig.data))
+  //     if (error) {
+  //       return Promise.reject(error)
+  //     }
+  //     requestConfig.data = {
+  //       data: ciphertext
+  //     }
+  //   }
 
-    // else if (requestConfig.method === 'get' && requestConfig.params) {
-    //     let { ciphertext, error } = encryptPKCS1v15(JSON.stringify(requestConfig.params))
-    //     if (error) {
-    //         return Promise.reject(error)
-    //     }
-    //     requestConfig.url = requestConfig.url + '?data=' + ciphertext
-    //     requestConfig.params = {}
-    // }
-  }
+  //   // else if (requestConfig.method === 'get' && requestConfig.params) {
+  //   //     let { ciphertext, error } = encryptPKCS1v15(JSON.stringify(requestConfig.params))
+  //   //     if (error) {
+  //   //         return Promise.reject(error)
+  //   //     }
+  //   //     requestConfig.url = requestConfig.url + '?data=' + ciphertext
+  //   //     requestConfig.params = {}
+  //   // }
+  // }
   return requestConfig
 }, (error) => {
   showToast({
@@ -67,13 +67,13 @@ axiosIns.interceptors.request.use((requestConfig): any => {
 })
 //  响应拦截器
 axiosIns.interceptors.response.use(async (res): Promise<any> => {
-  if (useKey) {
-    let { plaintext, error } = decryptPKCS1v15(JSON.stringify(res.data))
-    if (error) {
-      return Promise.reject(error)
-    }
-    res.data = JSON.parse(plaintext)
-  }
+  // if (useKey) {
+  //   let { plaintext, error } = decryptPKCS1v15(JSON.stringify(res.data))
+  //   if (error) {
+  //     return Promise.reject(error)
+  //   }
+  //   res.data = JSON.parse(plaintext)
+  // }
 
   if (res.data.code != 200) {
     console.log("错误：：：", res.config.url, res.data)

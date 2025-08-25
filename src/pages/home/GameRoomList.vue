@@ -6,6 +6,7 @@ import { useRecordStore } from '@/stores/record';
 import { useRoomStore } from '@/stores/room';
 import type { PokerRoomConfig } from '@/utils/interface';
 import LocalUtil from '@/utils/LocalUtil';
+import { ref } from 'vue';
 const onClickLeft = () => history.back();
 const recordStore = useRecordStore()
 recordStore.getRoomList()
@@ -13,12 +14,33 @@ const roomStore = useRoomStore()
 
 const toRoom = (game: PokerRoomConfig) => {
   console.log('进入游戏');
-  router.push({
+  router.replace({
     path: '/game',
     query: {
       roomId: game.room_id
     }
   })
+}
+
+
+const btns = [
+  {
+    type: 0,
+    text: '全部'
+  },
+  {
+    type: 1,
+    text: 'NLH'
+  },
+  {
+    type: 2,
+    text: '6+'
+  },
+]
+
+const selectType = ref(0)
+const clickBtn = (type: number) => {
+  selectType.value = type
 }
 </script>
 
@@ -27,19 +49,34 @@ const toRoom = (game: PokerRoomConfig) => {
     <van-nav-bar :border="false" style="background: var(--my-primary);" class=" h-[50px]" title="游戏大厅" left-text=""
       left-arrow @click-left="onClickLeft">
       <template #right>
-        <UserBalance />
+        <!-- <UserBalance /> -->
       </template>
     </van-nav-bar>
 
     <div class="h-[calc(100%-50px)] px-[5px]">
+      <div class="flex flex-row justify-start items-center px-2">
+        <v-btn v-for="item in btns" :key="item.type" @click="clickBtn(item.type)"
+          :style="selectType == item.type ? 'background:var(--my-buttonPrimaryBg); border:var(--my-buttonSecondaryBorder)' : 'background:var(--my-buttonSecondaryBg);border:var(--my-buttonSecondaryBorder)'"
+          class="m-2" height="25" min-width="50">
+          <p :class="selectType == item.type ? 'text-[var(--my-buttonPrimaryText)]' : 'text-[var(--my-buttonSecondaryText)]'"
+            class="text-[12px] font-bold ">{{ item.text }}</p>
+        </v-btn>
+      </div>
       <v-virtual-scroll class="h-full " :items="recordStore.roomList">
         <template v-slot:default="{ item }">
-          <v-card style="background: var(--my-buttonSecondaryBg);" v-ripple="{ class: `text-info` }"
-            class="mt-[4px]  px-2 py-2 ">
-            <div class="flex flex-col " @click="toRoom(item)">
-              <div
-                class="flex flex-row w-full justify-between font-bold text-[14px] text-[var(--my-buttonSecondaryText)]">
-                <div class="flex flex-1 items-center justify-center">
+          <v-card v-if="selectType == item.room_type || selectType == 0"
+            style="background: var(--my-buttonSecondaryBg);" v-ripple="{ class: `text-info` }"
+            class="mt-[4px]  px-[5%]! py-2 ">
+            <div class="flex flex-row justify-between items-center" @click="toRoom(item)">
+              <div class="flex flex-col">
+
+                <van-circle layer-color="rgba(0,0,0,0.2)" color="#70ed96" stroke-width="100" :current-rate="(item.sit_num / item.seat_num) * 100" :rate="100"
+                  :text="`${item.sit_num}/${item.seat_num}`" size="50px" />
+              </div>
+
+
+              <div class="flex flex-col items-start justify-start flex-1 pl-[5%] text-[14px]"  >
+                <div class="flex flex-row items-center justify-center text-[rgba(0,0,0,0.4)] font-500">
                   <svg t="1753531549045" class="icon" viewBox="0 0 1024 1024" version="1.1"
                     xmlns="http://www.w3.org/2000/svg" p-id="1820" width="20" height="20">
                     <path
@@ -67,11 +104,10 @@ const toRoom = (game: PokerRoomConfig) => {
                     <path d="M667.688 341.496l7.875 28.563-40.641 284.09-15.035 11.038z" fill="#C2683E" p-id="1829">
                     </path>
                   </svg>
-
-                  {{ item.room_id }}
-
+                  {{ item.room_name }}({{ item.room_type == 1 ? '长牌' : '短牌' }})
                 </div>
-                <div class="flex flex-1 items-center justify-center">
+
+                <div class="flex flex-row items-center justify-center font-bold ">
                   <svg t="1751986220889" class="icon" viewBox="0 0 1025 1024" version="1.1"
                     xmlns="http://www.w3.org/2000/svg" p-id="5573" width="20" height="20">
                     <path
@@ -110,60 +146,17 @@ const toRoom = (game: PokerRoomConfig) => {
                       fill="" p-id="5589"></path>
                   </svg>
 
-                  {{ item.big_blind }}/{{ item.little_blind }}
+                  {{ item.little_blind }}/{{ item.big_blind }}<span v-if="item.straddle_blind  > 0">({{ item.straddle_blind }})</span>
 
                 </div>
-                <div class="flex flex-1 items-center justify-center">
-                  <svg t="1751986307146" class="icon" viewBox="0 0 1024 1024" version="1.1"
-                    xmlns="http://www.w3.org/2000/svg" p-id="8886" width="20" height="20">
-                    <path d="M563.2 308.906667m-199.68 0a199.68 199.68 0 1 0 399.36 0 199.68 199.68 0 1 0-399.36 0Z"
-                      fill="#FF6B49" p-id="8887"></path>
-                    <path
-                      d="M935.253333 957.44c30.72 0 52.906667-25.6 49.493334-56.32-27.306667-204.8-203.093333-361.813333-414.72-361.813333S182.613333 696.32 155.306667 901.12c-3.413333 29.013333 18.773333 56.32 49.493333 56.32h730.453333z"
-                      fill="#FF6B49" p-id="8888"></path>
-                    <path
-                      d="M500.053333 498.346667c-124.586667 0-225.28-100.693333-225.28-225.28s102.4-225.28 225.28-225.28c124.586667 0 225.28 100.693333 225.28 225.28s-100.693333 225.28-225.28 225.28z m0-399.36c-95.573333 0-174.08 78.506667-174.08 174.08s78.506667 174.08 174.08 174.08S674.133333 368.64 674.133333 273.066667 597.333333 98.986667 500.053333 98.986667z"
-                      fill="#7F0518" p-id="8889"></path>
-                    <path
-                      d="M872.106667 930.133333H141.653333C119.466667 930.133333 98.986667 919.893333 85.333333 904.533333c-13.653333-17.066667-20.48-37.546667-18.773333-59.733333C97.28 624.64 285.013333 460.8 506.88 460.8s411.306667 165.546667 440.32 384c3.413333 22.186667-3.413333 42.666667-17.066667 59.733333-15.36 15.36-35.84 25.6-58.026666 25.6zM506.88 512C310.613333 512 143.36 657.066667 117.76 851.626667c-1.706667 8.533333 3.413333 15.36 5.12 18.773333 5.12 5.12 11.946667 8.533333 18.773333 8.533333h730.453334c6.826667 0 13.653333-3.413333 18.773333-8.533333 3.413333-3.413333 6.826667-10.24 5.12-18.773333C870.4 657.066667 703.146667 512 506.88 512z"
-                      fill="#7F0518" p-id="8890"></path>
-                    <path
-                      d="M512 798.72m-182.613333 0a182.613333 182.613333 0 1 0 365.226666 0 182.613333 182.613333 0 1 0-365.226666 0Z"
-                      fill="#FFD45A" p-id="8891"></path>
-                    <path
-                      d="M512 998.4c-110.933333 0-199.68-90.453333-199.68-199.68S401.066667 597.333333 512 597.333333s199.68 90.453333 199.68 199.68S622.933333 998.4 512 998.4zM512 631.466667c-92.16 0-165.546667 75.093333-165.546667 165.546666s75.093333 165.546667 165.546667 165.546667 165.546667-75.093333 165.546667-165.546667S604.16 631.466667 512 631.466667z"
-                      fill="#7F0518" p-id="8892"></path>
-                    <path d="M587.093333 689.493333h-46.08l-30.72 49.493334v167.253333h22.186667v-129.706667z"
-                      fill="#7F0518" p-id="8893"></path>
-                    <path d="M436.906667 689.493333h46.08l30.72 49.493334v167.253333h-22.186667v-129.706667z"
-                      fill="#7F0518" p-id="8894"></path>
-                    <path
-                      d="M450.56 839.68h124.586667v40.96h-124.586667zM448.853333 776.533333h124.586667v40.96h-124.586667z"
-                      fill="#7F0518" p-id="8895"></path>
-                  </svg>
-                  {{ item.sit_num }}
-                </div>
-                <div class="flex flex-1 items-center justify-center">
-                  <img src="../../assets/imgae/usdt.png" class="w-[20px] h-[20px] " alt="" srcset="">
+              </div>
 
+              <div class="flex flex-col">
+                <p class="text-[12px] text-[rgba(0,0,0,0.4)] font-500">最小买入</p>
+                <div class="flex flex-1 items-center justify-center text-[20px]">
+                  <img src="../../assets/imgae/m_icon.png" class="w-[20px] h-[20px] " alt="" srcset="">
                   {{ item.min_buy }}
                 </div>
-              </div>
-              <div class="flex flex-row w-full justify-between text-[12px] text-[var(--my-buttonSecondaryText)]">
-                <div class="flex flex-1 items-center justify-center">房间ID</div>
-                <div class="flex flex-1 items-center justify-center">盲注</div>
-                <div class="flex flex-1 items-center justify-center">玩家</div>
-                <div class="flex flex-1 items-center justify-center">预设买入</div>
-              </div>
-              <div
-                class="pos-absolute right-1 bottom-1 flex flex-row items-center justify-center text-[var(--my-buttonSecondaryText)] text-[14px]">
-                <svg t="1751986404743" class="icon" viewBox="0 0 1024 1024" version="1.1"
-                  xmlns="http://www.w3.org/2000/svg" p-id="9976" width="15" height="15">
-                  <path
-                    d="M184.32 778.24v-36.51584L35.84 529.67424a102.4 102.4 0 0 1 87.49056-161.09568C131.35872 186.59328 247.07072 64.512 443.16672 61.50144L450.56 61.44h122.88c205.0048 0 319.50848 120.44288 327.2704 307.15904a102.4 102.4 0 0 1 90.15296 157.06112l-2.70336 4.01408L839.68 741.70368V778.24a122.88 122.88 0 0 1-122.88 122.88v30.72a30.72 30.72 0 0 1-61.44 0V901.12H368.64v30.72a30.72 30.72 0 0 1-61.44 0V901.12a122.88 122.88 0 0 1-122.88-122.88zM96.21504 437.37088a40.96 40.96 0 0 0-11.8784 54.23104l1.82272 2.82624L245.76 722.37056V778.24a61.44 61.44 0 0 0 57.83552 61.3376L307.2 839.68h409.6a61.44 61.44 0 0 0 61.3376-57.83552L778.24 778.24v-55.9104l158.80192-226.7136 1.90464-2.84672a40.96 40.96 0 0 0-66.17088-48.00512l-2.048 2.6624-127.2832 181.76-51.65056-47.3088A265.0112 265.0112 0 0 0 512 512a264.94976 264.94976 0 0 0-174.10048 64.8192l-5.69344 5.05856-51.67104 47.32928-127.26272-181.76a40.96 40.96 0 0 0-57.05728-10.07616zM573.44 122.88h-122.88C280.43264 122.88 187.00288 223.232 184.38144 382.1568L184.32 389.12v2.33472c7.18848 5.85728 13.70112 12.77952 19.27168 20.74624l87.10144 124.39552A326.49216 326.49216 0 0 1 512 450.56c85.2992 0 163.00032 32.60416 221.30688 86.016l87.10144-124.37504c5.57056-7.9872 12.0832-14.90944 19.29216-20.76672L839.68 389.12c0-163.5328-86.87616-263.3728-258.72384-266.17856L573.44 122.88z"
-                    fill="#131415" p-id="9977"></path>
-                </svg>
-                {{ item.seat_num }}
               </div>
             </div>
           </v-card>

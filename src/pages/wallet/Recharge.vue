@@ -36,7 +36,7 @@ const copy = ()=>{
           <p class=" text-[var(--my-accent)] font-700">货币</p>
           <v-card height="60" color="#fff">
             <div class="flex flex-row items-center justify-start h-full pl-5">
-              <img src="../../assets/imgae/usdt.png" class="w-[30px] h-[30px]" alt="" srcset="">
+              <img src="../../assets/imgae/m_icon.png" class="w-[30px] h-[30px]" alt="" srcset="">
               <p class="text-[18px] font-bold ml-2">提现</p>
             </div>
           </v-card>

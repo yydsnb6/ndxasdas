@@ -19,7 +19,7 @@ const emit = defineEmits(['onClose']);
         <GlowBorder :color="['#A07CFE', '#FE8FB5', '#FFBE7B']" class="rounded h-[98%]! w-[98%]!" :border-radius="10" />
         <div class="  h-full w-full flex flex-col justify-start mt-[10px] items-center text-white">
           <div class="w-[90%] flex flex-row justify-between  font-bold ">
-            <p>盲注:{{ roomStore.blindRecored?.big_blind }}/{{ roomStore.blindRecored?.limit_blind }}</p>
+            <p>盲注:{{ roomStore.blindRecored?.limit_blind }}/{{ roomStore.blindRecored?.big_blind }}</p>
             <div class="flex flex-row items-center">
               <svg t="1751897946371" class="icon" viewBox="0 0 1024 1024" version="1.1"
                 xmlns="http://www.w3.org/2000/svg" p-id="6525" id="mx_n_1751897946372" width="20" height="20">
@@ -36,26 +36,51 @@ const emit = defineEmits(['onClose']);
               {{ roomStore.blindRecored?.user_num }}
             </div>
           </div>
-          <div class="  flex flex-col w-[96%]   bg-op-10 mt-2 items-center">
+          <div class="  flex flex-col w-[96%] h-[70%]   items-center ">
             <div
-              class="h-[20px]  flex flex-row justify-between w-full text-[12px] text-white bg-[#151f23]  border-solid border-b-0 border-1 border-[rgba(255,255,255,0.1)]">
-              <p class="w-1/4 text-center  ml-[5px]">玩家</p>
+              class="p-2 w-full flex flex-row justify-between items-center  text-[12px] text-white bg-[#151f23]  border-solid border-b-0 border-l-0  border-1 border-[rgba(255,255,255,0.1)]">
+              <p class="w-1/4 text-center  ">玩家</p>
               <p class="w-1/4 text-center">买入</p>
               <p class="w-1/4 text-center">入池率</p>
-              <p class="w-1/4 text-center  mr-[5px]">盈亏</p>
+              <p class="w-1/4 text-center  ">盈亏</p>
             </div>
-            <div class=" items-center flex flex-col text-white w-[96%]  ">
-              <div v-for="item in roomStore.blindRecored?.user_blind_list" class="
-             border-solid border-t-0 border-1 border-[rgba(255,255,255,0.1)]
+            <v-virtual-scroll v-if="roomStore.blindRecored && roomStore.blindRecored?.user_blind_list.length > 0"
+              class="h-[calc(100%-50px)] w-full" :items="roomStore.blindRecored?.user_blind_list">
+              <template v-slot:default="{ item }">
+                <v-card class="mt-0 p-2  w-[99%]" style="background: var(--my-cardBg);">
+                  <div class="
+             border-solid border-t-0 border-1 border-r-0 border-l-0 border-[rgba(255,255,255,0.1)]
             h-[28px]! flex flex-row justify-between w-full">
-                <p class="flex items-center justify-center   w-1/4 text-center ml-[5px]">{{ item.name }}</p>
-                <p class="flex items-center justify-center w-1/4 text-center">{{ Number(item.buy_amount).toFixed(2) }}</p>
-                <p class="flex items-center justify-center  w-1/4 text-center text-amber mr-[5px]">{{ item.bet_number }} / {{ Math.floor( (item.bet_number / item.game_number) * 100)  }}%</p>
-                <p class="flex items-center justify-center  w-1/4 text-center text-amber mr-[5px]">{{ Number(item.phase).toFixed(2) }}</p>
-              </div>
+                    <p class="flex items-center justify-center text-white   w-1/4 text-center ml-[5px]">{{ item.name }}
+                    </p>
+                    <p class="flex items-center justify-center text-amber w-1/4 text-center">{{
+                      Number(item.buy_amount).toFixed(2)
+                      }}
+                    </p>
+                    <p class="flex items-center justify-center  w-1/4 text-center text-amber mr-[5px]">{{
+                      item.bet_number }}
+                      / {{ item.game_number <= 0 ? 0 : Math.floor((item.bet_number / item.game_number) * 100) }}%</p>
+                        <p class="flex items-center justify-center  w-1/4 text-center text-amber mr-[5px]">{{
+                          Number(item.phase).toFixed(2)
+                          }}</p>
+                  </div>
+                </v-card>
+              </template>
+            </v-virtual-scroll>
+            <NoRecord class="mt-30" :size="60" v-else />
+
+          </div>
+          <div
+            class="h-[20px] items-center  flex flex-row justify-between w-[96%] text-[12px] text-white bg-[#151f23]  border-solid border-b-0 border-1 border-[rgba(255,255,255,0.1)]">
+            <p class=" text-center ml-[10px]">旁观({{ roomStore.blindRecored?.stand_by_user.length }})</p>
+          </div>
+          <div class="h-[20%]  w-[96%] mt-2 flex flex-row flex-wrap">
+            <div class="w-1/5 flex flex-col justify-start items-center"
+              v-for="item in roomStore.blindRecored?.stand_by_user">
+              <van-image round width="2.5rem" height="2.5rem" :src="item.head_url" />
+              <p>{{ item.first_name }}</p>
             </div>
           </div>
-          <NoRecord class="mt-30" :size="60" v-if="roomStore.blindRecored && roomStore.blindRecored?.user_blind_list.length <= 0" />
         </div>
       </div>
     </div>
@@ -63,7 +88,7 @@ const emit = defineEmits(['onClose']);
 </template>
 
 
-<style>
+<style lang="css" scoped>
 .wrapper-1 {
   display: flex;
   align-items: start;

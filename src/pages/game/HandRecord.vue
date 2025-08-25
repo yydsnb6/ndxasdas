@@ -26,8 +26,7 @@ const emit = defineEmits(['onClose']);
   </van-overlay>
 </template>
 
-
-<style>
+<style lang="css" scoped>
 .wrapper {
   display: flex;
   align-items: start;

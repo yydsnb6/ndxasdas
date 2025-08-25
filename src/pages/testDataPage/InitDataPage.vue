@@ -171,7 +171,7 @@ const chatRows = computed<DisplayDataRow[] | undefined>(() => {
     </AppPage>
 </template>
 
-<style scoped>
+<style lang="css" scoped>
 .init-data-page__section+.init-data-page__section {
     margin-top: 12px;
 }

@@ -29,15 +29,10 @@ const max_buy = computed(() => {
   }
 })
 const buyMoney = ref(10)
-const router = useRouter()
 const buyAndSitDown = () => {
   console.log('需要坐下的桌子id', props.seatid);
-
-
-  socketStore.sitDown(props.seatid, buyMoney.value)
-
+  socketStore.sitDown(props.seatid!, buyMoney.value)
   emit('onClose')
-
 }
 
 </script>
@@ -54,15 +49,14 @@ const buyAndSitDown = () => {
           :min="roomStore.sceneMsg.min_buy" :max="max_buy">
           <template #button>
             <img class="w-[30px] aspect-ratio-[266/201]" src="../../assets/imgae/chip_icon.png" alt="" srcset="">
-            <!-- <div class="custom-button">{{ buyMoney }}</div> -->
           </template>
         </van-slider>
-        <div class="flex flex-row justify-evenly items-center w-[95%] bg-white bg-op-10 px-[10px] py-[2px] rounded-md">
-          <van-field v-model="buyMoney" type="digit"
-            class="bg-red! text-amber! font-bold  text-center  text-[16px] w-[80px]! bg-op-0!" />
+        <div class="flex flex-row justify-evenly items-center w-[95%] bg-[rgba(255,255,255,0.1)] px-[10px] py-[2px] rounded-md">
+          <van-field v-model="buyMoney" type="number" :min="0" input-align="center"
+            class="bg-[rgba(0,0,0,0)]! text-amber! font-bold  text-center  text-[16px] w-4/5! " />
         </div>
-        <van-button size="26" block @click="buyAndSitDown" color="linear-gradient(to right, #638ccb, #f2c14b)">
-          确认买入${{ buyMoney }}并坐在座位 {{ props.seatid }} 上面
+        <van-button  block @click="buyAndSitDown" color="linear-gradient(to right, #638ccb, #f2c14b)">
+          确认买入${{ buyMoney }}并坐下
         </van-button>
       </div>
     </div>
@@ -70,7 +64,7 @@ const buyAndSitDown = () => {
 </template>
 
 
-<style>
+<style lang="css" scoped>
 .wrapper2 {
   display: flex;
   align-items: end;
@@ -84,8 +78,10 @@ const buyAndSitDown = () => {
   height: 120px;
 }
 
-.van-field__control {
-  font-size: 20px;
-  color: #ebbb32 !important;
+:deep(.van-field__control){
+  color: var(--my-text) !important;
+  font-size: 20px !important;
 }
+
+
 </style>

@@ -8,6 +8,7 @@ import { onMounted, ref } from 'vue';
 const walletStore = useWalletStore()
 const userStore = useUserStore()
 onMounted(() => {
+  userStore.update_balance()
   walletStore.getWithdrawalConf()
 })
 
@@ -51,7 +52,7 @@ const address = ref('')
         <p class=" text-[var(--my-accent)] font-700">货币</p>
         <v-card style="background: var(--my-primary);" height="60" color="#fff">
           <div class="flex flex-row items-center justify-start h-full pl-5">
-            <img src="../../assets/imgae/usdt.png" class="w-[30px] h-[30px]" alt="" srcset="">
+            <img src="../../assets/imgae/m_icon.png" class="w-[30px] h-[30px]" alt="" srcset="">
             <p class="text-[18px] font-bold ml-25 text-[var(--my-accent)]">USDT</p>
           </div>
         </v-card>
@@ -85,7 +86,7 @@ const address = ref('')
 
           <p class=" text-[#6f757a] text-[14px] font-500 my-2 text-[var(--my-text)]">实际到账:{{ money }}USDT</p>
           <p class=" text-[#6f757a] text-[14px] font-500 text-[var(--my-text)]">手续费:{{ money *
-            walletStore.withdrawInfo.withdrawal_rate}}USDT</p>
+            walletStore.withdrawInfo.withdrawal_rate }}USDT</p>
 
         </div>
 

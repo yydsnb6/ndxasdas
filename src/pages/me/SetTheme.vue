@@ -132,7 +132,7 @@ const userStore = useUserStore()
           </div>
         </div>
         <div class="flex  mt-5 flex-row justify-between mb-5">
-          <button class="btn px-6 py-2 rounded-lg font-semibold shadow-lg transition-all duration-200 hover:scale-105"
+          <button v-ripple="{ class: `text-info` }"class="btn px-6 py-2 rounded-lg font-semibold shadow-lg transition-all duration-200 hover:scale-105"
             :style="{
               background: selectedTheme.buttonPrimaryBg,
               color: selectedTheme.buttonPrimaryText,
@@ -141,7 +141,7 @@ const userStore = useUserStore()
             <i class="fas fa-save mr-2"></i>
             保存设置
           </button>
-          <button class="btn px-6 py-2 rounded-lg font-semibold shadow-lg transition-all duration-200 hover:scale-105"
+          <button v-ripple="{ class: `text-info` }"class="btn px-6 py-2 rounded-lg font-semibold shadow-lg transition-all duration-200 hover:scale-105"
             :style="{
               background: selectedTheme.buttonSecondaryBg,
               color: selectedTheme.buttonSecondaryText,
@@ -179,7 +179,7 @@ const userStore = useUserStore()
 </template>
 
 
-<style>
+<style lang="css" scoped>
 .theme-preview {
   transition: background 0.3s, color 0.3s;
 }

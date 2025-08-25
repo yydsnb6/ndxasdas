@@ -1,32 +1,14 @@
 <template>
   <div class="radar-countdown">
     <!-- 环形进度条 -->
-    <svg  viewBox="0 0 100 100">
+    <svg viewBox="0 0 100 100">
       <!-- 背景圆环 -->
-      <circle
-        cx="50" cy="50" r="45"
-        fill="none"
-        :stroke="progressColorBg"
-        stroke-width="8"
-      />
+      <circle cx="50" cy="50" r="45" fill="none" :stroke="progressColorBg" stroke-width="8" />
       <!-- 动态进度条 -->
-      <circle
-        cx="50" cy="50" r="45"
-        fill="none"
-        :stroke="progressColor"
-        stroke-width="8"
-        stroke-linecap="round"
-        :stroke-dasharray="circumference"
-        :stroke-dashoffset="dashOffset"
-        transform="rotate(-90 50 50)"
-      />
+      <circle cx="50" cy="50" r="45" fill="none" :stroke="progressColor" stroke-width="8" stroke-linecap="round"
+        :stroke-dasharray="circumference" :stroke-dashoffset="dashOffset" transform="rotate(-90 50 50)" />
       <!-- 中心计时显示 -->
-      <text
-        x="50" y="65"
-        text-anchor="middle"
-        font-size="40"
-        fill="#fff"
-      >
+      <text x="50" :y="posY" text-anchor="middle" font-size="36" fill="#fff">
         {{ timeLeft }}
       </text>
     </svg>
@@ -40,7 +22,10 @@ const props = defineProps({
   duration: { type: Number, default: 60 }, // 总时长（秒）
   size: { type: Number, default: 200 },    // 组件尺寸
   progressColor: { type: String, default: '#42b983' }, // 进度条颜色
-  progressColorBg: { type: String, default: '#42b983' } // 进度条颜色
+  progressColorBg: { type: String, default: '#42b983' }, // 进度条颜色
+  posY:{
+    ype: Number, default: 80
+  }
 });
 
 const timeLeft = ref(props.duration);
@@ -96,7 +81,7 @@ onBeforeUnmount(() => {
 const emit = defineEmits(['completed']);
 </script>
 
-<style scoped>
+<style lang="css" scoped>
 .radar-countdown {
   display: inline-block;
   position: relative;
@@ -105,8 +90,7 @@ const emit = defineEmits(['completed']);
 /* 添加雷达扫描动画 */
 circle[stroke="#42b983"] {
   filter:
-    drop-shadow(0 0 2px rgba(66, 185, 131, 0.6))
-    drop-shadow(0 0 5px rgba(66, 185, 131, 0.3));
+    drop-shadow(0 0 2px rgba(66, 185, 131, 0.6)) drop-shadow(0 0 5px rgba(66, 185, 131, 0.3));
   transition: stroke-dashoffset 0.1s linear;
 }
 </style>

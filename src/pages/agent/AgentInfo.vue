@@ -26,7 +26,7 @@ const emit = defineEmits(['onClose']);
           <div class="w-full  bg-[var(--my-cardBg)] h-[60px] flex flex-row items-center justify-evenly rounded-md">
             <div class="flex flex-col items-center">
               <div class="flex flex-row items-center">
-                <img src="../../assets/imgae/usdt.png" class="w-[20px] h-[20px] mr-1" alt="" srcset="">
+                <img src="../../assets/imgae/m_icon.png" class="w-[20px] h-[20px] mr-1" alt="" srcset="">
                 <h1 class="text-[var(--my-cardSubText)]">0</h1>
               </div>
               <p class=" text-[var(--my-cardText)] font-500">直接邀请</p>
@@ -36,7 +36,7 @@ const emit = defineEmits(['onClose']);
             </div>
             <div class="flex flex-col items-center">
               <div class="flex flex-row items-center">
-                <img src="../../assets/imgae/usdt.png" class="w-[20px] h-[20px] mr-1" alt="" srcset="">
+                <img src="../../assets/imgae/m_icon.png" class="w-[20px] h-[20px] mr-1" alt="" srcset="">
                 <h1 class="text-[var(--my-cardSubText)]">0</h1>
               </div>
               <p class=" text-[var(--my-cardText)] font-500">直接奖励</p>
@@ -68,7 +68,7 @@ const emit = defineEmits(['onClose']);
 </template>
 
 
-<style scoped>
+<style lang="css" scoped>
 .wrapper-poker {
   display: flex;
   align-items: end;

@@ -12,17 +12,22 @@ import HandRecord from './HandRecord.vue'
 import BlindRecord from './BlindRecord.vue'
 import TopPokers from './TopPokers.vue'
 import UserBtns from './UserBtns.vue'
-import WinTitle from './WinTitle.vue'
 import PublicPoker from './PublicPoker.vue'
 import { createTimeline, utils } from 'animejs';
 import bus from '@/utils/bus';
 import { useUserStore } from '@/stores/user';
 import BalanceBet from './BalanceBet.vue';
 import BaoXianBet from './BaoXianBet.vue';
+import EnterBuy from './EnterBuy.vue';
+import CheMa from './CheMa.vue';
 import HomeCountDown from './HomeCountDown.vue';
+import GameUserInfo from './GameUserInfo.vue';
 import Chat from './Chat.vue';
 import { useRoute } from 'vue-router';
 import LocalUtil from '@/utils/LocalUtil';
+
+// import Test from './Test.vue'
+
 
 const userStore = useUserStore()
 const socketStore = useSocketStore()
@@ -33,6 +38,10 @@ onUnmounted(() => {
   socketStore.disconnect()
 })
 
+const showSetting = ref(false)
+const showHandRecord = ref(false)
+const showBlindRecord = ref(false)
+const showChat = ref(false)
 
 onMounted(() => {
   let roomId = route.query.roomId
@@ -45,13 +54,19 @@ onMounted(() => {
   bus.on('EventFlyMe', flyMyPoker)
   bus.on('clearTable', clearTable)
   bus.on('changeTheme', changeTheme)
+  bus.on('neterror', () => {
+    showSetting.value = false
+    showHandRecord.value = false
+    showBlindRecord.value = false
+    showChat.value = false
+  })
 })
 
 onUnmounted(() => {
   bus.off('EventFlyMe')
   bus.off('clearTable')
   bus.off('changeTheme')
-
+  bus.off('neterror')
 })
 
 const flyMyPoker = () => {
@@ -69,7 +84,7 @@ const flyMyPoker = () => {
         ease: 'outCubic',
       },
       right: {
-        to: '38%', // From 0px to 16rem
+        to: '35%', // From 0px to 16rem
         ease: 'outCubic',
       },
       opacity: {
@@ -102,10 +117,7 @@ const flyMyPoker = () => {
 
 
 
-const showSetting = ref(false)
-const showHandRecord = ref(false)
-const showBlindRecord = ref(false)
-const showChat = ref(false)
+
 
 const clearTable = () => {
   let userPoker = ['.poker1', '.poker2']
@@ -186,37 +198,37 @@ const getImg = (path: string) => {
 
   <AppPage class=" pos-fixed top-0 left-0 right-0 bottom-0  ">
     <div class=" w-full h-full pos-relative flex justify-center items-center">
-      <img :src="getImg(`../../assets/imgae/table/table${bgIndex}_bg.png`)" alt="" srcset=""
-        class="w-full h-full absolute top-0">
-      <div class="w-[100%] h-[100%] flex! flex-row  justify-center items-center pos-relative mb-[5%]">
-        <img :src="getImg(`../../assets/imgae/table/table${tableIndex}.png`)"
-          class="pos-absolute min-h-[90%] max-w-[95%]" />
-        <div class="flex flex-col w-[55%] ml-[18px] pos-absolute justify-start items-center text-white  h-60%">
-          <div class="h-[18px] bg-op-10 rounded-3xl p-[2px] flex flex-row items-center px-[10px] justify-center">
+      <!-- <img :src="getImg(`../../assets/imgae/table/table${bgIndex}_bg.png`)" alt="" srcset=""
+        class="w-full h-full absolute top-0"> -->
+      <div class="w-[100%] h-[100%] flex! flex-row  justify-center items-center pos-relative ">
+        <img :src="getImg(`../../assets/imgae/table/table${tableIndex}.png`)" class="pos-absolute  w-full bottom-0" />
+        <div class="flex flex-col w-[55%]  pos-absolute justify-start items-center text-white  h-58%">
+          <div class=" bg-op-10 rounded-3xl p-[2px] flex flex-row items-center px-[10px] justify-center">
             <p class="text-[var(--my-accent)] op-70  font-bold  text-center w-full text-[12px]">{{
               getRoomStatusText(roomStore.sceneMsg?.room_status) }}</p>
           </div>
-          <div
-            class=" mb-2 h-[18px] bg-op-10 rounded-3xl p-[2px] flex flex-row items-center px-[10px] justify-center text-nowrap!">
+          <!-- <div
+            class=" mb-2 bg-op-10 rounded-3xl p-[2px] flex flex-row items-center px-[10px] justify-center text-nowrap!">
             <HomeCountDown v-if="(roomStore.sceneMsg.end_time - new Date().getTime()) / 1000 > 0"
               class=" text-[10px] text-[var(--my-accent)]! op-70 font-bold!  mt-[1px] ml-[9px] text-nowrap!"
               :duration="(roomStore.sceneMsg.end_time - new Date().getTime()) / 1000" progress-color="#3498db"
               auto-start progressColorBg="rgba(0,0,0,0.5)" @completed="() => { }" />
-          </div>
+          </div> -->
 
-          <div class="bg-[#000] bg-op-10 rounded-full w-[75px] h-[75px] flex justify-center items-center pos-relative">
+          <div class="bg-[#000] bg-op-10 rounded-full w-[72px] h-[72px] flex justify-center items-center pos-relative">
             <img class="w-[50px] aspect-ratio-[266/201]" src="../../assets/imgae/chip_icon.png" alt="" srcset="">
             <div
-              class=" pos-absolute  bottom-[0px] h-[18px] bg-[#000] bg-op-30! rounded-3xl p-[2px] flex flex-row items-center px-[4px]">
+              class=" pos-absolute  bottom-[-4px] h-[18px] bg-[#000] bg-op-30! rounded-3xl p-[2px] flex flex-row items-center px-[4px]">
               <p class="text-[var(--my-accent)] font-bold  text-center w-full text-[16px]">${{
                 Number(roomStore.sceneMsg?.pot_amount).toFixed(2) }}</p>
             </div>
           </div>
-          <p class="text-[11px] mt-1">房间：#{{ roomStore.sceneMsg?.room_id }}</p>
-          <p class="text-[11px] mb-1">盲注：{{ roomStore.sceneMsg?.little_blind }} <span v-if="roomStore.showBlind">/{{
-            roomStore.sceneMsg?.big_blind }}</span> </p>
+          <p class="text-[11px] mt-2">房间#{{ roomStore.sceneMsg?.room_id }}</p>
+          <p class="text-[11px] mb-1">盲注:{{ roomStore.sceneMsg?.little_blind }}<span >/{{
+            roomStore.sceneMsg?.big_blind }}</span><span v-if="Number(roomStore.sceneMsg.straddle_blind) > 0">/{{
+                roomStore.sceneMsg?.straddle_blind }}</span> </p>
         </div>
-        <div class=" z-[999] flex flex-col justify-between items-center h-[90%] w-[88%] pb-[0px]">
+        <div class=" z-[999] flex flex-col justify-between items-center h-[92%] w-[95%] pb-[0px]">
           <Seat v-for="seat in roomStore.seats.topSeats" :key="seat.seat_id" :seat-info="seat"
             :seat-pos="ESeatPos.Top" />
 
@@ -248,26 +260,33 @@ const getImg = (path: string) => {
     <PublicPoker />
     <!--  -->
     <Poker v-if="roomStore.roomUserInfo.hand_cards[0]"
-      class=" mx-1 z-[9] h-[50px]! poker1 w-[36.216px]!   absolute bottom-[180px] right-[38%]"
+      :show-win="roomStore.win_card.length >= 5 && roomStore.win_card.includes(roomStore.roomUserInfo.hand_cards[0])"
+      :show-lose="roomStore.win_card.length >= 5 && !roomStore.win_card.includes(roomStore.roomUserInfo.hand_cards[0])"
+      class=" mx-1 z-[9] h-[70px]! poker1 w-[52px]!    absolute bottom-[180px] right-[35%]"
       :point="roomStore.roomUserInfo.hand_cards[0]" />
     <Poker v-if="roomStore.roomUserInfo.hand_cards[1]"
-      class=" mx-1 z-[9] h-[50px]! poker2 w-[36.216px]! absolute bottom-[180px] right-[50%]"
+      :show-win="roomStore.win_card.length >= 5 && roomStore.win_card.includes(roomStore.roomUserInfo.hand_cards[1])"
+      :show-lose="roomStore.win_card.length >= 5 && !roomStore.win_card.includes(roomStore.roomUserInfo.hand_cards[1])"
+      class=" mx-1 z-[9] h-[70px]! poker2 w-[52px]!  absolute bottom-[180px] right-[50%]"
       :point="roomStore.roomUserInfo.hand_cards[1]" />
+
+
 
   </AppPage>
   <!-- 扑克牌  -->
   <!-- 操作按钮 v-if="roomStore.action_seat_id == roomStore.sceneMsg.self_seat_id && roomStore.action_second > 0"-->
   <UserBtns />
-  <div @click="; showSetting = !showSetting;"
-    class="pos-fixed! top-1 left-1 z-[2000] w-[40px] h-[40px] flex items-center justify-center bg-[#1a1c23] bg-op-70 rounded-full">
+
+  <div  v-ripple="{ class: `text-info` }" @click="; showSetting = !showSetting;"
+    class="pos-fixed! top-1 left-1 z-[2000] w-[40px] h-[40px] flex items-center justify-center bg-[#1a1c23] bg-op-50 op-80 rounded-full">
     <van-icon name="wap-nav" color="#fff" size="24" />
   </div>
-  <div @click=" showBlindRecord = !showBlindRecord; socketStore.getBlind()"
-    class="pos-fixed! bottom-[1px] left-1 z-[2000] w-[40px] h-[40px] flex items-center justify-center bg-[#1a1c23] bg-op-70 rounded-full">
+  <div  v-ripple="{ class: `text-info` }" @click=" showBlindRecord = !showBlindRecord; socketStore.getBlind()"
+    class="pos-fixed! bottom-[50px] left-1 z-[90] w-[40px] h-[40px] flex items-center justify-center bg-[#1a1c23] bg-op-50 op-80 rounded-full">
     <van-icon name="todo-list" color="#fff" size="24" />
   </div>
-  <div @click=" showChat = !showChat; "
-    class="pos-fixed! bottom-[1px] left-12 z-[2000] w-[40px] h-[40px] flex items-center justify-center bg-[#1a1c23] bg-op-70 rounded-full">
+  <div  v-ripple="{ class: `text-info` }" @click=" showChat = !showChat;"
+    class="pos-fixed! bottom-[50px] left-12 z-[90] w-[40px] h-[40px] flex items-center justify-center bg-[#1a1c23] bg-op-50 op-80 rounded-full">
     <van-icon name="chat-o" color="#fff" size="24" />
   </div>
 
@@ -279,9 +298,18 @@ const getImg = (path: string) => {
   <!-- @on-close="showBuyMoney = !showBuyMoney" -->
   <BalanceBet :show="roomStore.buySeatIds.includes(roomStore.sceneMsg.self_seat_id) && roomStore.buyWaitTime > 0" />
 
-  <!-- <BaoXianBet :show="roomStore.buySeatIds.includes(roomStore.sceneMsg.self_seat_id) && roomStore.buyWaitTime > 0" /> -->
+  <BaoXianBet
+    :show="roomStore.baoxianSeatIds.includes(roomStore.sceneMsg.self_seat_id) && roomStore.baoxianSecond > 0" />
 
   <Chat class="z-999999!" :show="showChat" @onClose="showChat = !showChat" />
 
-  <!-- <WinTitle v-if="roomStore.win_seat_id != -1" /> -->
+
+  <GameUserInfo class="z-999999!" :show="roomStore.showUser" @onClose="roomStore.showUser = !roomStore.showUser" />
+
+  <EnterBuy v-if="userStore.userInfo.tgid != 0" class="z-999999!" :show="roomStore.showBuyEnter"
+    @onClose="roomStore.showBuyEnter = !roomStore.showBuyEnter" />
+  <CheMa v-if="userStore.userInfo.tgid != 0" class="z-999999!" :show="roomStore.showCheMa"
+    @onClose="roomStore.showCheMa = !roomStore.showCheMa" />
+
+  <Test />
 </template>

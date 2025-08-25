@@ -114,11 +114,12 @@ export const useSocketStore = defineStore('socket', () => {
         // 盲注通知
         case 1004:
           roomStore.sceneMsg = data
+          roomStore.setRoomUserInfo()
+
           showToast({
             message: `大盲注${roomStore.sceneMsg.big_blind}，小盲注${roomStore.sceneMsg.little_blind}`
           })
 
-          roomStore.setRoomUserInfo()
           break;
         // 行动时间通知
         case 1005:
@@ -129,7 +130,7 @@ export const useSocketStore = defineStore('socket', () => {
         // 手牌通知
         case 1006:
           if (data.seat_id == roomStore.sceneMsg.self_seat_id) {
-            roomStore.roomUserInfo.hand_cards = data.hand_cards
+            roomStore.roomUserInfo && (roomStore.roomUserInfo.hand_cards = data.hand_cards)
             bus.emit('EventFlyMe')
           } else {
             const seat = roomStore.sceneMsg.seats.find((item) => {
@@ -182,7 +183,16 @@ export const useSocketStore = defineStore('socket', () => {
         // 结果通知
         case 1009:
           roomStore.winSeats = data.win_seat
+          roomStore.win_card = data.win_card
           roomStore.sceneMsg = data.scene_msg
+          roomStore.sceneMsg.seats.forEach((seat) => {
+            if (seat.user) {
+              seat.user.action = -1
+              console.log(seat.user.action);
+            }
+          })
+          roomStore.setRoomUserInfo()
+
           break;
         // 清理桌子
         case 1010:
@@ -200,6 +210,8 @@ export const useSocketStore = defineStore('socket', () => {
             message: `玩家${data.first_name}离开了座位`
           })
           roomStore.sceneMsg = data.scene_msg
+          roomStore.setRoomUserInfo()
+
           // bus.emit('playSound', 'dolikaizuowei')
 
           break;
@@ -214,18 +226,28 @@ export const useSocketStore = defineStore('socket', () => {
             disconnect()
           } else {
             roomStore.sceneMsg = data.scene_msg
+            roomStore.setRoomUserInfo()
           }
           // bus.emit('playSound', 'dolikai')
           break;
 
         case 1013:
-          bus.emit('playSound', 'domaibaoxian')
+          roomStore.sceneMsg = data.scene_msg
+          roomStore.setRoomUserInfo()
 
+          roomStore.baoxianMaxAmount = data.max_buy_amount
+          roomStore.baoxianMinAmount = data.min_buy_amount
+          roomStore.baoxianSecond = data.action_second
+          roomStore.baoxianSeatIds = data.ids
+
+          bus.emit('playSound', 'domaibaoxian')
           break;
         case 1014:
           bus.emit('playSound', 'domairu')
-          roomStore.buyWaitTime = data.wait_time
+
           roomStore.sceneMsg = data.scene_msg
+          roomStore.setRoomUserInfo()
+          roomStore.buyWaitTime = data.wait_time
           roomStore.buySeatIds = data.buy_in_seat_id
           if (userStore.userInfo.balance < roomStore.sceneMsg.min_buy) {
             showNotify({
@@ -247,8 +269,10 @@ export const useSocketStore = defineStore('socket', () => {
           break;
         // 玩家买入后
         case 1017:
-          roomStore.buyWaitTime = data.wait_time
           roomStore.sceneMsg = data.scene_msg
+          roomStore.setRoomUserInfo()
+
+          roomStore.buyWaitTime = data.wait_time
           roomStore.buySeatIds = data.buy_in_seat_id
           if (userStore.userInfo.balance < roomStore.sceneMsg.min_buy) {
             showNotify({
@@ -262,6 +286,8 @@ export const useSocketStore = defineStore('socket', () => {
         // 秀牌
         case 1018:
           roomStore.sceneMsg = data
+          roomStore.setRoomUserInfo()
+
           break
         // 聊天
         case 1020:
@@ -270,7 +296,61 @@ export const useSocketStore = defineStore('socket', () => {
             bus.emit('chat')
           }, 500)
 
+          if (data.length > 2) {
+            return
+          }
+          if (data.length > 0) {
+            bus.emit('chatInfo', data[0])
+          }
           break
+
+        // 玩家买入后
+        case 1021:
+          roomStore.sceneMsg = data.scene_msg
+          roomStore.setRoomUserInfo()
+          roomStore.baoxianMaxAmount = data.max_buy_amount
+          roomStore.baoxianMinAmount = data.min_buy_amount
+          roomStore.baoxianSecond = data.action_second
+          roomStore.baoxianSeatIds = data.ids
+          break;
+        // 玩家买入后
+        case 1022:
+          // roomStore.sceneMsg = data.scene_msg
+          roomStore.sceneMsg.seats.forEach((seat) => {
+            if (seat.user) {
+              let findUser = data.seats.find((s) => {
+                if (s.user) {
+                  if (s.user.id == seat.user.id) {
+                    return s.user
+                  }
+                }
+              })
+
+              if (findUser) {
+                seat.user.balance = findUser.user.balance
+              }
+            }
+          })
+
+          break;
+        // 玩家买入后
+        case 1023:
+          roomStore.sceneMsg.seats.forEach((seat) => {
+            if (seat.user) {
+              let findUser = data.seats.find((s) => {
+                if (s.user) {
+                  if (s.user.id == seat.user.id) {
+                    return s.user
+                  }
+                }
+              })
+
+              if (findUser) {
+                seat.user.balance = findUser.user.balance
+              }
+            }
+          })
+          break;
         // 离开房间通知
         case 501:
           showToast({
@@ -331,6 +411,7 @@ export const useSocketStore = defineStore('socket', () => {
             router.replace('/home')
             // on cancel
           });
+        bus.emit('neterror')
       }
       console.log('WebSocket 连接已关闭');
     }
@@ -384,7 +465,7 @@ export const useSocketStore = defineStore('socket', () => {
 
   const disconnect = () => {
     roomStore.initRoomSceneMsg()
-    leave()
+    // leave()
     clearInterval(heartTimer)
     socket.value?.close()
     socket.value = null
@@ -446,7 +527,7 @@ export const useSocketStore = defineStore('socket', () => {
   //103
   const standUp = () => {
     //
-    if (roomStore.sceneMsg.self_seat_id == -1) {
+    if (roomStore.sceneMsg.self_seat_id <= -1) {
       // showToast({
       //   message: '当前状态无法站立',
       //   position: 'top',
@@ -510,13 +591,13 @@ export const useSocketStore = defineStore('socket', () => {
     }
   }
 
-  // 106
+  // 105
   const buyBaoXian = (money: string) => {
     const data = {
-      action: 106,
+      action: 105,
 
       data: encode(JSON.stringify({
-        bet_amount: money,
+        buy_amount: money,
         // gameId:roomStore.sceneMsg
       }))
     }
@@ -582,7 +663,45 @@ export const useSocketStore = defineStore('socket', () => {
     }
   }
 
+  // 110
+  const sendBuMa = (amount: number) => {
+
+    const data = {
+      action: 110,
+      data: encode(JSON.stringify({
+        amount: amount,
+      }))
+    }
+
+    if (socket.value?.readyState === WebSocket.OPEN) {
+      try {
+        socket.value.send(JSON.stringify(data));
+      } catch (error) {
+        // inRoom.value = false
+      }
+    }
+  }
+
+  // 111
+  const sendCheMa = (amount: number) => {
+
+    const data = {
+      action: 111,
+      data: encode(JSON.stringify({
+        amount: amount,
+      }))
+    }
+
+    if (socket.value?.readyState === WebSocket.OPEN) {
+      try {
+        socket.value.send(JSON.stringify(data));
+      } catch (error) {
+        // inRoom.value = false
+      }
+    }
+  }
 
 
-  return { chatList, init, reconnect, joinRoomAction, disconnect, sitDown, doSomething, standUp, leave, buyMoney, getHand, getBlind, buyBaoXian, sendMsg }
+
+  return { chatList, sendBuMa, sendCheMa, init, reconnect, joinRoomAction, disconnect, sitDown, doSomething, standUp, leave, buyMoney, getHand, getBlind, buyBaoXian, sendMsg }
 })

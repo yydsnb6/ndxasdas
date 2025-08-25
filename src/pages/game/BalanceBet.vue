@@ -28,6 +28,7 @@ const max_buy = computed(() => {
 const buyMoney = ref(10)
 const addBet = () => {
   socketStore.buyMoney((buyMoney.value).toString())
+  buyMoney.value = Number(roomStore.sceneMsg.max_buy)
 }
 
 </script>
@@ -41,21 +42,21 @@ const addBet = () => {
         @click.stop>
         <GlowBorder :color="['#A07CFE', '#FE8FB5', '#FFBE7B']" class="rounded h-[98%]! w-[98%]!" :border-radius="10" />
         <van-slider bar-height="10px" class="w-[95%]! mr-[10px]" active-color="#e1bf65" v-model="buyMoney" :step="5"
-          :min="roomStore.sceneMsg.min_buy" :max="max_buy">
+          :min="Number(roomStore.sceneMsg.min_buy)" :max="max_buy">
           <template #button>
             <img class="w-[30px] aspect-ratio-[266/201]" src="../../assets/imgae/chip_icon.png" alt="" srcset="">
             <!-- <div class="custom-button">{{ buyMoney }}</div> -->
           </template>
         </van-slider>
-        <div class="flex flex-row justify-evenly items-center w-[95%] bg-white bg-op-10 px-[10px] py-[2px] rounded-md">
-          <van-field v-model="buyMoney" type="digit"
-            class="bg-red! text-amber! font-bold  text-center  text-[16px] w-[80px]! bg-op-0!" />
+        <div class="flex flex-row justify-evenly items-center w-[95%] bg-[rgba(255,255,255,0.1)] px-[10px] py-[2px] rounded-md">
+          <van-field v-model="buyMoney" type="number" :min="0" input-align="center"
+            class="bg-[rgba(0,0,0,0)]! text-amber! font-bold  text-center  text-[16px] w-4/5! " />
         </div>
         <div class="flex flex-row justify-between w-full">
-          <van-button block @click="addBet" class="mx-5"  color="linear-gradient(to right, #638ccb, #f2c14b)">
+          <van-button v-ripple="{ class: `text-info` }" block @click="addBet" class="mx-5"  color="linear-gradient(to right, #638ccb, #f2c14b)">
             确认买入${{ buyMoney }}
           </van-button>
-          <van-button block @click="socketStore.standUp();roomStore.sceneMsg.self_seat_id = -1"  class="mx-5" color="#303030">
+          <van-button v-ripple="{ class: `text-info` }" block @click="socketStore.standUp();roomStore.sceneMsg.self_seat_id = -1"  class="mx-5" color="#303030">
             取消
           </van-button>
         </div>
@@ -66,7 +67,7 @@ const addBet = () => {
 </template>
 
 
-<style>
+<style lang="css" scoped>
 .wrapper2 {
   display: flex;
   align-items: end;
@@ -80,8 +81,9 @@ const addBet = () => {
   height: 120px;
 }
 
-.van-field__control {
-  font-size: 20px;
-  color: #ebbb32 !important;
+:deep(.van-field__control){
+  color: var(--my-text) !important;
+  font-size: 20px !important;
 }
+
 </style>

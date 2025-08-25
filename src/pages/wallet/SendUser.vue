@@ -86,7 +86,7 @@ const transfer = () => {
 </template>
 
 
-<style>
+<style lang="css" scoped>
 .wrapper-find {
   display: flex;
   align-items: end;
@@ -99,8 +99,5 @@ const transfer = () => {
   height: 120px;
 }
 
-.van-field__control {
-  font-size: 20px;
-  color: #ebbb32 !important;
-}
+
 </style>

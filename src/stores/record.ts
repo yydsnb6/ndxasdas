@@ -13,20 +13,7 @@ export const useRecordStore = defineStore('record', () => {
   }
 
 
-  const handList = ref<IOutHandCard[]>([
-    {
-      cards: [],
-      opt_item: 0,
-      seat_type: 0,
-      username: "",
-      public_card: [],
-      bet_amount: "",
-      win_amount: "",
-      is_win: false,
-      bet_all_amount: "",
-      card_type: 0
-    }
-  ])
+  const handList = ref<IOutHandCard[]>([])
 
   const get_hand_card_list = async () => {
     handList.value = []

@@ -134,7 +134,7 @@ const neatShuffle = () => {
   </div>
 </template>
 
-<style>
+<style lang="css" scoped>
 /* 瀑布式洗牌动画 */
 .cascade-move {
   transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
