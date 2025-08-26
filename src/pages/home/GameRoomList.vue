@@ -53,7 +53,7 @@ const clickBtn = (type: number) => {
       </template>
     </van-nav-bar>
 
-    <div class="h-[calc(100%-50px)] px-[5px]">
+    <div class="h-[calc(100%-100px)] px-[5px]">
       <div class="flex flex-row justify-start items-center px-2">
         <v-btn v-for="item in btns" :key="item.type" @click="clickBtn(item.type)"
           :style="selectType == item.type ? 'background:var(--my-buttonPrimaryBg); border:var(--my-buttonSecondaryBorder)' : 'background:var(--my-buttonSecondaryBg);border:var(--my-buttonSecondaryBorder)'"
@@ -76,7 +76,7 @@ const clickBtn = (type: number) => {
 
 
               <div class="flex flex-col items-start justify-start flex-1 pl-[5%] text-[14px]"  >
-                <div class="flex flex-row items-center justify-center text-[rgba(0,0,0,0.4)] font-500">
+                <div class="flex flex-row items-center justify-center text-[rgba(0,0,0,0.6)] font-500">
                   <svg t="1753531549045" class="icon" viewBox="0 0 1024 1024" version="1.1"
                     xmlns="http://www.w3.org/2000/svg" p-id="1820" width="20" height="20">
                     <path
@@ -104,7 +104,7 @@ const clickBtn = (type: number) => {
                     <path d="M667.688 341.496l7.875 28.563-40.641 284.09-15.035 11.038z" fill="#C2683E" p-id="1829">
                     </path>
                   </svg>
-                  {{ item.room_name }}({{ item.room_type == 1 ? '长牌' : '短牌' }})
+                  {{ item.room_name }}({{ item.room_type == 1 ? '长牌' : '短牌' }})<span>{{ item.room_id }}</span>
                 </div>
 
                 <div class="flex flex-row items-center justify-center font-bold ">

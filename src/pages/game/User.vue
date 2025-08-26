@@ -7,6 +7,7 @@ import bus from '@/utils/bus';
 import CountDown from './CountDown.vue'
 import bet from '@/assets/sound/bet.mp3'
 import { useSound } from '@vueuse/sound';
+import { useSocketStore } from '@/stores/mysocket';
 const doBet = useSound(bet, { volume: 1 })
 
 const props = defineProps<{
@@ -15,6 +16,7 @@ const props = defineProps<{
   seatInfo: ISeatInfo
 }>()
 const roomStore = useRoomStore()
+const socketStore = useSocketStore()
 
 
 
@@ -99,7 +101,7 @@ const cardType = [
 <template>
 
 
-  <div v-ripple="{ class: `text-info` }" class=" pos-relative " @click="roomStore.getShowUserInfo(props.user.user_id)">
+  <div class=" pos-relative " @click="roomStore.getShowUserInfo(props.user.user_id)">
     <div v-if="props.pos == ESeatPos.Left" class="flex flex-row  text-[var(--my-text)] text-[12px]">
       <div class="flex-col flex justify-center items-center pos-relative">
         <div class="w-[3rem] h-[3rem] pos-relative bg-amber rounded-full "
@@ -120,8 +122,8 @@ const cardType = [
             user.first_name }}</p>
           <van-divider dashed hairline class="m-0! !border-[rgba(255,255,255,0.5)]" />
           <p class="text-amber font-bold border-t text-[10px] border-t-blue">$:{{ Number(props.user.balance).toFixed(2)
-            }}</p>
-          <p v-if="winData.win_seat_id != -1"  :class="`${Number(winData.win_amount) > 0 ? 'text-green!' : ''}`"
+          }}</p>
+          <p v-if="winData.win_seat_id != -1" :class="`${Number(winData.win_amount) > 0 ? 'text-green!' : ''}`"
             class="px-[8px] py-0 absolute  left-[80%] font-bold  bottom-[-1px] rounded  text-[16px] text-[var(--my-text)]">
             {{ `${Number(winData.win_amount) > 0 ? '+' + Number(winData.win_amount).toFixed(2) :
               Number(winData.win_amount).toFixed(2)}` }}</p>
@@ -149,8 +151,8 @@ const cardType = [
             user.first_name }}</p>
           <van-divider dashed hairline class="m-0! !border-[rgba(255,255,255,0.5)]" />
           <p class="text-amber font-bold border-t text-[10px] border-t-blue">$:{{ Number(props.user.balance).toFixed(2)
-            }}</p>
-          <p v-if="winData.win_seat_id != -1"  :class="`${Number(winData.win_amount) > 0 ? 'text-green!' : ''}`"
+          }}</p>
+          <p v-if="winData.win_seat_id != -1" :class="`${Number(winData.win_amount) > 0 ? 'text-green!' : ''}`"
             class=" text-right px-[8px] py-0 absolute  right-[80%]  font-bold  bottom-[-1px] rounded  text-[16px] text-[var(--my-text)]">
             {{ `${Number(winData.win_amount) > 0 ? '+' + Number(winData.win_amount).toFixed(2) :
               Number(winData.win_amount).toFixed(2)}` }}</p>
@@ -183,12 +185,13 @@ const cardType = [
             user.first_name }}</p>
           <van-divider dashed hairline class="m-0! !border-[rgba(255,255,255,0.5)]" />
           <p class="text-amber font-bold border-t text-[10px] border-t-blue">$:{{ Number(props.user.balance).toFixed(2)
-            }}</p>
-        <p v-if="winData.win_seat_id != -1"    :class="`${Number(winData.win_amount) > 0 ? 'text-green!' : ''}`"
+          }}</p>
+          <p v-if="winData.win_seat_id != -1" :class="`${Number(winData.win_amount) > 0 ? 'text-green!' : ''}`"
             class="px-[8px] py-0 absolute  left-[200%] font-bold  top-[-60px] rounded  text-[16px] text-[var(--my-text)]">
             {{ `${Number(winData.win_amount) > 0 ? '+' + Number(winData.win_amount).toFixed(2) :
               Number(winData.win_amount).toFixed(2)}` }}</p>
         </div>
+
       </div>
 
     </div>
@@ -213,12 +216,16 @@ const cardType = [
             user.first_name }}</p>
           <van-divider dashed hairline class="m-0! !border-[rgba(255,255,255,0.5)]" />
           <p class="text-amber font-bold border-t text-[10px] border-t-blue">$:{{ Number(props.user.balance).toFixed(2)
-            }}</p>
-        <p v-if="winData.win_seat_id != -1"  :class="`${Number(winData.win_amount) > 0 ? 'text-green!' : ''}`"
+          }}</p>
+          <p v-if="winData.win_seat_id != -1" :class="`${Number(winData.win_amount) > 0 ? 'text-green!' : ''}`"
             class="px-[8px] py-0 absolute  left-[80%] font-bold  bottom-[-1px] rounded  text-[16px] text-[var(--my-text)]">
             {{ `${Number(winData.win_amount) > 0 ? '+' + Number(winData.win_amount).toFixed(2) :
               Number(winData.win_amount).toFixed(2)}` }}</p>
         </div>
+
+
+
+
       </div>
     </div>
 
@@ -229,18 +236,30 @@ const cardType = [
     <CountDown v-if="roomStore.action_second > 0 && roomStore.action_seat_id == props.seatInfo.seat_id"
       class="!pos-absolute top-[-1px] left-[3.2px] w-[3.2rem]! h-[3.2rem]! z-[9999] bg-[#000] bg-op-50 rounded-full"
       :duration="roomStore.action_second" progress-color="#3498db" auto-start progressColorBg="rgba(0,0,0,0.5)"
-      :pos-y="roomStore.sceneMsg.self_seat_id == props.seatInfo.seat_id ? 60  : 80"
+      :pos-y="roomStore.sceneMsg.self_seat_id == props.seatInfo.seat_id ? 60 : 80"
       @completed="() => { roomStore.action_second = 0 }" />
     <CountDown v-if="roomStore.buyWaitTime > 0 && roomStore.buySeatIds.includes(props.seatInfo.seat_id)"
       class="!pos-absolute top-[-1px] left-[3.2px] w-[3.2rem]! h-[3.2rem]! z-[9999] bg-[#000] bg-op-50 rounded-full"
       :duration="roomStore.buyWaitTime" progress-color="#3498db" auto-start progressColorBg="rgba(0,0,0,0.5)"
       @completed="() => { roomStore.buyWaitTime = 0 }"
-      :pos-y="roomStore.sceneMsg.self_seat_id == props.seatInfo.seat_id ? 60  : 80"/>
+      :pos-y="roomStore.sceneMsg.self_seat_id == props.seatInfo.seat_id ? 60 : 80" />
     <CountDown v-if="roomStore.baoxianSecond > 0 && roomStore.baoxianSeatIds.includes(props.seatInfo.seat_id)"
       class="!pos-absolute top-[-1px] left-[3.2px] w-[3.2rem]! h-[3.2rem]! z-[9999] bg-[#000] bg-op-50 rounded-full"
       :duration="roomStore.baoxianSecond" progress-color="#3498db" auto-start progressColorBg="rgba(0,0,0,0.5)"
       @completed="() => { roomStore.baoxianSecond = 0 }"
-      :pos-y="roomStore.sceneMsg.self_seat_id == props.seatInfo.seat_id ? 60  : 80"/>
+      :pos-y="roomStore.sceneMsg.self_seat_id == props.seatInfo.seat_id ? 60 : 80" />
+
+    <v-btn v-if="roomStore.can_look_card_seat_ids.includes(roomStore.sceneMsg.self_seat_id) && props.pos == ESeatPos.Bottom"   class="right-[-80px] w-[3rem] h-[3rem] op-80 pos-absolute bottom-[35px]  z-[90]"
+      @click.stop="socketStore.lookCard()"
+      style="background:var(--my-buttonPrimaryBg); border:var(--my-buttonSecondaryBorder)" height="25" min-width="50">
+      <p class="text-[var(--my-buttonPrimaryText)] text-[10px] font-bold">偷偷看</p>
+      <div
+        class="h-[20px] pos-absolute bottom-[-24px] flex flex-row bg-[rgba(0,0,0,0.4)] w-[80%] rounded items-center justify-center">
+        <img src="../../assets/imgae/m_icon.png" class="w-[12px] h-[12px] " alt="" srcset="">
+        <p class=" text-[var(--my-text)] mx-1 text-[10px]">{{ roomStore.look_card_amount }}</p>
+      </div>
+    </v-btn>
+
   </div>
 
 </template>

@@ -50,15 +50,18 @@ export const useRoomStore = defineStore('room', () => {
     hand_card_size: 0,
     opt_item: [],
     hand_cards: [0, 0],
+    remain_balance:"0"
   })
   const action_seat_id = ref(-2)
   const action_second = ref(0)
   const opt_items = ref([2, 3, 4, 5, 6])
 
   const buyWaitTime = ref(0)
+  const look_card_amount = ref(0)
   const buySeatIds = ref<number[]>([])
   const winSeats = ref<IWinSeat[]>([])
   const win_card = ref<number[]>([])
+  const can_look_card_seat_ids = ref<number[]>([])
 
 
   const baoxianSecond = ref(0)
@@ -173,6 +176,7 @@ export const useRoomStore = defineStore('room', () => {
     if (findUser) {
       roomUserInfo.value = findUser.user
       roomUserInfo.value.balance = Number(roomUserInfo.value.balance)
+      userStore.userInfo.balance = Number(roomUserInfo.value.remain_balance)
     }
   }
 
@@ -220,6 +224,8 @@ export const useRoomStore = defineStore('room', () => {
   }
 
   const initRoomSceneMsg = () => {
+    look_card_amount.value = 0
+    can_look_card_seat_ids.value = []
     showBuyEnter.value = false
     showCheMa.value = false
     showUser.value = false
@@ -266,6 +272,8 @@ export const useRoomStore = defineStore('room', () => {
       hand_card_size: 0,
       opt_item: [],
       hand_cards: [0, 0],
+      remain_balance:"0"
+
     }
     baoxianSecond.value = 0
     baoxianMaxAmount.value = 0
@@ -283,12 +291,16 @@ export const useRoomStore = defineStore('room', () => {
   const initWinSeat = () => {
     winSeats.value = []
     win_card.value = []
+    look_card_amount.value = 0
+    can_look_card_seat_ids.value = []
   }
 
   const showBuyEnter = ref(false)
   const showCheMa = ref(false)
 
   return {
+    look_card_amount,
+    can_look_card_seat_ids,
     baoxianMinAmount,
     baoxianSecond,
     baoxianMaxAmount,

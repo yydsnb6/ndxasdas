@@ -30,7 +30,6 @@ export const useSocketStore = defineStore('socket', () => {
   const maxTimeOutTimers = 3
   let timeOutTimers = 0
   const headrtSendTime = 1000 //*60*60*24 //3000
-  let mang = 0;
   const init = () => {
     userStore.loadingText = '正在加入房间。。。'
     userStore.showLoading = true
@@ -182,6 +181,8 @@ export const useSocketStore = defineStore('socket', () => {
           break;
         // 结果通知
         case 1009:
+          roomStore.can_look_card_seat_ids = data.can_look_card_seat_ids
+          roomStore.look_card_amount = data.look_card_amount
           roomStore.winSeats = data.win_seat
           roomStore.win_card = data.win_card
           roomStore.sceneMsg = data.scene_msg
@@ -315,41 +316,82 @@ export const useSocketStore = defineStore('socket', () => {
           break;
         // 玩家买入后
         case 1022:
-          // roomStore.sceneMsg = data.scene_msg
-          roomStore.sceneMsg.seats.forEach((seat) => {
-            if (seat.user) {
-              let findUser = data.seats.find((s) => {
-                if (s.user) {
-                  if (s.user.id == seat.user.id) {
-                    return s.user
-                  }
-                }
-              })
+          roomStore.sceneMsg = data
+          roomStore.setRoomUserInfo()
+          // roomStore.sceneMsg.seats.forEach((seat) => {
+          //   if (seat.user) {
+          //     let findUser = data.seats.find((s) => {
+          //       if (s.user) {
+          //         if (s.user.id == seat.user.id) {
+          //           return s.user
+          //         }
+          //       }
+          //     })
 
-              if (findUser) {
-                seat.user.balance = findUser.user.balance
-              }
-            }
-          })
+          //     if (findUser) {
+          //       seat.user.balance = findUser.user.balance
+          //     }
+          //   }
+          // })
 
+          // if (roomStore.roomUserInfo.id != 0) {
+          //    let findUser = data.seats.find((s) => {
+          //       if (s.user) {
+          //         if (s.user.id == roomStore.roomUserInfo.id) {
+          //           return s.user
+          //         }
+          //       }
+          //     })
+          //     if (findUser) {
+          //       roomStore.roomUserInfo.remain_balance = findUser.user.remain_balance
+          //       roomStore.roomUserInfo.balance = findUser.user.balance
+          //     }
+          // }
           break;
         // 玩家买入后
         case 1023:
+          roomStore.sceneMsg = data
+          roomStore.setRoomUserInfo()
+
+          // roomStore.sceneMsg.seats.forEach((seat) => {
+          //   if (seat.user) {
+          //     let findUser = data.seats.find((s) => {
+          //       if (s.user) {
+          //         if (s.user.id == seat.user.id) {
+          //           return s.user
+          //         }
+          //       }
+          //     })
+
+          //     if (findUser) {
+          //       seat.user.balance = findUser.user.balance
+          //     }
+          //   }
+          // })
+          //    if (roomStore.roomUserInfo.id != 0) {
+          //    let findUser = data.seats.find((s) => {
+          //       if (s.user) {
+          //         if (s.user.id == roomStore.roomUserInfo.id) {
+          //           return s.user
+          //         }
+          //       }
+          //     })
+          //     if (findUser) {
+          //       roomStore.roomUserInfo.remain_balance = findUser.user.remain_balance
+          //       roomStore.roomUserInfo.balance = findUser.user.balance
+          //     }
+          // }
+          break;
+        case 1024:
+          roomStore.can_look_card_seat_ids = []
+          roomStore.look_card_amount = 0
+          roomStore.sceneMsg = data
           roomStore.sceneMsg.seats.forEach((seat) => {
             if (seat.user) {
-              let findUser = data.seats.find((s) => {
-                if (s.user) {
-                  if (s.user.id == seat.user.id) {
-                    return s.user
-                  }
-                }
-              })
-
-              if (findUser) {
-                seat.user.balance = findUser.user.balance
-              }
+              seat.user.action = -1
             }
           })
+          roomStore.setRoomUserInfo()
           break;
         // 离开房间通知
         case 501:
@@ -379,7 +421,6 @@ export const useSocketStore = defineStore('socket', () => {
           break;
       }
 
-      mang = 0
       // if (msg.data instanceof Blob) {
       //   const reader = new FileReader()
       //   // console.log(msg.data);
@@ -701,7 +742,23 @@ export const useSocketStore = defineStore('socket', () => {
     }
   }
 
+  // 112
+  const lookCard = () => {
+    const data = {
+      action: 112,
+      data: ''
+    }
+
+    if (socket.value?.readyState === WebSocket.OPEN) {
+      try {
+        socket.value.send(JSON.stringify(data));
+      } catch (error) {
+        // inRoom.value = false
+      }
+    }
+  }
 
 
-  return { chatList, sendBuMa, sendCheMa, init, reconnect, joinRoomAction, disconnect, sitDown, doSomething, standUp, leave, buyMoney, getHand, getBlind, buyBaoXian, sendMsg }
+
+  return { chatList, lookCard, sendBuMa, sendCheMa, init, reconnect, joinRoomAction, disconnect, sitDown, doSomething, standUp, leave, buyMoney, getHand, getBlind, buyBaoXian, sendMsg }
 })

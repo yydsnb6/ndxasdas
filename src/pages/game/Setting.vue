@@ -37,7 +37,7 @@ const standUp = () => {
 }
 
 const recordStore = useRecordStore()
-const onClickLeft = ()=>{
+const onClickLeft = () => {
   socketStore.disconnect()
   router.replace('/home')
 };
@@ -52,7 +52,7 @@ const onClickLeft = ()=>{
         @click.stop>
         <GlowBorder :color="['#A07CFE', '#FE8FB5', '#FFBE7B']" class="rounded h-[98%]! w-[98%]!" :border-radius="10" />
         <UserAvatr />
-        <div  v-ripple="{ class: `text-info` }" @click=" showPokerRule = !showPokerRule; emit('onClose');"
+        <div v-ripple="{ class: `text-info` }" @click=" showPokerRule = !showPokerRule; emit('onClose');"
           class="border-0 border-[rgba(255,255,255,0.1)] border-t-1 border-solid pt-2 flex  mb-2 flex-row w-auto px-2  text-white font-bold ">
           <svg t="1751739901153" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
             p-id="11123" width="20" height="20">
@@ -63,7 +63,7 @@ const onClickLeft = ()=>{
 
           <p class="ml-5">牌型大小</p>
         </div>
-        <div  v-ripple="{ class: `text-info` }" @click=" showPokerRule = !showPokerRule; emit('onClose');"
+        <div v-ripple="{ class: `text-info` }" @click=" showPokerRule = !showPokerRule; emit('onClose');"
           class="border-0 border-[rgba(255,255,255,0.1)] border-t-1 border-solid pt-2 flex  mb-2 flex-row w-auto px-2  text-white font-bold  items-center">
           <svg t="1751740212931" class="icon" viewBox="0 0 1506 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
             p-id="12183" width="20" height="20">
@@ -88,7 +88,8 @@ const onClickLeft = ()=>{
           </svg>
           <p class="ml-5">玩法教学</p>
         </div>
-        <div  v-ripple="{ class: `text-info` }" @click="showHandRecord = !showHandRecord; emit('onClose'); recordStore.get_hand_card_list()"
+        <div v-ripple="{ class: `text-info` }"
+          @click="showHandRecord = !showHandRecord; emit('onClose'); recordStore.get_hand_card_list()"
           class="border-0 border-[rgba(255,255,255,0.1)] border-t-1 border-solid pt-2 flex  mb-2 flex-row w-auto px-2  text-white font-bold ">
           <svg t="1751740318027" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
             p-id="16527" width="20" height="20">
@@ -106,19 +107,14 @@ const onClickLeft = ()=>{
               d="M512 1024c-56.096-89.344-97.184-137.728-123.296-145.184C201.216 825.248 64 652.672 64 448 64 200.576 264.576 0 512 0s448 200.576 448 448c0 203.168-135.232 374.72-320.608 429.632-26.88 7.968-69.376 56.768-127.392 146.368z m280.32-811.2l-16.416-2.4L515.2 160h-4.672L256.864 210.4l-23.456 2.4c-4.704 0-9.408 4.8-9.408 12v331.2c0 21.6 4.704 43.2 16.448 64.8 9.376 21.6 23.488 40.8 39.904 60 16.448 19.2 35.232 36 54.016 52.8 21.12 16.8 39.936 31.2 61.056 45.6 21.152 14.4 42.272 24 61.088 33.6 18.784 9.6 37.568 14.4 51.648 19.2h11.744l7.04-2.4c14.08-2.4 32.896-9.6 51.68-19.2s39.904-19.2 58.72-33.6c21.12-12 39.904-28.8 58.688-45.6s37.6-36 51.68-55.2c16.448-19.2 28.16-38.4 37.568-60 9.408-21.6 14.08-43.2 14.08-64.8v-326.4c2.368-4.8-2.336-9.6-7.04-12z m-243.808 351.104h130.976c21.984 0 39.84 18.24 39.84 40.8s-17.856 40.832-39.84 40.832H548.48v78.72c0 24.16-19.104 43.744-42.688 43.744-23.584 0-42.72-19.584-42.72-43.744v-78.72H332.16c-22.016 0-39.84-18.272-39.84-40.832 0-22.528 17.824-40.8 39.84-40.8h130.944v-72.864H332.16c-22.016 0-39.84-18.24-39.84-40.8 0-22.528 17.824-40.8 39.84-40.8h106.752L349.984 308.48c-11.008-19.52-4.48-44.48 14.592-55.776a39.36 39.36 0 0 1 54.464 14.976l86.656 96.96 86.656-96.96a39.36 39.36 0 0 1 54.432-14.976c19.072 11.264 25.6 36.256 14.592 55.776l-88.864 100.928h106.976c21.984 0 39.84 18.24 39.84 40.8 0 22.528-17.856 40.8-39.84 40.8H548.48v72.864z"
               fill="#ffffff" p-id="16528"></path>
           </svg>
-          <p class="ml-5">保险规则</p>
+          <p class="ml-5">保险回顾</p>
         </div> -->
-        <!-- <div  v-ripple="{ class: `text-info` }" @click="showBaoXian = !showBaoXian; emit('onClose');"
+        <!-- <div v-ripple="{ class: `text-info` }" @click="showHandRecord = !showHandRecord; emit('onClose');"
           class="border-0 border-[rgba(255,255,255,0.1)] border-t-1 border-solid pt-2 flex  mb-2 flex-row w-auto px-2  text-white font-bold ">
-          <svg t="1751740318027" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
-            p-id="16527" width="20" height="20">
-            <path
-              d="M512 1024c-56.096-89.344-97.184-137.728-123.296-145.184C201.216 825.248 64 652.672 64 448 64 200.576 264.576 0 512 0s448 200.576 448 448c0 203.168-135.232 374.72-320.608 429.632-26.88 7.968-69.376 56.768-127.392 146.368z m280.32-811.2l-16.416-2.4L515.2 160h-4.672L256.864 210.4l-23.456 2.4c-4.704 0-9.408 4.8-9.408 12v331.2c0 21.6 4.704 43.2 16.448 64.8 9.376 21.6 23.488 40.8 39.904 60 16.448 19.2 35.232 36 54.016 52.8 21.12 16.8 39.936 31.2 61.056 45.6 21.152 14.4 42.272 24 61.088 33.6 18.784 9.6 37.568 14.4 51.648 19.2h11.744l7.04-2.4c14.08-2.4 32.896-9.6 51.68-19.2s39.904-19.2 58.72-33.6c21.12-12 39.904-28.8 58.688-45.6s37.6-36 51.68-55.2c16.448-19.2 28.16-38.4 37.568-60 9.408-21.6 14.08-43.2 14.08-64.8v-326.4c2.368-4.8-2.336-9.6-7.04-12z m-243.808 351.104h130.976c21.984 0 39.84 18.24 39.84 40.8s-17.856 40.832-39.84 40.832H548.48v78.72c0 24.16-19.104 43.744-42.688 43.744-23.584 0-42.72-19.584-42.72-43.744v-78.72H332.16c-22.016 0-39.84-18.272-39.84-40.832 0-22.528 17.824-40.8 39.84-40.8h130.944v-72.864H332.16c-22.016 0-39.84-18.24-39.84-40.8 0-22.528 17.824-40.8 39.84-40.8h106.752L349.984 308.48c-11.008-19.52-4.48-44.48 14.592-55.776a39.36 39.36 0 0 1 54.464 14.976l86.656 96.96 86.656-96.96a39.36 39.36 0 0 1 54.432-14.976c19.072 11.264 25.6 36.256 14.592 55.776l-88.864 100.928h106.976c21.984 0 39.84 18.24 39.84 40.8 0 22.528-17.856 40.8-39.84 40.8H548.48v72.864z"
-              fill="#ffffff" p-id="16528"></path>
-          </svg>
-          <p class="ml-5">返水规则</p>
-        </div> -->
-        <div  v-ripple="{ class: `text-info` }" @click="showTheme = !showTheme; emit('onClose')"
+         <svg t="1756224008997" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4599" width="20" height="20"><path d="M441.6 306.8L403 288.6c-3.3-1.6-7.3 0.2-8.4 3.7-17.5 58.5-45.2 110.1-82.2 153.6-1.3 1.6-1.8 3.7-1.2 5.6l13.2 43.5c1.3 4.4 7 5.7 10.2 2.4 7.7-8.1 15.4-16.9 23.1-26V656c0 4.4 3.6 8 8 8H403c4.4 0 8-3.6 8-8V393.1c13.8-25.1 25.1-51.7 33.6-79 1-2.9-0.3-6-3-7.3z m26.8 9.2v127.2c0 4.4 3.6 8 8 8h65.9v18.6h-94.9c-4.4 0-8 3.6-8 8v35.6c0 4.4 3.6 8 8 8h55.1c-19.1 30.8-42.4 55.7-71 76-2.6 1.8-3.3 5.4-1.6 8.1l22.8 36.5c1.9 3.1 6.2 3.8 8.9 1.4 31.6-26.8 58.7-62.9 80.6-107.6v120c0 4.4 3.6 8 8 8h36.2c4.4 0 8-3.6 8-8V536c21.3 41.7 47.5 77.5 78.1 106.9 2.6 2.5 6.8 2.1 8.9-0.7l26.3-35.3c2-2.7 1.4-6.5-1.2-8.4-30.5-22.6-54.2-47.8-72.3-76.9h59c4.4 0 8-3.6 8-8V478c0-4.4-3.6-8-8-8h-98.8v-18.6h66.7c4.4 0 8-3.6 8-8V316c0-4.4-3.6-8-8-8H476.4c-4.4 0-8 3.6-8 8z m51.5 42.8h97.9v41.6h-97.9v-41.6z" p-id="4600" fill="#ffffff"></path><path d="M866.9 169.9L527.1 54.1C523 52.7 517.5 52 512 52s-11 0.7-15.1 2.1L157.1 169.9c-8.3 2.8-15.1 12.4-15.1 21.2v482.4c0 8.8 5.7 20.4 12.6 25.9L499.3 968c3.5 2.7 8 4.1 12.6 4.1s9.2-1.4 12.6-4.1l344.7-268.6c6.9-5.4 12.6-17 12.6-25.9V191.1c0.2-8.8-6.6-18.3-14.9-21.2zM810 654.3L512 886.5 214 654.3V226.7l298-101.6 298 101.6v427.6z" p-id="4601" fill="#ffffff"></path></svg>
+          <p class="ml-5">保险回顾</p>
+        </div>
+        <div v-ripple="{ class: `text-info` }" @click="showTheme = !showTheme; emit('onClose')"
           class="border-0 border-[rgba(255,255,255,0.1)] border-t-1 border-solid pt-2 flex  mb-2 flex-row w-auto px-2  text-white font-bold ">
           <svg t="1751740357188" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
             p-id="20376" id="mx_n_1751740357189" width="20" height="20">
@@ -127,10 +123,10 @@ const onClickLeft = ()=>{
               p-id="20377" fill="#ffffff"></path>
           </svg>
           <p class="ml-5">主题</p>
-        </div>
+        </div> -->
 
 
-        <div  v-ripple="{ class: `text-info` }" @click="standUp"
+        <div v-ripple="{ class: `text-info` }" @click="standUp"
           class="border-0 border-[rgba(255,255,255,0.1)] border-t-1 border-solid pt-2 flex  mb-2 flex-row w-auto px-2  text-white font-bold ">
           <svg t="1752902034658" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
             p-id="33746" width="20" height="20">
@@ -141,7 +137,8 @@ const onClickLeft = ()=>{
           <p class="ml-5">站起</p>
         </div>
 
-        <div v-ripple="{ class: `text-info` }" v-if="roomStore.sceneMsg.self_seat_id  > -1" @click="roomStore.showBuyEnter = !roomStore.showBuyEnter; emit('onClose')"
+        <div v-ripple="{ class: `text-info` }" v-if="roomStore.sceneMsg.self_seat_id > -1"
+          @click="roomStore.showBuyEnter = !roomStore.showBuyEnter; emit('onClose')"
           class=" justify-between  border-0 border-[rgba(255,255,255,0.1)] border-t-1 border-solid pt-2 flex  mb-2 flex-row w-auto px-2  text-white font-bold ">
           <div class="flex flex-row">
             <svg t="1755787387097" class="icon" viewBox="0 0 1601 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
@@ -278,7 +275,9 @@ const onClickLeft = ()=>{
 
         </div>
 
-        <div v-ripple="{ class: `text-info` }" v-if="roomStore.sceneMsg.room_type == 2 && roomStore.sceneMsg.self_seat_id  > -1" @click="roomStore.showCheMa = !roomStore.showCheMa; emit('onClose')"
+        <div v-ripple="{ class: `text-info` }"
+          v-if="roomStore.sceneMsg.room_type == 2 && roomStore.sceneMsg.self_seat_id > -1"
+          @click="roomStore.showCheMa = !roomStore.showCheMa; emit('onClose')"
           class=" justify-between  border-0 border-[rgba(255,255,255,0.1)] border-t-1 border-solid pt-2 flex  mb-2 flex-row w-auto px-2  text-white font-bold ">
           <div class="flex flex-row">
             <svg t="1755787387097" class="icon" viewBox="0 0 1601 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
@@ -463,13 +462,32 @@ const onClickLeft = ()=>{
           <p class="ml-5">退出游戏</p>
         </div>
         <div
-          class="border-0 border-[rgba(255,255,255,0.1)] border-t-1 border-solid pt-2 flex my-2 flex-row w-auto px-2 text-white font-bold justify-between">
+          class="border-0 border-[rgba(255,255,255,0.1)] border-t-1 border-solid pt-2 flex  flex-row w-auto px-2 text-white font-bold justify-between">
           <!-- <div class="flex flex-row items-center ">
             <img src="../../assets/imgae/m_icon.png" class="w-[20px] h-[20px] mr-2" alt="" srcset="">
             <p class="text-[16px]"></p>
           </div> -->
-          <UserBalance :userStore="userStore" class="w-full" />
+          <!-- <UserBalance :userStore="userStore" class="w-full" /> -->
+          <div
+            class="w-full flex flex-row items-center border-2 border-solid rounded-full px-2 py-1 justify-between border-[var(--my-text)]">
+            <svg @click="router.push('/wallet')" t="1756224806632" class="icon" viewBox="0 0 1024 1024" version="1.1"
+              xmlns="http://www.w3.org/2000/svg" p-id="5721" width="20" height="20">
+              <path
+                d="M1023.082985 511.821692c0 281.370746-228.08199 509.452736-509.452736 509.452736-281.360557 0-509.452736-228.08199-509.452737-509.452736 0-281.365652 228.092179-509.452736 509.452737-509.452737 281.370746 0 509.452736 228.087085 509.452736 509.452737"
+                fill="#1BA27A" p-id="5722"></path>
+              <path
+                d="M752.731701 259.265592h-482.400796v116.460896h182.969951v171.176119h116.460895v-171.176119h182.96995z"
+                fill="#FFFFFF" p-id="5723"></path>
+              <path
+                d="M512.636816 565.13592c-151.358408 0-274.070289-23.954468-274.070289-53.50782 0-29.548259 122.706786-53.507821 274.070289-53.507821 151.358408 0 274.065194 23.959562 274.065194 53.507821 0 29.553353-122.706786 53.507821-274.065194 53.50782m307.734925-44.587303c0-38.107065-137.776398-68.995184-307.734925-68.995184-169.953433 0-307.74002 30.888119-307.74002 68.995184 0 33.557652 106.837333 61.516418 248.409154 67.711363v245.729433h116.450707v-245.632637c142.66205-6.001353 250.615085-34.077294 250.615084-67.808159"
+                fill="#FFFFFF" p-id="5724"></path>
+            </svg>
+            <p  class=" text-[var(--my-text)] mx-1"> {{ Number(roomStore.roomUserInfo.remain_balance) <= 0 ? userStore.userInfo.balance : roomStore.roomUserInfo.remain_balance }}</p>
+            <van-icon class="op-0 rotate-[18deg]!"  name="replay" size="20" color="#fff"
+               />
+          </div>
         </div>
+
       </div>
     </div>
   </van-overlay>

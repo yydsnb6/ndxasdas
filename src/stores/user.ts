@@ -2,14 +2,13 @@ import { defineStore } from "pinia"
 import { ref } from "vue"
 import { EPlayerStatus, IOptItem, type IUserInfo } from "@/utils/interface"
 import api from "@/api/api"
-import LocalUtil from "@/utils/LocalUtil"
 import { useSocketStore } from "./mysocket"
 import { useRoomStore } from "./room"
 import { showLoadingToast } from "vant"
 import { useRecordStore } from "./record"
 
 export const useUserStore = defineStore('user', () => {
-  const token = ref(LocalUtil.stringForKey('token'))
+  const token = ref()
   const userInfo = ref<IUserInfo>({
     tgid: 0,
     user_name: "",
@@ -36,41 +35,58 @@ export const useUserStore = defineStore('user', () => {
     total_win_number: 0,
     is_auto_buy: false,
     auto_buy_amount: 0,
-    id: 0
+    id: 0,
+    remain_balance: "0"
   })
-  const tgid = ref<number>(Number(LocalUtil.stringForKey('tgid', '-1')))
+  const tgid = ref<number>(-1)
   const socketStore = useSocketStore()
   const roomStore = useRoomStore()
   const recoredStore = useRecordStore()
-  const login = async (req_data: { first_name: string; head_url: string; last_name: string; tgid: number; user_name: string, agent_id?: number }) => {
+  const login = async (req_data: { first_name: string; head_url: string; last_name: string; tgid: number; user_name: string, agent_id?: number }, inGame?: boolean) => {
     showLoading.value = true
-    // const { data } = await api.login(req_data)
-
-    api.login(req_data).then((res: any) => {
-      console.log(res);
-
-      if (res.code == 200) {
-        showLoading.value = false
-        token.value = res.data.token
-        userInfo.value = res.data.user_info
-        console.log("登录结果", res.data);
-        tgid.value = res.data.user_info.tgid
-        recoredStore.getBanner()
-
-      } else {
+    if (inGame) {
+      roomStore.initRoomSceneMsg()
+      loadingText.value = '正在加入房间。。。'
+      api.login(req_data).then((res: any) => {
+        console.log(res);
+        if (res.code == 200) {
+          showLoading.value = false
+          token.value = res.data.token
+          userInfo.value = res.data.user_info
+          tgid.value = res.data.user_info.tgid
+          setTimeout(() => {
+            socketStore.init()
+          }, 2000);
+        } else {
+          login(req_data)
+        }
+      }).catch((e) => {
         login(req_data)
-      }
-    }).catch((e) => {
-      login(req_data)
-    }).finally(() => {
-    })
-
-
-
+      }).finally(() => {
+      })
+    } else {
+      api.login(req_data).then((res: any) => {
+        console.log(res);
+        if (res.code == 200) {
+          showLoading.value = false
+          token.value = res.data.token
+          userInfo.value = res.data.user_info
+          console.log("登录结果", res.data);
+          tgid.value = res.data.user_info.tgid
+          recoredStore.getBanner()
+        } else {
+          login(req_data)
+        }
+      }).catch((e) => {
+        login(req_data)
+      }).finally(() => {
+      })
+    }
   }
 
-  const getUserInfo = async (inGame: boolean = false) => {
 
+
+  const getUserInfo = async (inGame: boolean = false) => {
     if (token.value) {
       if (inGame) {
         roomStore.initRoomSceneMsg()

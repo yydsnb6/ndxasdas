@@ -529,8 +529,7 @@ const clearTable = () => {
 
 
   <!-- ${roomStore.win_card.includes(0) ? 'scale-element' : ''} -->
-  <div style="right: 70%;bottom: 44%;opacity: 1; " :class="`ppoker0  `"
-    class="  absolute  h-[66px]! w-[47.78px]!">
+  <div style="right: 70%;bottom: 44%;opacity: 1; " :class="`ppoker0  `" class="  absolute  h-[66px]! w-[47.78px]!">
     <div class="w-full h-full" :class="`relative`">
       <Poker
         :show-win="roomStore.win_card.length >= 5 && roomStore.win_card.includes(roomStore.sceneMsg?.public_card[0])"
@@ -538,8 +537,7 @@ const clearTable = () => {
         :point="roomStore.sceneMsg?.public_card[0]" v-if="roomStore.sceneMsg?.public_card[0] != 0" />
     </div>
   </div>
-  <div style="right: 57%;bottom: 44%;opacity: 1; " :class="`ppoker1  `"
-    class="  absolute  h-[66px]! w-[47.78px]!">
+  <div style="right: 57%;bottom: 44%;opacity: 1; " :class="`ppoker1  `" class="  absolute  h-[66px]! w-[47.78px]!">
     <div class="w-full h-full" :class="`relative`">
       <Poker
         :show-win="roomStore.win_card.length >= 5 && roomStore.win_card.includes(roomStore.sceneMsg?.public_card[1])"
@@ -547,8 +545,7 @@ const clearTable = () => {
         :point="roomStore.sceneMsg?.public_card[1]" v-if="roomStore.sceneMsg?.public_card[1] != 0" />
     </div>
   </div>
-  <div style="right: 44%;bottom: 44%;opacity: 1; " :class="`ppoker2  `"
-    class="  absolute  h-[66px]! w-[47.78px]! ">
+  <div style="right: 44%;bottom: 44%;opacity: 1; " :class="`ppoker2  `" class="  absolute  h-[66px]! w-[47.78px]! ">
     <div class="w-full h-full" :class="`relative`">
       <Poker
         :show-win="roomStore.win_card.length >= 5 && roomStore.win_card.includes(roomStore.sceneMsg?.public_card[2])"
@@ -556,8 +553,7 @@ const clearTable = () => {
         :point="roomStore.sceneMsg?.public_card[2]" v-if="roomStore.sceneMsg?.public_card[2] != 0" />
     </div>
   </div>
-  <div style="right: 31%;bottom: 44%;opacity: 1; " :class="`ppoker3  `"
-    class="  absolute  h-[66px]! w-[47.78px]!">
+  <div style="right: 31%;bottom: 44%;opacity: 1; " :class="`ppoker3  `" class="  absolute  h-[66px]! w-[47.78px]!">
     <div class="w-full h-full" :class="`relative`">
       <Poker
         :show-win="roomStore.win_card.length >= 5 && roomStore.win_card.includes(roomStore.sceneMsg?.public_card[3])"
@@ -565,8 +561,7 @@ const clearTable = () => {
         :point="roomStore.sceneMsg?.public_card[3]" v-if="roomStore.sceneMsg?.public_card[3] != 0" />
     </div>
   </div>
-  <div style="right: 18%;bottom: 44%;opacity: 1; " :class="`ppoker4  `"
-    class="  absolute  h-[66px]! w-[47.78px]!">
+  <div style="right: 18%;bottom: 44%;opacity: 1; " :class="`ppoker4  `" class="  absolute  h-[66px]! w-[47.78px]!">
     <div class="w-full h-full" :class="`relative`">
       <Poker
         :show-win="roomStore.win_card.length >= 5 && roomStore.win_card.includes(roomStore.sceneMsg?.public_card[4])"
@@ -574,6 +569,16 @@ const clearTable = () => {
         :point="roomStore.sceneMsg?.public_card[4]" v-if="roomStore.sceneMsg?.public_card[4] != 0" />
     </div>
   </div>
+
+  <!-- <v-btn class="w-[3rem] h-[3rem] op-80 pos-absolute bottom-[52%] left-[44%]  z-[999]" @click.stop=""
+    style="background:var(--my-buttonPrimaryBg); border:var(--my-buttonSecondaryBorder)" height="25" min-width="50">
+    <p class="text-[var(--my-buttonPrimaryText)] text-[10px] font-bold">偷偷看</p>
+    <div
+      class="h-[20px] pos-absolute bottom-[-24px] flex flex-row bg-[rgba(0,0,0,0.4)] w-[80%] rounded items-center justify-center">
+      <img src="../../assets/imgae/m_icon.png" class="w-[12px] h-[12px] " alt="" srcset="">
+      <p class=" text-[var(--my-text)] mx-1 text-[10px]">2</p>
+    </div>
+  </v-btn> -->
 </template>
 
 

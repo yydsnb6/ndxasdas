@@ -13,10 +13,10 @@ const props = defineProps<{
 }>()
 
 const posArr = [
-  [-15, 40],
+  [-10, 40],
   [55, 5],
-  [-25, 20],
-  [55, 20]
+  [-15, 30],
+  [48, 30]
 ]
 // let currentSeatId: string | number | null | undefined = null;
 
@@ -140,9 +140,10 @@ const getActionText = computed(() => {
   <div  class="pos-relative h-[90px] " :id="`poker_pos${props.seatInfo?.seat_id}`">
     <User :seat-info="props.seatInfo" v-if="props.seatInfo?.user" :pos="props.seatPos" :user="props.seatInfo.user" />
     <Chair :seat_id="props.seatInfo?.seat_id" v-else />
+    <!-- v-if="roomStore.sceneMsg.button == props.seatInfo?.seat_id" -->
     <div v-if="roomStore.sceneMsg.button == props.seatInfo?.seat_id"
       :style="`right:${posArr[props.seatPos][0]}px; top:${posArr[props.seatPos][1]}px`"
-      class="pos-absolute   bg-[var(--my-accent)] bg-op-80 rounded-full flex justify-center items-center w-[20px] h-[20px]">
+      class="z-[9] pos-absolute   bg-[var(--my-accent)] bg-op-80 rounded-full flex justify-center items-center w-[20px] h-[20px]">
       <p class="text-[12px] font-black text-[var(--my-text)]">庄</p>
     </div>
 

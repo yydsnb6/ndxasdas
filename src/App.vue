@@ -154,8 +154,9 @@ watch(selectedTheme, (val) => {
 
 
 import router from './router';
+import { useRoute } from 'vue-router';
 
-
+const route = useRoute()
 const show = ref(false)
 const initDataRef = useSignal(initData.state);
 const user = ref({
@@ -174,6 +175,11 @@ const login = () => {
   // LocalUtil.setString(user.value?.username, 'username')
   // LocalUtil.setString(user.value?.lastName, 'lastName')
 
+   let roomId = route.query.roomId
+   if (roomId) {
+      return
+   }
+
   if (lp.startParam && lp.startParam != 'ABC') {
     let startParam = JSON.parse(decode(lp.startParam))
     if (startParam.agentId) {
@@ -184,7 +190,7 @@ const login = () => {
         tgid: Number(user.value?.id),
         user_name: user.value?.username,
         agent_id: startParam.agentId
-      }).finally(() => {
+      },false).finally(() => {
       })
 
 
@@ -195,10 +201,8 @@ const login = () => {
         last_name: user.value?.lastName,
         tgid: Number(user.value?.id),
         user_name: user.value?.username,
-      }).finally(() => {
+      },false).finally(() => {
       })
-
-
     }
 
     if (startParam.roomId) {
@@ -217,7 +221,7 @@ const login = () => {
       last_name: user.value?.lastName,
       tgid: Number(user.value?.id),
       user_name: user.value?.username,
-    }).finally(() => {
+    },false).finally(() => {
     })
   }
 }

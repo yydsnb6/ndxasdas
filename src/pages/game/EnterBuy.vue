@@ -12,7 +12,7 @@ const props = defineProps({
 
 const emit = defineEmits(['onClose']);
 const socketStore = useSocketStore()
-const userStore = useUserStore()
+const roomStore  = useRoomStore()
 const buyMoney = ref(10)
 
 
@@ -31,15 +31,15 @@ const buyAndSitDown = async () => {
         class="pos-absolute bottom-0 left-[5%]  text-[12px] p-5 px-4 h-[40%] w-[90%] bg-[rgb(29,29,29,0.8)]   flex flex-col   border-rd-[15px]! items-center justify-evenly"
         @click.stop>
         <GlowBorder :color="['#A07CFE', '#FE8FB5', '#FFBE7B']" class="rounded h-[98%]! w-[98%]!" :border-radius="10" />
-        <div class="flex flex-row justify-between w-full items-center px-5">
-          <p class="text-[16px] text-[var(--my-text)]">补码金额</p>
+        <div class="flex flex-row justify-center w-full items-center px-5">
+          <p class="text-[14px] text-[var(--my-text)]">补码</p>
           <div
-            class="flex flex-row justify-evenly items-center w-[100px]  bg-[rgba(255,255,255,0.5)] bg-op-10 rounded-md ml-2">
+            class="flex flex-1 mx-5 flex-row justify-evenly items-center w-[100px]  bg-[rgba(255,255,255,0.5)] bg-op-10 rounded-md ml-2">
             <van-field v-model="buyMoney" type="number" :min="0" input-align="center"
               class="bg-[rgba(0,0,0,0)]! text-amber! font-bold  text-center h-[40px]  text-[20px]! w-4/5! bg-op-0!" />
           </div>
-          <!-- <p class="text-[16px] text-[var(--my-text)]">补码</p> -->
-          <p class="text-[16px] text-[var(--my-text)]">余额:{{ userStore.userInfo.balance }}</p>
+          <!-- <p class="text-[14px] text-[var(--my-text)]">补码</p> -->
+          <p class="text-[14px] text-[var(--my-text)]">余额:{{ roomStore.roomUserInfo.remain_balance}}</p>
         </div>
 
         <div class="flex flex-row justify-between w-full">

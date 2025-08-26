@@ -22,8 +22,8 @@ const max_buy = computed(() => {
 
 
 
-  if (Number(userStore.userInfo?.balance) < roomStore.sceneMsg.max_buy) {
-    return Number(userStore.userInfo?.balance)
+  if (Number(userStore.userInfo.balance) < roomStore.sceneMsg.max_buy) {
+    return Number(userStore.userInfo.balance)
   } else {
     return roomStore.sceneMsg.max_buy
   }

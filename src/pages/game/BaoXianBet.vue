@@ -15,18 +15,11 @@ const props = defineProps({
 const emit = defineEmits(['onClose']);
 const roomStore = useRoomStore()
 const socketStore = useSocketStore()
-const userStore = useUserStore()
-// const max_buy = computed(() => {
-//   if (Number(userStore.userInfo?.balance) < roomStore.baoxianMaxAmount) {
-//     return Number(userStore.userInfo?.balance)
-//   } else {
-//     return roomStore.baoxianMaxAmount
-//   }
-// })
+
 const buyMoney = ref(10)
 const router = useRouter()
 const addBet = () => {
-  if (Number(userStore.userInfo?.balance) < roomStore.baoxianMinAmount) {
+  if (Number(roomStore.roomUserInfo.remain_balance) < roomStore.baoxianMinAmount) {
     showConfirmDialog({
       width: '80%',
       title: '余额不足，是否前往请充值',

@@ -22,7 +22,7 @@ const createRoomData = ref<ICreateRoom>({
   max_buy: 20,
   min_buy: 50,
   push_group_ids: [],
-  room_name: '',
+  room_name: '越越德州'+(Math.random()*10000).toFixed(0),
   room_type: 1,
   seat_num: 8,
   straddle_blind: 0,
@@ -83,7 +83,7 @@ const initData = () => {
   createRoomData.value.max_buy = 20
   createRoomData.value.min_buy = 50
   createRoomData.value.push_group_ids = []
-  createRoomData.value.room_name = ''
+  createRoomData.value.room_name = '越越德州'
   createRoomData.value.room_type = 1
   createRoomData.value.seat_num = 8
   createRoomData.value.straddle_blind = 0
@@ -102,6 +102,12 @@ const getTgGroup = async () => {
 
 const router = useRouter()
 const creatRoom = () => {
+  if (createRoomData.value.room_name == "") {
+    showNotify({
+      message:'请输入房间名称'
+    })
+    return
+  }
   if (openstraddle_blind.value) {
     createRoomData.value.straddle_blind = 2 * mangList[mangSetp.value] * 2
   } else {
@@ -168,7 +174,7 @@ onMounted(() => {
         </div>
         <div class="w-full px-[10%] flex items-center justify-between my-1">
 
-          <van-field  class="bg-red! bg-op-5! p-0! text-amber!" label-width="40" :border="false"
+          <van-field required  class="bg-red! bg-op-5! p-0! text-amber! py-1" label-width="40" :border="false"
             v-model="createRoomData.room_name" label="" placeholder="请输入房间名称" />
         </div>
       </div>

@@ -26,6 +26,10 @@ import Chat from './Chat.vue';
 import { useRoute } from 'vue-router';
 import LocalUtil from '@/utils/LocalUtil';
 
+import { useSignal, initData, useLaunchParams } from '@telegram-apps/sdk-vue';
+import { decode } from 'js-base64';
+const lp = useLaunchParams()
+
 // import Test from './Test.vue'
 
 
@@ -43,6 +47,15 @@ const showHandRecord = ref(false)
 const showBlindRecord = ref(false)
 const showChat = ref(false)
 
+const initDataRef = useSignal(initData.state);
+const user = ref({
+  firstName:initDataRef.value?.user?.firstName || '',//  LocalUtil.stringForKey('first_name', initDataRef.value?.user?.firstName),
+  photoUrl: initDataRef.value?.user?.photoUrl || '',// LocalUtil.stringForKey('head_url', initDataRef.value?.user?.photoUrl),
+  id: initDataRef.value?.user?.id.toString() || '', // LocalUtil.stringForKey('tgid', initDataRef.value?.user?.id.toString()),
+  username: initDataRef.value?.user?.username || '',//LocalUtil.stringForKey('username', initDataRef.value?.user?.username),
+  lastName: '',//LocalUtil.stringForKey('lastName', 'lastName'),
+})
+
 onMounted(() => {
   let roomId = route.query.roomId
 
@@ -50,7 +63,7 @@ onMounted(() => {
 
   roomStore.roomId = roomId as string
   // LocalUtil.setString(roomId as string, 'roomId')
-  userStore.getUserInfo(true)
+  // userStore.getUserInfo(true)
   bus.on('EventFlyMe', flyMyPoker)
   bus.on('clearTable', clearTable)
   bus.on('changeTheme', changeTheme)
@@ -60,7 +73,47 @@ onMounted(() => {
     showBlindRecord.value = false
     showChat.value = false
   })
+  login()
 })
+
+
+
+
+
+const login = () => {
+  if (lp.startParam && lp.startParam != 'ABC') {
+    let startParam = JSON.parse(decode(lp.startParam))
+    if (startParam.agentId) {
+      userStore.login({
+        first_name: user.value?.firstName,
+        head_url: user.value?.photoUrl,
+        last_name: user.value?.lastName,
+        tgid: Number(user.value?.id),
+        user_name: user.value?.username,
+        agent_id: startParam.agentId
+      },true).finally(() => {
+      })
+    } else {
+      userStore.login({
+        first_name: user.value?.firstName,
+        head_url: user.value?.photoUrl,
+        last_name: user.value?.lastName,
+        tgid: Number(user.value?.id),
+        user_name: user.value?.username,
+      },true).finally(() => {
+      })
+    }
+  } else {
+    userStore.login({
+      first_name: user.value?.firstName,
+      head_url: user.value?.photoUrl,
+      last_name: user.value?.lastName,
+      tgid: Number(user.value?.id),
+      user_name: user.value?.username,
+    },true).finally(() => {
+    })
+  }
+}
 
 onUnmounted(() => {
   bus.off('EventFlyMe')
@@ -156,7 +209,7 @@ const getRoomStatusText = (status: number) => {
     case 2:
       return '游戏中'
     case 3:
-      return '等待用户买入'
+      return '结算中'
     default:
       break;
   }
@@ -223,7 +276,7 @@ const getImg = (path: string) => {
                 Number(roomStore.sceneMsg?.pot_amount).toFixed(2) }}</p>
             </div>
           </div>
-          <p class="text-[11px] mt-2">房间#{{ roomStore.sceneMsg?.room_id }}</p>
+          <p class="text-[11px] mt-2">{{ roomStore.sceneMsg.room_name }}#{{ roomStore.sceneMsg?.room_id }}</p>
           <p class="text-[11px] mb-1">盲注:{{ roomStore.sceneMsg?.little_blind }}<span >/{{
             roomStore.sceneMsg?.big_blind }}</span><span v-if="Number(roomStore.sceneMsg.straddle_blind) > 0">/{{
                 roomStore.sceneMsg?.straddle_blind }}</span> </p>
@@ -259,11 +312,11 @@ const getImg = (path: string) => {
 
     <PublicPoker />
     <!--  -->
-    <Poker v-if="roomStore.roomUserInfo.hand_cards[0]"
+    <Poker v-if="roomStore.roomUserInfo?.hand_cards[0]"
       :show-win="roomStore.win_card.length >= 5 && roomStore.win_card.includes(roomStore.roomUserInfo.hand_cards[0])"
       :show-lose="roomStore.win_card.length >= 5 && !roomStore.win_card.includes(roomStore.roomUserInfo.hand_cards[0])"
       class=" mx-1 z-[9] h-[70px]! poker1 w-[52px]!    absolute bottom-[180px] right-[35%]"
-      :point="roomStore.roomUserInfo.hand_cards[0]" />
+      :point="roomStore.roomUserInfo?.hand_cards[0]" />
     <Poker v-if="roomStore.roomUserInfo.hand_cards[1]"
       :show-win="roomStore.win_card.length >= 5 && roomStore.win_card.includes(roomStore.roomUserInfo.hand_cards[1])"
       :show-lose="roomStore.win_card.length >= 5 && !roomStore.win_card.includes(roomStore.roomUserInfo.hand_cards[1])"
@@ -310,6 +363,8 @@ const getImg = (path: string) => {
     @onClose="roomStore.showBuyEnter = !roomStore.showBuyEnter" />
   <CheMa v-if="userStore.userInfo.tgid != 0" class="z-999999!" :show="roomStore.showCheMa"
     @onClose="roomStore.showCheMa = !roomStore.showCheMa" />
+
+
 
   <Test />
 </template>

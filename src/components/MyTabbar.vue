@@ -135,7 +135,7 @@ onUnmounted(() => {
 
 <template>
   <menu ref="myMenu" class="myMenu">
-    <button v-ripple="{ class: `text-info` }"class="myMenu__item " style="--bgColorItem: #f4b647;">
+    <button class="myMenu__item " style="--bgColorItem: #f4b647;">
       <!-- <svg t="1751902932831" class="icon" viewBox="0 0 1030 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
         p-id="12082" id="mx_n_1751902932832" width="180" height="180">
         <path
@@ -146,7 +146,7 @@ onUnmounted(() => {
       <p>大厅</p>
     </button>
 
-    <button v-ripple="{ class: `text-info` }"class="myMenu__item" style="--bgColorItem: #f54888;">
+    <button class="myMenu__item" style="--bgColorItem: #f54888;">
       <!-- <svg t="1751903023678" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
         p-id="13227" id="mx_n_1751903023679" width="180" height="180">
         <path
@@ -158,7 +158,7 @@ onUnmounted(() => {
       <p>钱包</p>
     </button>
 
-    <button v-ripple="{ class: `text-info` }"class="myMenu__item" style="--bgColorItem: #4343f5;">
+    <button class="myMenu__item" style="--bgColorItem: #4343f5;">
       <!-- <svg width="180" height="180" t="1751902847894" class="icon" viewBox="0 0 1024 1024" version="1.1"
         xmlns="http://www.w3.org/2000/svg" p-id="8255">
         <path
@@ -184,7 +184,7 @@ onUnmounted(() => {
 
     </button>
 
-    <button v-ripple="{ class: `text-info` }"class="myMenu__item" style="--bgColorItem: #e0b115;">
+    <button class="myMenu__item" style="--bgColorItem: #e0b115;">
       <!-- <svg class="icon" viewBox="0 0 24 24">
         <path d="M5.1,3.9h13.9c0.6,0,1.2,0.5,1.2,1.2v13.9c0,0.6-0.5,1.2-1.2,1.2H5.1c-0.6,0-1.2-0.5-1.2-1.2V5.1
           C3.9,4.4,4.4,3.9,5.1,3.9z" />
@@ -203,7 +203,7 @@ onUnmounted(() => {
 
     </button>
 
-    <!-- <button v-ripple="{ class: `text-info` }"class="myMenu__item" style="--bgColorItem:#65ddb7;">
+    <!-- <button class="myMenu__item" style="--bgColorItem:#65ddb7;">
       <svg class="icon" viewBox="0 0 24 24">
         <path d="M5.1,3.9h13.9c0.6,0,1.2,0.5,1.2,1.2v13.9c0,0.6-0.5,1.2-1.2,1.2H5.1c-0.6,0-1.2-0.5-1.2-1.2V5.1
           C3.9,4.4,4.4,3.9,5.1,3.9z" />

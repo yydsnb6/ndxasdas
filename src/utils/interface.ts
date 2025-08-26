@@ -55,7 +55,8 @@ export interface IUserInfo {
   total_show_number: number,
   total_win_number: number,
   is_auto_buy: boolean
-  auto_buy_amount: number
+  auto_buy_amount: number,
+  remain_balance:string
 }
 
 // 枚举定义 - 玩家状态

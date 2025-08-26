@@ -13,13 +13,12 @@ const props = defineProps({
 const emit = defineEmits(['onClose']);
 const roomStore = useRoomStore()
 const socketStore = useSocketStore()
-const userStore = useUserStore()
 const max_buy = computed(() => {
-  if (Number(userStore.userInfo?.balance) < roomStore.sceneMsg.max_buy) {
-    if (userStore.userInfo.balance < roomStore.sceneMsg.min_buy) {
+  if (Number(roomStore.roomUserInfo.remain_balance) < roomStore.sceneMsg.max_buy) {
+    if (Number(roomStore.roomUserInfo.remain_balance)< roomStore.sceneMsg.min_buy) {
       return roomStore.sceneMsg.max_buy
     } else {
-      return Number(userStore.userInfo?.balance)
+      return Number(roomStore.roomUserInfo.remain_balance)
     }
   } else {
     return roomStore.sceneMsg.max_buy
