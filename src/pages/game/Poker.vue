@@ -1,10 +1,11 @@
 <script setup lang="ts">
+import { useRoomStore } from '@/stores/room'
+
 
 const props = defineProps({
   point: Number,
   noPoker: Boolean,
-  showWin:Boolean,
-  showLose:Boolean
+  isuser:Boolean
 })
 
 const pokerMap = new Map([
@@ -71,18 +72,22 @@ const getPoker = (pokerName: string) => {
   }
 }
 
+
+const roomStore = useRoomStore()
+
+
 </script>
 
 <template>
-  <div class=" h-full aspect-ratio-[134/185]" :class="showWin ? 'mt-[-5px]' : ''">
+  <div class=" h-full aspect-ratio-[134/185]" :class="props.isuser && roomStore.win_card.includes(props.point!) ? 'mt-[-5px]' : ''">
     <div v-if="props.noPoker" class="bg-white op-15 w-full h-full rd">
       <!-- <van-image class="w-full h-full " src="../../assets/imgae/poker/poker_back.png" alt="" srcset="" /> -->
     </div>
     <van-image v-else class="w-full h-full " :src="getPoker(`${props.point}`)" alt="" srcset="" />
-    <div v-if="showWin"
+    <div v-if="props.isuser && roomStore.win_card.length > 0 && roomStore.win_card.includes(props.point!)"
       class=" rounded  flex-1  h-full  op-10!  bg-[var(--my-accent)]!  absolute bottom-0 w-full justify-center items-center flex">
     </div>
-    <div v-if=" showLose"
+    <div v-if="props.isuser && roomStore.win_card.length > 0 && !roomStore.win_card.includes(props.point!)"
       class=" rounded  flex-1  h-full   bg-[rgba(0,0,0,0.6)]!  absolute bottom-0 w-full justify-center items-center flex">
     </div>
 

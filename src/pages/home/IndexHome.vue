@@ -7,11 +7,13 @@ import { useRouter } from 'vue-router';
 import RoomListBtn from './RoomListBtn.vue'
 import api from '@/api/api';
 import { useRecordStore } from '@/stores/record';
+import { useUserStore } from '@/stores/user';
 
 
 
 const router = useRouter()
 const roomStore = useRoomStore()
+const userStore = useUserStore()
 const createRoom = () => {
   router.push('/create-game')
 }
@@ -19,6 +21,9 @@ const createRoom = () => {
 const roomId = ref("")
 const opLength = 6
 
+onMounted(() => {
+  userStore.update_balance()
+})
 
 watch(roomId, (newRoomId) => {
   if (newRoomId.length >= opLength) {
@@ -45,7 +50,6 @@ const toRoom = (room: string) => {
   })
 }
 
-const recordStore = useRecordStore()
 
 
 </script>
@@ -56,17 +60,19 @@ const recordStore = useRecordStore()
       <UserAvatr />
       <UserBalance class=" scale-90 mt-[-10px]" />
     </div>
-    <van-swipe class="w-full  h-[180px]" :autoplay="3000" indicator-color="white">
+    <!-- <van-swipe class="w-full  h-[180px]" :autoplay="3000" indicator-color="white">
 
       <van-swipe-item class="w-full" v-for="item in recordStore.bannerList">
         <van-image :src="item.image_url" class="w-full h-[180px] " alt="" srcset="" />
       </van-swipe-item>
-    </van-swipe>
+    </van-swipe> -->
 
-    <v-card style="background: var(--my-primary)" class="w-[96%] mb-2 pos-relative bg-[var(--my-primary)]!"
-      subtitle="创建你的私人房间,邀请好友进入房间" title="私人房">
-      <v-otp-input :length="opLength" v-model="roomId" max-width="88%" class="h-[55px]!"
-        variant="solo-filled"></v-otp-input>
+    <v-card style="background: var(--my-cardBg)" class="w-[96%] mt-20 mb-2 pos-relative " subtitle="创建你的私人房间,邀请好友进入房间"
+      title="私人房">
+      <div class="w-[95%] border-1 border-solid border-[#555a61] ml-[2.5%] p-2   rounded my-2">
+        <v-otp-input :length="opLength" v-model="roomId" max-width="100%" height="50" class="op-80  p-0! m-0! text-[#fff]"
+          variant="solo-filled"></v-otp-input>
+      </div>
       <p class="text-[12px] text-[var(--my-cardSubText)] font-700 w-full text-center">输入房间号码,即可进入游戏房间～</p>
 
       <v-btn @click="createRoom" class="my-2 mx-[6%]" style="
@@ -105,4 +111,16 @@ const recordStore = useRecordStore()
 
 </template>
 
-<style scoped></style>
+<style scoped>
+:deep(.v-otp-input__field) {
+  background-color: #0f1113;
+  /* opacity: 0.5; */
+  border-radius: 4px;
+  color: #fff;
+  /* width: 40px; */
+  /* height: 45px; */
+}
+:deep(.v-otp-input__content){
+  padding: 0px;
+}
+</style>

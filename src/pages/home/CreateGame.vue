@@ -11,7 +11,7 @@ const createRoomData = ref<ICreateRoom>({
   action_second: 15,
   auto_start_num: 2,
   big_blind: 0.02,
-  end_time: 480,
+  end_time: 90,
   insurance_amount: 0,
   is_open_insurance: false,
   is_limit_gps: true,
@@ -22,7 +22,7 @@ const createRoomData = ref<ICreateRoom>({
   max_buy: 20,
   min_buy: 50,
   push_group_ids: [],
-  room_name: '越越德州'+(Math.random()*10000).toFixed(0),
+  room_name: '越越德州' + (Math.random() * 10000).toFixed(0),
   room_type: 1,
   seat_num: 8,
   straddle_blind: 0,
@@ -36,14 +36,14 @@ const buyMax = ref(50)
 const mangSetp = ref(0)
 
 const mangList = [
-  0.01,
-  0.02,
-  0.05,
-  0.1,
-  0.2,
-  0.3,
-  0.4,
-  0.5,
+  // 0.01,
+  // 0.02,
+  // 0.05,
+  // 0.1,
+  // 0.2,
+  // 0.3,
+  // 0.4,
+  // 0.5,
   1,
   2,
   3,
@@ -72,7 +72,7 @@ const initData = () => {
   createRoomData.value.action_second = 15
   createRoomData.value.auto_start_num = 2
   createRoomData.value.big_blind = 0.02
-  createRoomData.value.end_time = 480
+  createRoomData.value.end_time = 90
   createRoomData.value.insurance_amount = 0
   createRoomData.value.is_limit_gps = true
   createRoomData.value.is_limit_ip = true
@@ -90,6 +90,10 @@ const initData = () => {
 }
 
 const checked = ref([]);
+
+const chipSet = ref(true)
+const gameSet = ref(false)
+const safeSet = ref(false)
 const tg_group_list = ref<{
   group_id: number,
   group_name: string
@@ -104,7 +108,7 @@ const router = useRouter()
 const creatRoom = () => {
   if (createRoomData.value.room_name == "") {
     showNotify({
-      message:'请输入房间名称'
+      message: '请输入房间名称'
     })
     return
   }
@@ -164,22 +168,29 @@ onMounted(() => {
 
     <div class="flex flex-col w-full  h-[calc(100vh-50px-45px)]! items-center pt-2 overflow-y-scroll ">
 
-      <van-divider dashed class="w-[90%]"
-        :style="{ color: 'var(--my-text)', borderColor: 'var(--my-text)', padding: '0 0px', margin: '0px' }">筹码设置</van-divider>
+      <!-- <van-divider dashed class="w-[90%]"
+        :style="{ color: 'var(--my-text)', borderColor: 'var(--my-text)', padding: '0 0px', margin: '0px' }">筹码设置</van-divider> -->
 
-      <div class="flex flex-col w-full ">
+      <!-- <div @click="chipSet = !chipSet"
+        class="w-full py-2 my-1 h-[40px] bg-[#939395] px-[10%] flex flex-row items-center justify-between text-[14px] font-bold" >
+        <p>筹码设置</p>
+        <van-icon v-if="chipSet" name="arrow-up" />
+        <van-icon v-else name="arrow-down" />
+      </div> -->
+
+      <div v-if="chipSet" class="flex flex-col w-full ">
         <div class="flex flex-row justify-between w-full px-[10%] text-[14px]  font-700">
           <p class=" text-[var(--my-cardSubText)]">房间名称 </p>
 
         </div>
         <div class="w-full px-[10%] flex items-center justify-between my-1">
 
-          <van-field required  class="bg-red! bg-op-5! p-0! text-amber! py-1" label-width="40" :border="false"
+          <van-field required class="bg-red! bg-op-5! p-0! text-amber! py-1" label-width="40" :border="false"
             v-model="createRoomData.room_name" label="" placeholder="请输入房间名称" />
         </div>
       </div>
 
-      <div class="flex flex-col w-full px-5 mb-1">
+      <div v-if="chipSet"  class="flex my-4 flex-col w-full px-5 mb-1">
         <div class="flex flex-row justify-between">
           <div class="flex flex-row items-center">
             <p class=" text-[var(--my-cardSubText)] font-700 text-[14px] ml-5">额外盲注{{ 2 * 2 * mangList[mangSetp] }}BB
@@ -190,7 +201,7 @@ onMounted(() => {
       </div>
 
 
-      <div class="flex flex-col w-full">
+      <div v-if="chipSet" class="flex my-4 flex-col w-full">
         <div class="flex flex-row justify-between w-full px-[10%] text-[14px] font-700">
           <p class=" text-[var(--my-cardSubText)]">盲注</p>
           <p class="text-[var(--my-text)]">{{ mangList[mangSetp] }}/{{ 2 * mangList[mangSetp] }}</p>
@@ -200,7 +211,7 @@ onMounted(() => {
         </div>
       </div>
 
-      <div class="flex flex-col w-full ">
+      <div v-if="chipSet" class="flex my-4 flex-col w-full ">
         <div class="flex flex-row justify-between w-full px-[10%] text-[14px]  font-700">
           <p class=" text-[var(--my-cardSubText)]">买入 </p>
           <div class="flex flex-row">
@@ -218,10 +229,15 @@ onMounted(() => {
         </div>
       </div>
 
-      <van-divider dashed class="w-[90%]"
-        :style="{ color: 'var(--my-text)', borderColor: 'var(--my-text)', padding: '0 0px', margin: '0px' }">游戏设置</van-divider>
 
-      <div class="flex flex-col w-full">
+      <div @click="gameSet = !gameSet"
+      style="background: var(--my-primary);"
+        class="op-60 text-[var(--my-text)] w-full py-2 my-1   px-[10%] flex flex-row items-center justify-between text-[14px] font-bold">
+        <p>房间设置</p>
+        <van-icon v-if="gameSet" name="arrow-up" />
+        <van-icon v-else name="arrow-down" />
+      </div>
+      <div v-if="gameSet" class="my-2 flex flex-col w-full">
         <div class="flex flex-row justify-between w-full px-[10%] text-[14px] font-700">
           <p class=" text-[var(--my-cardSubText)]">座位数</p>
           <p class="text-[var(--my-text)]">{{ createRoomData.seat_num }}</p>
@@ -231,7 +247,7 @@ onMounted(() => {
         </div>
       </div>
 
-      <div class="flex flex-col w-full">
+      <div  v-if="gameSet" class="my-2 flex flex-col w-full">
         <div class="flex flex-row justify-between w-full px-[10%] text-[14px] font-700">
           <p class=" text-[var(--my-cardSubText)]">自动开始</p>
           <p class="text-[var(--my-text)]">{{ createRoomData.auto_start_num }}人</p>
@@ -241,7 +257,7 @@ onMounted(() => {
         </div>
       </div>
 
-      <div class="flex flex-col w-full">
+      <div v-if="gameSet"  class="my-2 flex flex-col w-full">
         <div class="flex flex-row justify-between w-full px-[10%] text-[14px] font-700">
           <p class=" text-[var(--my-cardSubText)]">行动时间</p>
           <p class="text-[var(--my-text)]">{{ createRoomData.action_second }}秒</p>
@@ -251,28 +267,33 @@ onMounted(() => {
         </div>
       </div>
 
-      <!-- <div class="flex flex-col w-full ">
+      <div v-if="gameSet"  class="flex flex-col w-full ">
         <div class="flex flex-row justify-between w-full px-[10%] text-[14px] font-700">
           <p class=" text-[var(--my-cardSubText)]">牌局时间</p>
           <p class="text-[var(--my-text)]">{{ createRoomData.end_time }}分钟</p>
         </div>
         <div class="w-full px-[10%] flex items-center justify-between">
-          <v-slider v-model="createRoomData.end_time" :max="480" :min="5" :step="5" class="h-[30px]"></v-slider>
+          <v-slider v-model="createRoomData.end_time" :max="600" :min="90" :step="30" class="h-[30px]"></v-slider>
         </div>
-      </div> -->
-      <div class="flex flex-col w-full px-10 mb-1">
+      </div>
+      <div v-if="gameSet"  class="flex flex-col w-full px-10 mb-1">
         <van-radio-group v-model="createRoomData.room_type" direction="horizontal">
           <van-radio shape="square" :name="1"><span class="text-[var(--my-text)]">长牌</span></van-radio>
           <van-radio shape="square" :name="2"><span class="text-[var(--my-text)]">短牌</span></van-radio>
         </van-radio-group>
 
       </div>
-      <van-divider dashed class="w-[90%]"
-        :style="{ color: 'var(--my-text)', borderColor: 'var(--my-text)', padding: '0 0px', margin: '0px' }">安全设置</van-divider>
 
 
+      <div @click="safeSet = !safeSet"
+       style="background: var(--my-primary);"
+        class="op-60 text-[var(--my-text)] w-full py-2 my-1   px-[10%] flex flex-row items-center justify-between text-[14px] font-bold">
+        <p>安全设置</p>
+        <van-icon v-if="safeSet" name="arrow-up" />
+        <van-icon v-else name="arrow-down" />
+      </div>
 
-      <div class="flex flex-col w-full px-5 mb-1">
+      <div v-if="safeSet" class="flex flex-col w-full px-5 mb-1">
         <div class="flex flex-row justify-between">
           <div class="flex flex-row items-center">
             <p class=" text-[var(--my-cardSubText)] font-700 text-[14px] ml-5">是否开启保险</p>
@@ -283,7 +304,7 @@ onMounted(() => {
       </div>
 
 
-      <div class="flex flex-col w-full px-5 mb-1">
+      <div v-if="safeSet" class="flex flex-col w-full px-5 mb-1">
         <div class="flex flex-row justify-between">
           <div class="flex flex-row items-center">
             <p class=" text-[var(--my-cardSubText)] font-700 text-[14px] ml-5">推送至群组</p>
@@ -302,7 +323,7 @@ onMounted(() => {
         </van-checkbox-group>
       </div>
 
-      <div class="flex flex-col w-full px-5 mb-1">
+      <div v-if="safeSet" class="flex flex-col w-full px-5 mb-1">
         <div class="flex flex-row justify-between">
           <div class="flex flex-row items-center">
             <p class=" text-[var(--my-cardSubText)] font-700 text-[14px] ml-5">GPS限制</p>
@@ -313,7 +334,7 @@ onMounted(() => {
       </div>
 
 
-      <div class="flex flex-col w-full px-5 mb-1">
+      <div v-if="safeSet" class="flex flex-col w-full px-5 mb-1">
         <div class="flex flex-row justify-between">
           <div class="flex flex-row items-center">
             <p class=" text-[var(--my-cardSubText)] font-700 text-[14px] ml-5">IP限制</p>
@@ -325,6 +346,8 @@ onMounted(() => {
         </div>
       </div>
     </div>
+
+
     <van-divider
       :style="{ color: 'rgba(0,0,0,0.3)', borderColor: 'rgba(0,0,0,0.3)', padding: '0 0px', margin: '0px' }" />
     <div class="fixed flex flex-row  justify-evenly z-9 bottom-0 w-full">

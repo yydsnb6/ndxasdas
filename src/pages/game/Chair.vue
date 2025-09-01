@@ -13,8 +13,6 @@ const userStore = useUserStore()
 const roomStore = useRoomStore()
 const router = useRouter()
 const sitDown = () => {
-
-
   if (userStore.userInfo.balance < roomStore.sceneMsg.min_buy) {
     showConfirmDialog({
       width: '80%',
@@ -33,7 +31,11 @@ const sitDown = () => {
       });
   } else {
     showBuyPoint.value = !showBuyPoint.value
-
+    if (showBuyPoint) {
+      roomStore.showBtns = false
+    } else {
+      roomStore.showBtns = true
+    }
   }
 
 }
@@ -48,23 +50,20 @@ const showBuyPoint = ref(false)
     <!-- <van-button round  type="primary"
     icon="plus"
       class="my-bg text-[16px]! !w-[3rem] !h-[3rem]  !bg-op-40 " /> -->
-
-
-       <van-button  round  type="primary"
-      class=" op-40 my-bg text-[18px]! !w-[3rem] !h-[3rem]  !bg-op-40" style="border-style: dashed !important;">
+    <van-button round type="primary" class=" op-40 my-bg text-[18px]! !w-[3rem] !h-[3rem]  !bg-op-40"
+      style="border-style: dashed !important;">
       <!-- <i class="fas fa-couch text-[24px] text-[var(--my-accent)] op-95"></i> -->
-            <van-icon name="plus" size="16"/>
-              </van-button>
-
+      <van-icon name="plus" size="16" />
+    </van-button>
   </div>
-  <BuyPoint :show="showBuyPoint" :seatid="props.seat_id" @on-close="sitDown" />
+  <BuyPoint :show="showBuyPoint" :seatid="props.seat_id" @on-close="showBuyPoint =!showBuyPoint" />
 
 </template>
 
 <style lang="css" scoped>
 .my-bg {
   border-color: var(--my-accent) !important;
-  background-color: rgb(30, 77, 63,0.5)  ;
+  background-color: rgb(30, 77, 63, 0.5);
   /* background-image: var(--my-primary);
    */
 

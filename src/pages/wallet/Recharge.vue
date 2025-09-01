@@ -57,7 +57,7 @@ const copy = ()=>{
         </div>
       </div>
       <div class="px-2 mt-2">
-        <v-card style="background: var(--my-primary)" >
+        <v-card style="background: var(--my-cardBg)" >
           <div class="flex flex-row items-center justify-start h-full pl-5">
             <van-image :src="useQRCode(walletStore.walletInfo?.address)" alt="QR Code" class="w-[400px]" />
 
@@ -91,7 +91,7 @@ const copy = ()=>{
         </v-card>
       </div>
       <div class="px-2 mt-5">
-        <v-card style="background: var(--my-primary)">
+        <v-card style="background: var(--my-cardBg)">
           <div class="flex flex-row items-center justify-start h-full p-2">
             <van-icon name="warning" style="color: var(--my-accent) !important" />
             <div class="ml-2 text-[var(--my-accent)] font-600 text-[14px]">

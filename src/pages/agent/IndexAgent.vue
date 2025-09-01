@@ -10,9 +10,18 @@ import { useUserStore } from '@/stores/user';
 import { encode } from 'js-base64';
 
 const agentStore = useAgentStore()
+const zhishu = ref(true)
+const erji = ref(true)
+const selTop = ref(true)
+const showPopover = ref(false)
+const showAgentBox = ref(false)
+const showQR = ref(false)
+const userStore = useUserStore()
+const infoIndex = ref(0)
 
 onMounted(() => {
   agentStore.getAgentInfo()
+  userStore.update_balance()
   getSubList()
 })
 
@@ -33,15 +42,7 @@ const getSubList = () => {
 
 
 
-const zhishu = ref(true)
-const erji = ref(true)
-const selTop = ref(true)
-const showPopover = ref(false)
-const showAgentBox = ref(false)
-const showQR = ref(false)
-const userStore = useUserStore()
 
-const infoIndex = ref(0)
 const showAgentInfo = (index: number) => {
   infoIndex.value = index
   showAgentBox.value = !showAgentBox.value
@@ -85,7 +86,7 @@ const copy = () => {
 <template>
   <div class="flex flex-col pos-relative items-center">
     <div class=" w-full h-[200px] absolute top-0 z-0 overflow-hidden">
-      <div style="background: var(--my-primary);"
+      <div style="background: rgba(92, 94, 97,0.6);"
         class="w-[200%] h-[300px]  rounded-b-[50%] absolute bottom-0 left-1/2 -translate-x-1/2"></div>
     </div>
     <div class="flex flex-col z-1 w-full ">
@@ -105,9 +106,9 @@ const copy = () => {
           </v-btn>
         </div>
       </div>
-      <v-card class="p-5  mt-2 pos-relative mx-3 " style="background: var(--my-primary);">
-        <div class="flex flex-row justify-between items-center w-full mt-[20px] px-2">
-          <v-btn height="50" width="45%" color="#e6f5f1" @click="showAgentInfo(0)" style="
+      <v-card class="p-5  mt-2 pos-relative mx-3 " style="background: var(--my-cardBg);">
+        <div class="flex flex-row justify-evenly items-center w-full mt-[25px] px-2">
+          <v-btn height="50" class="px-8" color="#e6f5f1" @click="showAgentInfo(0)" style="
       background: var(--my-buttonSecondaryBg);
               color: var(--my-buttonSecondaryText);
               border: var(--my-buttonSecondaryBorder)">
@@ -122,7 +123,7 @@ const copy = () => {
               <p class="text-[14px] font-bold">{{ agentStore.agentInfo?.one_level_pump }}%</p>
             </div>
           </v-btn>
-          <v-btn height="50" width="45%" color="#e6f5f1" @click="showAgentInfo(1)" style="
+          <v-btn height="50" class="px-8"  color="#e6f5f1" @click="showAgentInfo(1)" style="
               background: var(--my-buttonPrimaryBg) ;
               color: var(--my-buttonPrimaryText) ;
               border:  var(--my-buttonPrimaryBorder) ;
@@ -141,6 +142,8 @@ const copy = () => {
         </div>
 
 
+
+
         <div class="w-full  mt-2 my-1 px-2 pos-relative z-9 ">
           <v-btn @click="showPopover = !showPopover" height="30" width="100%" class="bg-[var(--my-cardBg)]!">
             <p class="text-[12px] font-bold text-[var(--my-accent)]">当前奖励等级：{{
@@ -156,15 +159,15 @@ const copy = () => {
 
       </div>
 
-       <div v-if="showPopover" class=" rounded pos-absolute   px-2 py-0 z-9999999 top-1/2 w-[95%] left-[2.5%] bg-[var(--my-accent)] bg-op-50">
+       <div v-if="showPopover" class=" rounded pos-absolute   px-2 py-0 z-9999999 top-1/2 w-[95%] left-[2.5%] bg-[var(--my-cardBg)] bg-op-50">
           <div
-            class=" font-bold my-4 flex flex-row justify-between px-4 bg-[#f7f7f7] rounded-full py-1 text-[12px] text-[#e88753]">
+            class=" font-bold my-4 flex flex-row justify-between px-4 bg-[#f7f7f7] rounded-full py-1 text-[12px] text-[#5ec269]">
             <p class="w-[20%] text-center ">等级</p>
             <p class="w-[30%] text-center ">邀请</p>
             <p class="w-[50%] text-center ">奖励</p>
           </div>
           <div v-for="item in agentStore.agentInfo?.current_reward_level_info" :key="item.level"
-            class="my-4 flex flex-row justify-between px-4 bg-[#f7f7f7] rounded-full py-1 font-bold text-[14px] text-[#e88753]">
+            class="my-4 flex flex-row justify-between px-4 bg-[#f7f7f7] rounded-full py-1 font-bold text-[14px] text-[#5ec269]">
             <p class="text-[12px] w-[20%] text-center ">Lv<span class="text-[16px]">{{ item.level }}</span></p>
             <p class="w-[30%] text-center ">{{ item.invite_number }}</p>
             <p class="w-[50%] text-center ">{{ item.pump }}</p>

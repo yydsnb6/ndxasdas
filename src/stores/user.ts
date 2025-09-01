@@ -6,6 +6,7 @@ import { useSocketStore } from "./mysocket"
 import { useRoomStore } from "./room"
 import { showLoadingToast } from "vant"
 import { useRecordStore } from "./record"
+import LocalUtil from "@/utils/LocalUtil"
 
 export const useUserStore = defineStore('user', () => {
   const token = ref()
@@ -52,11 +53,10 @@ export const useUserStore = defineStore('user', () => {
         if (res.code == 200) {
           showLoading.value = false
           token.value = res.data.token
+          LocalUtil.setString(res.data.token, 'token')
           userInfo.value = res.data.user_info
           tgid.value = res.data.user_info.tgid
-          setTimeout(() => {
-            socketStore.init()
-          }, 2000);
+          socketStore.init()
         } else {
           login(req_data)
         }
@@ -70,6 +70,7 @@ export const useUserStore = defineStore('user', () => {
         if (res.code == 200) {
           showLoading.value = false
           token.value = res.data.token
+          LocalUtil.setString(res.data.token, 'token')
           userInfo.value = res.data.user_info
           console.log("登录结果", res.data);
           tgid.value = res.data.user_info.tgid
@@ -100,9 +101,10 @@ export const useUserStore = defineStore('user', () => {
         // if (!userInfo.value.is_auto_buy) {
         //   roomStore.showBuyEnter = true
         // }
-        setTimeout(() => {
-          socketStore.init()
-        }, 2000);
+        socketStore.init()
+
+        // setTimeout(() => {
+        // }, 2000);
       }
     }
   }

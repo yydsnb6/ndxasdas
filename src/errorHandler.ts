@@ -8,7 +8,7 @@ export const errorHandler: AppConfig['errorHandler'] = (err) => {
             : JSON.stringify(err)
     const root = document.getElementById('app') ?? document.body
     root.insertAdjacentHTML('beforeend', `
-            <div>
+            <div class="error">
                 <p>An unhandled error occurred:</p>
                 <blockquote>
                     <code>

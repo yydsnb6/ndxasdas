@@ -297,8 +297,10 @@ export const useRoomStore = defineStore('room', () => {
 
   const showBuyEnter = ref(false)
   const showCheMa = ref(false)
+  const showBtns = ref(true)
 
   return {
+    showBtns,
     look_card_amount,
     can_look_card_seat_ids,
     baoxianMinAmount,

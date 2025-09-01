@@ -33,7 +33,7 @@ axiosIns.interceptors.request.use((requestConfig:any): any => {
   requestConfig.baseURL = process.env.NODE_ENV === 'production' ? config.proBaseURL : config.devBaseURL
   userStore = useUserStore(pinia);
   requestConfig.headers = {
-    "token": userStore.token,
+    "token": LocalUtil.stringForKey('token',userStore.token) ,
     "Accept-Language": LocalUtil.stringForKey("lang", defaultLang),
     "Content-Type": 'application/json' //'application/x-www-form-urlencoded' application/json
   }

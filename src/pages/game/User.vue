@@ -68,6 +68,15 @@ onUnmounted(() => {
 
 
 const winData = computed(() => {
+
+  if (roomStore.winSeats.length == 0) {
+     return {
+      win_amount: 0,
+      win_card_type: 0,
+      win_seat_id: -1,
+    }
+  }
+
   let data = roomStore.winSeats.find((item) => {
     return item.win_seat_id == props.seatInfo.seat_id
   })
@@ -76,7 +85,6 @@ const winData = computed(() => {
   } else {
     return {
       win_amount: 0,
-      win_card: [],
       win_card_type: 0,
       win_seat_id: -1,
     }
@@ -112,16 +120,16 @@ const cardType = [
           <div
             class=" pos-absolute left-[3rem] top-[0px] h-[15px] bg-[#000] bg-op-30 rounded-3xl p-[2px] flex flex-row items-center px-[4px]">
             <img class="h-[80%] aspect-ratio-[266/201]" src="../../assets/imgae/chip_icon.png" alt="" srcset="">
-            <p class="text-[10px] text-amber font-bold ml-[2px]">{{ Number(props.user.total_bet_amount).toFixed(2) }}
+            <p class="text-[11px] text-[#c1b75c] font-bold ml-[2px]">{{ Number(props.user.total_bet_amount).toFixed(2) }}
             </p>
           </div>
 
         </div>
         <div class="flex flex-col bg-[#000] bg-op-20  w-[55px] h-[35px] text-center rounded-lg px-1 mt-2 relative">
-          <p class="p-0 m-0 mt-[2px] text-[10px] text-ellipsis! w-[50px] overflow-hidden whitespace-nowrap">{{
+          <p class="p-0 m-0 mt-[2px] text-[11px] text-ellipsis! w-[50px] overflow-hidden whitespace-nowrap">{{
             user.first_name }}</p>
           <van-divider dashed hairline class="m-0! !border-[rgba(255,255,255,0.5)]" />
-          <p class="text-amber font-bold border-t text-[10px] border-t-blue">$:{{ Number(props.user.balance).toFixed(2)
+          <p class="text-[#c1b75c] font-bold border-t text-[11px] border-t-blue">$:{{ Number(props.user.balance).toFixed(2)
           }}</p>
           <p v-if="winData.win_seat_id != -1" :class="`${Number(winData.win_amount) > 0 ? 'text-green!' : ''}`"
             class="px-[8px] py-0 absolute  left-[80%] font-bold  bottom-[-1px] rounded  text-[16px] text-[var(--my-text)]">
@@ -142,15 +150,15 @@ const cardType = [
           <div
             class=" pos-absolute right-[3.5rem] top-[0px] h-[15px] bg-[#000] bg-op-30 rounded-3xl p-[2px] flex flex-row items-center px-[4px]">
             <img class="h-[80%] aspect-ratio-[266/201]" src="../../assets/imgae/chip_icon.png" alt="" srcset="">
-            <p class="text-[10px] text-amber font-bold ml-[2px]">{{ Number(props.user.total_bet_amount).toFixed(2) }}
+            <p class="text-[11px] text-[#c1b75c] font-bold ml-[2px]">{{ Number(props.user.total_bet_amount).toFixed(2) }}
             </p>
           </div>
         </div>
         <div class="flex flex-col bg-[#000] bg-op-20  w-[55px] h-[35px] text-center rounded-lg px-1 mt-2 relative">
-          <p class="p-0 m-0 mt-[2px] text-[10px] text-ellipsis! w-[50px] overflow-hidden whitespace-nowrap">{{
+          <p class="p-0 m-0 mt-[2px] text-[11px] text-ellipsis! w-[50px] overflow-hidden whitespace-nowrap">{{
             user.first_name }}</p>
           <van-divider dashed hairline class="m-0! !border-[rgba(255,255,255,0.5)]" />
-          <p class="text-amber font-bold border-t text-[10px] border-t-blue">$:{{ Number(props.user.balance).toFixed(2)
+          <p class="text-[#c1b75c] font-bold border-t text-[11px] border-t-blue">$:{{ Number(props.user.balance).toFixed(2)
           }}</p>
           <p v-if="winData.win_seat_id != -1" :class="`${Number(winData.win_amount) > 0 ? 'text-green!' : ''}`"
             class=" text-right px-[8px] py-0 absolute  right-[80%]  font-bold  bottom-[-1px] rounded  text-[16px] text-[var(--my-text)]">
@@ -162,7 +170,7 @@ const cardType = [
       </div>
     </div>
 
-    <div v-if="props.pos == ESeatPos.Top" class="flex flex-col  text-[var(--my-text)] text-[10px] items-center  ">
+    <div v-if="props.pos == ESeatPos.Top" class="flex flex-col  text-[var(--my-text)] text-[11px] items-center  ">
       <div class="flex-col flex justify-center items-center pos-relative ">
         <div class="w-[3rem] h-[3rem] pos-relative bg-amber rounded-full "
           :class="`${Number(winData.win_amount) > 0 ? 'avatar-shadow' : ''}`">
@@ -171,7 +179,7 @@ const cardType = [
           <div
             class=" pos-absolute left-[50px] top-[15px] h-[15px] bg-[#000] bg-op-30 rounded-3xl p-[2px] flex flex-row items-center px-[4px]">
             <img class="h-[80%] aspect-ratio-[266/201]" src="../../assets/imgae/chip_icon.png" alt="" srcset="">
-            <p class="text-[10px] text-amber font-bold ml-[2px]">{{ Number(props.user.total_bet_amount).toFixed(2) }}
+            <p class="text-[11px] text-[#c1b75c] font-bold ml-[2px]">{{ Number(props.user.total_bet_amount).toFixed(2) }}
             </p>
           </div>
           <van-image class=" !pos-absolute bottom-0" round width="3rem" height="3rem" :src="props.user.head_url" />
@@ -181,10 +189,10 @@ const cardType = [
         </div>
         <div
           class=" pos-absolute  bottom-10 flex flex-col bg-[#000] bg-op-20  w-[55px] h-[35px] text-center rounded-lg px-1 mt-1 relative">
-          <p class="p-0 m-0 mt-[2px] text-[10px] text-ellipsis! w-[50px] overflow-hidden whitespace-nowrap">{{
+          <p class="p-0 m-0 mt-[2px] text-[11px] text-ellipsis! w-[50px] overflow-hidden whitespace-nowrap">{{
             user.first_name }}</p>
           <van-divider dashed hairline class="m-0! !border-[rgba(255,255,255,0.5)]" />
-          <p class="text-amber font-bold border-t text-[10px] border-t-blue">$:{{ Number(props.user.balance).toFixed(2)
+          <p class="text-[#c1b75c] font-bold border-t text-[11px] border-t-blue">$:{{ Number(props.user.balance).toFixed(2)
           }}</p>
           <p v-if="winData.win_seat_id != -1" :class="`${Number(winData.win_amount) > 0 ? 'text-green!' : ''}`"
             class="px-[8px] py-0 absolute  left-[200%] font-bold  top-[-60px] rounded  text-[16px] text-[var(--my-text)]">
@@ -206,16 +214,16 @@ const cardType = [
           <div
             class=" pos-absolute left-[50px] top-[15px] h-[15px] bg-[#000] bg-op-30 rounded-3xl p-[2px] flex flex-row items-center px-[4px]">
             <img class="h-[80%] aspect-ratio-[266/201]" src="../../assets/imgae/chip_icon.png" alt="" srcset="">
-            <p class="text-[10px] text-amber font-bold ml-[2px]">{{ Number(props.user.total_bet_amount).toFixed(2) }}
+            <p class="text-[11px] text-[#c1b75c] font-bold ml-[2px]">{{ Number(props.user.total_bet_amount).toFixed(2) }}
             </p>
           </div>
           <van-image class=" !pos-absolute bottom-0" round width="3rem" height="3rem" :src="props.user.head_url" />
         </div>
         <div class="flex flex-col bg-[#000] bg-op-20  w-[55px] h-[35px] text-center rounded-lg px-1 mt-1 relative">
-          <p class="p-0 m-0 mt-[2px] text-[10px] text-ellipsis! w-[50px] overflow-hidden whitespace-nowrap">{{
+          <p class="p-0 m-0 mt-[2px] text-[11px] text-ellipsis! w-[50px] overflow-hidden whitespace-nowrap">{{
             user.first_name }}</p>
           <van-divider dashed hairline class="m-0! !border-[rgba(255,255,255,0.5)]" />
-          <p class="text-amber font-bold border-t text-[10px] border-t-blue">$:{{ Number(props.user.balance).toFixed(2)
+          <p class="text-[#c1b75c] font-bold border-t text-[11px] border-t-blue">$:{{ Number(props.user.balance).toFixed(2)
           }}</p>
           <p v-if="winData.win_seat_id != -1" :class="`${Number(winData.win_amount) > 0 ? 'text-green!' : ''}`"
             class="px-[8px] py-0 absolute  left-[80%] font-bold  bottom-[-1px] rounded  text-[16px] text-[var(--my-text)]">
@@ -252,11 +260,11 @@ const cardType = [
     <v-btn v-if="roomStore.can_look_card_seat_ids.includes(roomStore.sceneMsg.self_seat_id) && props.pos == ESeatPos.Bottom"   class="right-[-80px] w-[3rem] h-[3rem] op-80 pos-absolute bottom-[35px]  z-[90]"
       @click.stop="socketStore.lookCard()"
       style="background:var(--my-buttonPrimaryBg); border:var(--my-buttonSecondaryBorder)" height="25" min-width="50">
-      <p class="text-[var(--my-buttonPrimaryText)] text-[10px] font-bold">偷偷看</p>
+      <p class="text-[var(--my-buttonPrimaryText)] text-[11px] font-bold">偷偷看</p>
       <div
         class="h-[20px] pos-absolute bottom-[-24px] flex flex-row bg-[rgba(0,0,0,0.4)] w-[80%] rounded items-center justify-center">
         <img src="../../assets/imgae/m_icon.png" class="w-[12px] h-[12px] " alt="" srcset="">
-        <p class=" text-[var(--my-text)] mx-1 text-[10px]">{{ roomStore.look_card_amount }}</p>
+        <p class=" text-[var(--my-text)] mx-1 text-[11px]">{{ roomStore.look_card_amount }}</p>
       </div>
     </v-btn>
 

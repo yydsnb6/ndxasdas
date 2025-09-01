@@ -5,6 +5,7 @@ import { useUserStore } from './stores/user';
 import { themes } from '@/utils/theme'
 import { useSignal, initData, useLaunchParams } from '@telegram-apps/sdk-vue';
 import { useBackButton } from '@/composables/useBackButton'
+import LoadPoker from './LoadPoker.vue'
 useBackButton()
 const lp = useLaunchParams()
 // import LocalUtil from './utils/LocalUtil';
@@ -127,11 +128,11 @@ const playMySound = (name: string) => {
 const selectedTheme = ref(themes[0]);
 
 // Load from localStorage
-if (localStorage.getItem('themeColor')) {
-  const saved = JSON.parse(localStorage.getItem('themeColor'));
-  const found = themes.find(t => t.name === saved.name);
-  if (found) selectedTheme.value = found;
-}
+// if (localStorage.getItem('themeColor')) {
+//   const saved = JSON.parse(localStorage.getItem('themeColor'));
+//   const found = themes.find(t => t.name === saved.name);
+//   if (found) selectedTheme.value = found;
+// }
 
 watch(selectedTheme, (val) => {
   document.documentElement.style.setProperty('--my-primary', val.primary);
@@ -160,7 +161,7 @@ const route = useRoute()
 const show = ref(false)
 const initDataRef = useSignal(initData.state);
 const user = ref({
-  firstName:initDataRef.value?.user?.firstName || '',//  LocalUtil.stringForKey('first_name', initDataRef.value?.user?.firstName),
+  firstName: initDataRef.value?.user?.firstName || '',//  LocalUtil.stringForKey('first_name', initDataRef.value?.user?.firstName),
   photoUrl: initDataRef.value?.user?.photoUrl || '',// LocalUtil.stringForKey('head_url', initDataRef.value?.user?.photoUrl),
   id: initDataRef.value?.user?.id.toString() || '', // LocalUtil.stringForKey('tgid', initDataRef.value?.user?.id.toString()),
   username: initDataRef.value?.user?.username || '',//LocalUtil.stringForKey('username', initDataRef.value?.user?.username),
@@ -174,11 +175,24 @@ const login = () => {
   // LocalUtil.setString(user.value?.id, 'tgid')
   // LocalUtil.setString(user.value?.username, 'username')
   // LocalUtil.setString(user.value?.lastName, 'lastName')
-
-   let roomId = route.query.roomId
-   if (roomId) {
+  if (lp.startParam && lp.startParam != 'ABC') {
+    let startParam = JSON.parse(decode(lp.startParam))
+    if (startParam.roomId) {
+      router.replace({
+        path: '/game',
+        query: {
+          roomId: startParam.roomId
+        }
+      })
       return
-   }
+    }
+  }
+
+
+  let roomId = route.query.roomId
+  if (roomId) {
+    return
+  }
 
   if (lp.startParam && lp.startParam != 'ABC') {
     let startParam = JSON.parse(decode(lp.startParam))
@@ -190,7 +204,7 @@ const login = () => {
         tgid: Number(user.value?.id),
         user_name: user.value?.username,
         agent_id: startParam.agentId
-      },false).finally(() => {
+      }, false).finally(() => {
       })
 
 
@@ -201,13 +215,13 @@ const login = () => {
         last_name: user.value?.lastName,
         tgid: Number(user.value?.id),
         user_name: user.value?.username,
-      },false).finally(() => {
+      }, false).finally(() => {
       })
     }
 
     if (startParam.roomId) {
 
-      router.push({
+      router.replace({
         path: '/game',
         query: {
           roomId: startParam.roomId
@@ -221,10 +235,11 @@ const login = () => {
       last_name: user.value?.lastName,
       tgid: Number(user.value?.id),
       user_name: user.value?.username,
-    },false).finally(() => {
+    }, false).finally(() => {
     })
   }
 }
+
 
 </script>
 
@@ -237,9 +252,13 @@ const login = () => {
   <TestLogin :show="show" @on-close="show = !show" /> -->
   <div class="pos-fixed top-0 left-0 bg-[rgba(0,0,0,0.5)] w-full h-full z-999999" v-if="userStore.showLoading">
     <div class="w-full h-full items-center flex justify-center">
-      <van-loading size="24px"><p class="text-[white]">{{ userStore.loadingText }}</p></van-loading>
+      <van-loading size="24px">
+        <p class="text-[white]">{{ userStore.loadingText }}</p>
+      </van-loading>
     </div>
   </div>
+
+  <LoadPoker />
 </template>
 
 
@@ -304,18 +323,16 @@ const login = () => {
 
 :deep(.van-radio__icon--checked .van-icon) {
   color: var(--my-text) !important;
-   background: var(--my-primary) !important;
+  background: var(--my-primary) !important;
   border-color: var(--my-accent);
 }
 
-:deep(.van-field__label){
+:deep(.van-field__label) {
   color: var(--my-text) !important;
 }
 
-.van-field__control{
+.van-field__control {
   /* font-size: 15px !important; */
   color: var(--my-text) !important;
 }
-
-
 </style>

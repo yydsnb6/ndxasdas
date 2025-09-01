@@ -13,23 +13,21 @@ const props = defineProps<{
 }>()
 
 const posArr = [
-  [-10, 40],
+  [-15, 40],
   [55, 5],
-  [-15, 30],
-  [48, 30]
+  [-10, 30],
+  [42, 30]
 ]
+
+
+
 // let currentSeatId: string | number | null | undefined = null;
-
-
 // const cookFlyData = (data: any) => {
 //   if (props.seatInfo?.seat_id != roomStore.sceneMsg.self_seat_id) {
 //     console.log("这个座位" + props.seatInfo?.seat_id + "收到消息：", data);
 //     flyMyPoker()
 //   }
 // }
-
-
-
 
 const flyMyPoker = () => {
   // const vector2D = { x: 360, y: 0 };
@@ -143,20 +141,16 @@ const getActionText = computed(() => {
     <!-- v-if="roomStore.sceneMsg.button == props.seatInfo?.seat_id" -->
     <div v-if="roomStore.sceneMsg.button == props.seatInfo?.seat_id"
       :style="`right:${posArr[props.seatPos][0]}px; top:${posArr[props.seatPos][1]}px`"
-      class="z-[9] pos-absolute   bg-[var(--my-accent)] bg-op-80 rounded-full flex justify-center items-center w-[20px] h-[20px]">
-      <p class="text-[12px] font-black text-[var(--my-text)]">庄</p>
+      class="z-[9] pos-absolute   bg-[var(--my-accent)] bg-op-80 rounded-full flex justify-center items-center w-[15px] h-[15px]">
+      <p class="text-[10px] font-black text-[var(--my-text)]">庄</p>
     </div>
 
     <div :id="`poker${props.seatInfo?.seat_id}`"
       v-if="props.seatInfo?.user && props.seatInfo.seat_id != roomStore.sceneMsg.self_seat_id && props.seatInfo?.user.hand_cards.length > 1"
       class="z-9999 w-[45px] flex flex-row items-start justify-start absolute top-[-10px] right-[5px] ">
-      <Poker class="w-full z-1 mr-[-10px] rotate-[-10deg]  aspect-ratio-[134/185]"
-        :show-win="roomStore.win_card.length >= 5 && roomStore.win_card.includes(props.seatInfo.user.hand_cards[0])"
-        :show-lose="roomStore.win_card.length >= 5 && !roomStore.win_card.includes(props.seatInfo.user.hand_cards[0])"
+      <Poker :isuser="true" class="w-full z-1 mr-[-10px] rotate-[-10deg]  aspect-ratio-[134/185]"
         :id="`poker${props.seatInfo?.seat_id}_1`" :point="props.seatInfo.user.hand_cards[0]" />
-      <Poker class="w-full z-2 rotate-[5deg]   aspect-ratio-[134/185] ml-[2px]"
-        :show-win="roomStore.win_card.length >= 5 && roomStore.win_card.includes(props.seatInfo.user.hand_cards[1])"
-        :show-lose="roomStore.win_card.length >= 5 && !roomStore.win_card.includes(props.seatInfo.user.hand_cards[1])"
+      <Poker :isuser="true" class="w-full z-2 rotate-[5deg]   aspect-ratio-[134/185] ml-[2px]"
         :id="`poker${props.seatInfo?.seat_id}_2`" :point="props.seatInfo.user.hand_cards[1]" />
     </div>
 

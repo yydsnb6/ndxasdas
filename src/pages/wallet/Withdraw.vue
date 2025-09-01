@@ -50,29 +50,27 @@ const address = ref('')
     <div class="flex flex-col w-full px-2 mt-2">
       <div class="flex-1 mx-2 my-2 flex flex-col">
         <p class=" text-[var(--my-accent)] font-700">货币</p>
-        <v-card style="background: var(--my-primary);" height="60" color="#fff">
+        <v-card style="background: var(--my-cardBg);" height="60" color="#fff">
           <div class="flex flex-row items-center justify-start h-full pl-5">
             <img src="../../assets/imgae/m_icon.png" class="w-[30px] h-[30px]" alt="" srcset="">
             <p class="text-[18px] font-bold ml-25 text-[var(--my-accent)]">USDT</p>
           </div>
         </v-card>
       </div>
-      <v-card class="mx-2" style="background: var(--my-primary);">
+      <v-card class="mx-2" style="background: var(--my-cardBg);">
         <div class="flex-1 mx-2 my-2 flex flex-col">
           <p class=" text-[var(--my-text)] font-700">网络</p>
           <div class="flex flex-row items-center justify-start h-full">
-            <v-text-field :rules="[]" disabled>
-              <p class="text-[var(--my-text)] text-[24px]">Tron</p>
-            </v-text-field>
+            <p class="text-[var(--my-text)] text-[24px] ml-2 my-2 font-bold">Tron</p>
           </div>
-          <p class=" text-[var(--my-text)] font-700">提现地址</p>
-          <div class="flex flex-row items-center justify-start h-full text-[var(--my-text)]">
+          <p class=" text-[var(--my-text)] font-700 ">提现地址</p>
+          <div class="mt-1 flex flex-row items-center justify-start h-full text-[var(--my-text)]">
             <v-text-field class="text-[white]" v-model="address" :rules="[value => !!value || '请输入正确的钱包地址.']"
               placeholder="请输入正确的钱包地址">
             </v-text-field>
           </div>
 
-          <div class="flex flex-row items-center justify-between">
+          <div class="mt-1 flex flex-row items-center justify-between">
             <p class=" text-[var(--my-text)] font-700">提现数量</p>
             <p class="text-[14px] font-600 text-[var(--my-text)]">可提现:{{ userStore.userInfo?.balance }}</p>
           </div>
@@ -84,8 +82,8 @@ const address = ref('')
             </v-text-field>
           </div>
 
-          <p class=" text-[#6f757a] text-[14px] font-500 my-2 text-[var(--my-text)]">实际到账:{{ money }}USDT</p>
-          <p class=" text-[#6f757a] text-[14px] font-500 text-[var(--my-text)]">手续费:{{ money *
+          <p class=" text-[14px] font-500 my-2 text-[var(--my-text)]">实际到账:{{ money }}USDT</p>
+          <p class=" text-[14px] font-500 text-[var(--my-text)]">手续费:{{ money *
             walletStore.withdrawInfo.withdrawal_rate }}USDT</p>
 
         </div>

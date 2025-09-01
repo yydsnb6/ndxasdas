@@ -11,6 +11,7 @@ const router = useRouter()
 
 onMounted(() => {
   walletStore.getOrderRecords(-1)
+  userStore.update_balance()
 })
 const toWithdraw = () => {
   router.push('/withdraw')
@@ -31,25 +32,25 @@ const showFindUser = ref(false)
 <template>
   <div class="flex flex-col pos-relative items-center">
     <div class=" w-full h-[120px] absolute top-0 z-0 overflow-hidden">
-      <div style="background: var(--my-primary);" class="w-[200%] h-[300px] rounded-b-[50%] absolute bottom-0 left-1/2 -translate-x-1/2"></div>
+      <div style="background: rgba(92, 94, 97,0.6);" class="w-[200%] h-[300px] rounded-b-[50%] absolute bottom-0 left-1/2 -translate-x-1/2"></div>
     </div>
     <div class="flex flex-col z-1 w-full px-3">
 
       <h3 class="w-full text-center mt-2 text-[var(--my-text)]">我的钱包</h3>
-      <v-card style="background: var(--my-primary);" class="p-5  mt-2 pos-relative">
+      <v-card style="background: var(--my-cardBg);" class="p-5  mt-2 pos-relative">
         <div class="w-full  flex flex-col items-center justify-center py-[20px]">
           <p class=" text-[var(--my-text)] text-[14px]">总数</p>
           <div class="flex flex-row items-center">
             <img src="../../assets//imgae/m_icon.png" class="w-[30px] h-[30px]" alt="" srcset="">
             <h1 class="ml-1 text-[28px] text-[var(--my-text)]">{{ userStore.userInfo?.balance || 0 }}</h1>
           </div>
-          <div class="flex flex-row justify-between items-center w-full mt-[25px]">
-            <v-btn @click="toRecharge" height="50" width="140"
+          <div class="flex flex-row justify-evenly items-center w-full mt-[25px]">
+            <v-btn class="px-8"  @click="toRecharge" height="50"
             style="
       background: var(--my-buttonSecondaryBg);
               color: var(--my-buttonSecondaryText);
               border: var(--my-buttonSecondaryBorder)"
-            class="ml-2 ">
+            >
               <svg t="1751989150202" class="icon rotate-[180deg]" viewBox="0 0 1024 1024" version="1.1"
                 xmlns="http://www.w3.org/2000/svg" p-id="12502" width="25" height="25">
                 <path
@@ -58,13 +59,13 @@ const showFindUser = ref(false)
               </svg>
               <p class="text-[14px] font-bold ml-2 text-[var(--my-buttonSecondaryText)]">充值</p>
             </v-btn>
-            <v-btn @click="toWithdraw" height="50" width="140"
+            <v-btn   @click="toWithdraw" height="50"
             style="
               background: var(--my-buttonPrimaryBg) ;
               color: var(--my-buttonPrimaryText) ;
               border:  var(--my-buttonPrimaryBorder) ;
             "
-            class="mr-2 ">
+            class=" px-8">
               <svg t="1751989061537" class="icon" viewBox="0 0 1024 1024" version="1.1"
                 xmlns="http://www.w3.org/2000/svg" p-id="12134" width="25" height="25">
                 <path

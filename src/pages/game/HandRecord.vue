@@ -8,6 +8,21 @@ defineProps({
 
 const roomStore = useRoomStore()
 const emit = defineEmits(['onClose']);
+
+const btns = [
+  {
+    type: 0,
+    text: '账单'
+  },
+  {
+    type: 1,
+    text: 'NLH'
+  },
+  {
+    type: 2,
+    text: '6+'
+  },
+]
 </script>
 
 <template>
@@ -15,10 +30,10 @@ const emit = defineEmits(['onClose']);
   <van-overlay z-index="2000" :show="show" @click="emit('onClose')" class="bg-op-20!">
     <div class="wrapper pos-relative">
       <div
-        class="pos-absolute bottom-0 text-[12px] p-2 px-4 h-[calc(100%-70px)] w-[80%] bg-[rgb(29,29,29,0.8)]   flex flex-col   border-rd-[15px]!"
+        class="pos-absolute bottom-0 text-[12px] p-2   h-[calc(100%-70px)] w-[80%] bg-[rgb(29,29,29,0.8)]   flex flex-col   border-rd-[15px]!"
         @click.stop>
-        <GlowBorder :color="['#A07CFE', '#FE8FB5', '#FFBE7B']" class="rounded h-[98%]! w-[98%]!" :border-radius="10" />
-        <div class="h-full w-full flex flex-col justify-start items-center">
+        <GlowBorder :color="['#A07CFE', '#FE8FB5', '#FFBE7B']" class="rounded h-[98%]! w-[98%]! z-999999!" :border-radius="10" />
+        <div class="h-full flex flex-col justify-start ">
           <MyHandRecord />
         </div>
       </div>

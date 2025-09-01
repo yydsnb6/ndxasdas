@@ -115,10 +115,15 @@ export const useSocketStore = defineStore('socket', () => {
           roomStore.sceneMsg = data
           roomStore.setRoomUserInfo()
 
-          showToast({
-            message: `大盲注${roomStore.sceneMsg.big_blind}，小盲注${roomStore.sceneMsg.little_blind}`
-          })
-
+          // if (Number(roomStore.sceneMsg.straddle_blind) > 0) {
+          //   showToast({
+          //     message: `小盲注$${roomStore.sceneMsg.little_blind},大盲注$${roomStore.sceneMsg.big_blind},额外盲注$${roomStore.sceneMsg.straddle_blind}`
+          //   })
+          // } else {
+          //   showToast({
+          //     message: `小盲注$${roomStore.sceneMsg.little_blind},大盲注$${roomStore.sceneMsg.big_blind}`
+          //   })
+          // }
           break;
         // 行动时间通知
         case 1005:
@@ -292,6 +297,9 @@ export const useSocketStore = defineStore('socket', () => {
           break
         // 聊天
         case 1020:
+          // if (data.) {
+
+          // }
           chatList.value = chatList.value.concat(data)
           setTimeout(() => {
             bus.emit('chat')
@@ -318,69 +326,11 @@ export const useSocketStore = defineStore('socket', () => {
         case 1022:
           roomStore.sceneMsg = data
           roomStore.setRoomUserInfo()
-          // roomStore.sceneMsg.seats.forEach((seat) => {
-          //   if (seat.user) {
-          //     let findUser = data.seats.find((s) => {
-          //       if (s.user) {
-          //         if (s.user.id == seat.user.id) {
-          //           return s.user
-          //         }
-          //       }
-          //     })
-
-          //     if (findUser) {
-          //       seat.user.balance = findUser.user.balance
-          //     }
-          //   }
-          // })
-
-          // if (roomStore.roomUserInfo.id != 0) {
-          //    let findUser = data.seats.find((s) => {
-          //       if (s.user) {
-          //         if (s.user.id == roomStore.roomUserInfo.id) {
-          //           return s.user
-          //         }
-          //       }
-          //     })
-          //     if (findUser) {
-          //       roomStore.roomUserInfo.remain_balance = findUser.user.remain_balance
-          //       roomStore.roomUserInfo.balance = findUser.user.balance
-          //     }
-          // }
           break;
         // 玩家买入后
         case 1023:
           roomStore.sceneMsg = data
           roomStore.setRoomUserInfo()
-
-          // roomStore.sceneMsg.seats.forEach((seat) => {
-          //   if (seat.user) {
-          //     let findUser = data.seats.find((s) => {
-          //       if (s.user) {
-          //         if (s.user.id == seat.user.id) {
-          //           return s.user
-          //         }
-          //       }
-          //     })
-
-          //     if (findUser) {
-          //       seat.user.balance = findUser.user.balance
-          //     }
-          //   }
-          // })
-          //    if (roomStore.roomUserInfo.id != 0) {
-          //    let findUser = data.seats.find((s) => {
-          //       if (s.user) {
-          //         if (s.user.id == roomStore.roomUserInfo.id) {
-          //           return s.user
-          //         }
-          //       }
-          //     })
-          //     if (findUser) {
-          //       roomStore.roomUserInfo.remain_balance = findUser.user.remain_balance
-          //       roomStore.roomUserInfo.balance = findUser.user.balance
-          //     }
-          // }
           break;
         case 1024:
           roomStore.can_look_card_seat_ids = []
@@ -391,6 +341,7 @@ export const useSocketStore = defineStore('socket', () => {
               seat.user.action = -1
             }
           })
+          bus.emit('EventFlyAll')
           roomStore.setRoomUserInfo()
           break;
         // 离开房间通知
@@ -400,7 +351,6 @@ export const useSocketStore = defineStore('socket', () => {
             position: 'top',
           })
           // bus.emit('playSound', 'dolikai')
-
           break;
         case 502:
           showToast({
@@ -414,7 +364,14 @@ export const useSocketStore = defineStore('socket', () => {
             position: 'top',
           })
           break;
-
+        // 踢出房间
+        case 504:
+          showNotify({
+            message: data.msg,
+          })
+          router.replace('/home')
+          disconnect()
+          break;
 
         default:
           console.log('从服务器接收到消息为未定义接受事件‌', event);

@@ -242,8 +242,8 @@ html {}
   position: relative;
   align-items: center;
   justify-content: center;
-  background-color: var(--my-cardBg);
-  height: 52px;
+  background-color: #272d31;
+  height: 60px;
 }
 
 .myMenu__border {
@@ -255,8 +255,7 @@ html {}
   position: absolute;
   clip-path: url(#myMenu);
   will-change: transform;
-  background-color: var(--my-cardBg);
-  ;
+  /* background-color: #70d480;; */
   transition: transform var(--timeOut, .7s);
 
 }
@@ -295,20 +294,25 @@ html {}
 }
 
 .myMenu__item p {
-  font-weight: bold;
-  color: var(--my-text);
-  font-size: 11px;
+  font-weight: bolder;
+  color: #fff;
+  font-size: 12px;
 }
 
 
 .myMenu__item.active {
-  transform: translate3d(0, -.3em, 0);
+  /* transform: translate3d(0, -.3em, 0); */
+}
+
+.myMenu__item.active p{
+   color: #098b26;
 }
 
 .myMenu__item.active::before {
 
   transform: scale(1);
-  background: var(--my-primary);
+  /* background: var(--my-primary); */
+  /* opacity: 0.4; */
 }
 
 .icon {
@@ -329,7 +333,7 @@ html {}
 .myMenu__item.active .icon {
 
   animation: strok 1.5s reverse;
-  color: var(--my-accent);
+  color:#098b26;
 
 }
 

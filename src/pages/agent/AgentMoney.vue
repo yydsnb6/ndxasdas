@@ -30,7 +30,7 @@ const onClickLeft = () => history.back();
       </div>
 
       <div class="flex justify-center w-full mt-16px z-9">
-        <div style="background: var(--my-primary); box-shadow: var(--my-cardShadow);"
+        <div style="background: var(--my-cardBg); box-shadow: var(--my-cardShadow);"
           class="w-370px max-w-95vw  rounded-2xl shadow pt-16px pb-8px px-8px">
           <div class="flex flex-col items-center">
             <span class="text-[var(--my-cardText)] text-[14px] mb-4px"

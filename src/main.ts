@@ -19,10 +19,9 @@ const app = createApp(App)
 // Configure all application dependencies.
 import './mockEnv'
 import { config } from './utils/config';
-init( retrieveLaunchParams().startParam === 'debug' || import.meta.env.DEV)
+init( retrieveLaunchParams().startParam === 'debug' || true) //import.meta.env.DEV
 // app.config.errorHandler = errorHandler
 // app.use(TonConnectUIPlugin, { manifestUrl: publicUrl('tonconnect-manifest.json') })
-
 if (true) {
   config.devWsUrl  = config.proWsUrl
   config.devBaseURL  = config.proBaseURL

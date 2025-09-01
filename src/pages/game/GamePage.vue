@@ -28,9 +28,12 @@ import LocalUtil from '@/utils/LocalUtil';
 
 import { useSignal, initData, useLaunchParams } from '@telegram-apps/sdk-vue';
 import { decode } from 'js-base64';
+
+
 const lp = useLaunchParams()
 
 // import Test from './Test.vue'
+
 
 
 const userStore = useUserStore()
@@ -49,7 +52,7 @@ const showChat = ref(false)
 
 const initDataRef = useSignal(initData.state);
 const user = ref({
-  firstName:initDataRef.value?.user?.firstName || '',//  LocalUtil.stringForKey('first_name', initDataRef.value?.user?.firstName),
+  firstName: initDataRef.value?.user?.firstName || '',//  LocalUtil.stringForKey('first_name', initDataRef.value?.user?.firstName),
   photoUrl: initDataRef.value?.user?.photoUrl || '',// LocalUtil.stringForKey('head_url', initDataRef.value?.user?.photoUrl),
   id: initDataRef.value?.user?.id.toString() || '', // LocalUtil.stringForKey('tgid', initDataRef.value?.user?.id.toString()),
   username: initDataRef.value?.user?.username || '',//LocalUtil.stringForKey('username', initDataRef.value?.user?.username),
@@ -91,7 +94,7 @@ const login = () => {
         tgid: Number(user.value?.id),
         user_name: user.value?.username,
         agent_id: startParam.agentId
-      },true).finally(() => {
+      }, true).finally(() => {
       })
     } else {
       userStore.login({
@@ -100,7 +103,7 @@ const login = () => {
         last_name: user.value?.lastName,
         tgid: Number(user.value?.id),
         user_name: user.value?.username,
-      },true).finally(() => {
+      }, true).finally(() => {
       })
     }
   } else {
@@ -110,7 +113,7 @@ const login = () => {
       last_name: user.value?.lastName,
       tgid: Number(user.value?.id),
       user_name: user.value?.username,
-    },true).finally(() => {
+    }, true).finally(() => {
     })
   }
 }
@@ -250,14 +253,14 @@ const getImg = (path: string) => {
 <template>
 
   <AppPage class=" pos-fixed top-0 left-0 right-0 bottom-0  ">
-    <div class=" w-full h-full pos-relative flex justify-center items-center">
+    <div class="w-full h-full pos-relative flex justify-center items-center">
       <!-- <img :src="getImg(`../../assets/imgae/table/table${bgIndex}_bg.png`)" alt="" srcset=""
         class="w-full h-full absolute top-0"> -->
       <div class="w-[100%] h-[100%] flex! flex-row  justify-center items-center pos-relative ">
         <img :src="getImg(`../../assets/imgae/table/table${tableIndex}.png`)" class="pos-absolute  w-full bottom-0" />
-        <div class="flex flex-col w-[55%]  pos-absolute justify-start items-center text-white  h-58%">
+        <div class="flex flex-col w-[55%]  pos-absolute justify-start items-center text-white top-[100px]">
           <div class=" bg-op-10 rounded-3xl p-[2px] flex flex-row items-center px-[10px] justify-center">
-            <p class="text-[var(--my-accent)] op-70  font-bold  text-center w-full text-[12px]">{{
+            <p class="text-[#c1b75c]   font-bold  text-center w-full text-[14px]">{{
               getRoomStatusText(roomStore.sceneMsg?.room_status) }}</p>
           </div>
           <!-- <div
@@ -269,23 +272,21 @@ const getImg = (path: string) => {
           </div> -->
 
           <div class="bg-[#000] bg-op-10 rounded-full w-[72px] h-[72px] flex justify-center items-center pos-relative">
-            <img class="w-[50px] aspect-ratio-[266/201]" src="../../assets/imgae/chip_icon.png" alt="" srcset="">
+            <img class="w-[40px] aspect-ratio-[266/201] op-50" src="../../assets/imgae/chip_icon.png" alt="" srcset="">
             <div
-              class=" pos-absolute  bottom-[-4px] h-[18px] bg-[#000] bg-op-30! rounded-3xl p-[2px] flex flex-row items-center px-[4px]">
-              <p class="text-[var(--my-accent)] font-bold  text-center w-full text-[16px]">${{
+              class=" pos-absolute  bottom-[-4px] h-[18px] bg-[#000]  bg-op-10! rounded-3xl p-[2px] flex flex-row items-center px-[4px]">
+              <p class="text-[#c1b75c]  font-bold  text-center w-full text-[18px] ">${{
                 Number(roomStore.sceneMsg?.pot_amount).toFixed(2) }}</p>
             </div>
           </div>
-          <p class="text-[11px] mt-2">{{ roomStore.sceneMsg.room_name }}#{{ roomStore.sceneMsg?.room_id }}</p>
-          <p class="text-[11px] mb-1">盲注:{{ roomStore.sceneMsg?.little_blind }}<span >/{{
+          <p class=" op-60 text-[11px] mt-2">{{ roomStore.sceneMsg.room_name }}#{{ roomStore.sceneMsg?.room_id }}</p>
+          <p class=" op-60 text-[11px] mb-1">盲注:{{ roomStore.sceneMsg?.little_blind }}<span>/{{
             roomStore.sceneMsg?.big_blind }}</span><span v-if="Number(roomStore.sceneMsg.straddle_blind) > 0">/{{
                 roomStore.sceneMsg?.straddle_blind }}</span> </p>
         </div>
         <div class=" z-[999] flex flex-col justify-between items-center h-[92%] w-[95%] pb-[0px]">
           <Seat v-for="seat in roomStore.seats.topSeats" :key="seat.seat_id" :seat-info="seat"
             :seat-pos="ESeatPos.Top" />
-
-
           <div class="w-full flex flex-row justify-between items-center flex-1">
             <div class="bg- h-full flex flex-1 flex-col justify-evenly items-start">
               <Seat v-for="seat in roomStore.seats.leftSeats" :key="seat.seat_id" :seat-info="seat"
@@ -299,72 +300,48 @@ const getImg = (path: string) => {
           </div>
           <Seat class="bottom-[20px]" v-for="seat in roomStore.seats.bottomSeats" :key="seat.seat_id" :seat-info="seat"
             :seat-pos="ESeatPos.Bottom" />
+
+          <div v-ripple="{ class: `text-info` }" @click=" showSetting = !showSetting;"
+            class="pos-fixed! top-1 left-1 z-[999] w-[40px] h-[40px] flex items-center justify-center bg-[#1a1c23] bg-op-50 op-60 rounded-full">
+            <van-icon name="wap-nav" color="#fff" size="24" />
+          </div>
+          <div v-ripple="{ class: `text-info` }" @click=" showBlindRecord = !showBlindRecord; socketStore.getBlind()"
+            class="pos-fixed! bottom-[50px] left-1 z-[999] w-[40px] h-[40px] flex items-center justify-center bg-[#1a1c23] bg-op-50 op-60 rounded-full">
+            <van-icon name="todo-list" color="#fff" size="24" />
+          </div>
+          <div v-ripple="{ class: `text-info` }" @click=" showChat = !showChat;"
+            class="pos-fixed! bottom-[50px] left-12 z-[999] w-[40px] h-[40px] flex items-center justify-center bg-[#1a1c23] bg-op-50 op-60 rounded-full">
+            <van-icon name="chat-o" color="#fff" size="24" />
+          </div>
         </div>
+
       </div>
     </div>
-
-    <!-- <div class="w-full flex flex-col absolute top-[47%] z-99 items-center justify-center pl-[15px]">
-      <div class=" w-[200px] text-center py-2 font-bold text-[var(--my-accent)] text-[18px]">
-        <p> {{ roomStore.win_card_type >= 0 ? cardType[roomStore.win_card_type] : '' }}</p>
-      </div>
-    </div> -->
-
-
     <PublicPoker />
     <!--  -->
-    <Poker v-if="roomStore.roomUserInfo?.hand_cards[0]"
-      :show-win="roomStore.win_card.length >= 5 && roomStore.win_card.includes(roomStore.roomUserInfo.hand_cards[0])"
-      :show-lose="roomStore.win_card.length >= 5 && !roomStore.win_card.includes(roomStore.roomUserInfo.hand_cards[0])"
+    <Poker :isuser="true" v-if="roomStore.roomUserInfo?.hand_cards.length > 0 && roomStore.roomUserInfo?.hand_cards[0]"
       class=" mx-1 z-[9] h-[70px]! poker1 w-[52px]!    absolute bottom-[180px] right-[35%]"
       :point="roomStore.roomUserInfo?.hand_cards[0]" />
-    <Poker v-if="roomStore.roomUserInfo.hand_cards[1]"
-      :show-win="roomStore.win_card.length >= 5 && roomStore.win_card.includes(roomStore.roomUserInfo.hand_cards[1])"
-      :show-lose="roomStore.win_card.length >= 5 && !roomStore.win_card.includes(roomStore.roomUserInfo.hand_cards[1])"
+    <Poker :isuser="true" v-if="roomStore.roomUserInfo?.hand_cards.length > 0 && roomStore.roomUserInfo.hand_cards[1]"
       class=" mx-1 z-[9] h-[70px]! poker2 w-[52px]!  absolute bottom-[180px] right-[50%]"
       :point="roomStore.roomUserInfo.hand_cards[1]" />
-
 
 
   </AppPage>
   <!-- 扑克牌  -->
   <!-- 操作按钮 v-if="roomStore.action_seat_id == roomStore.sceneMsg.self_seat_id && roomStore.action_second > 0"-->
   <UserBtns />
-
-  <div  v-ripple="{ class: `text-info` }" @click="; showSetting = !showSetting;"
-    class="pos-fixed! top-1 left-1 z-[2000] w-[40px] h-[40px] flex items-center justify-center bg-[#1a1c23] bg-op-50 op-80 rounded-full">
-    <van-icon name="wap-nav" color="#fff" size="24" />
-  </div>
-  <div  v-ripple="{ class: `text-info` }" @click=" showBlindRecord = !showBlindRecord; socketStore.getBlind()"
-    class="pos-fixed! bottom-[50px] left-1 z-[90] w-[40px] h-[40px] flex items-center justify-center bg-[#1a1c23] bg-op-50 op-80 rounded-full">
-    <van-icon name="todo-list" color="#fff" size="24" />
-  </div>
-  <div  v-ripple="{ class: `text-info` }" @click=" showChat = !showChat;"
-    class="pos-fixed! bottom-[50px] left-12 z-[90] w-[40px] h-[40px] flex items-center justify-center bg-[#1a1c23] bg-op-50 op-80 rounded-full">
-    <van-icon name="chat-o" color="#fff" size="24" />
-  </div>
-
   <Setting :show="showSetting" @onClose="showSetting = !showSetting" />
   <TopPokers class="z-999999" />
   <BlindRecord class="z-999999!" :show="showBlindRecord" @onClose="showBlindRecord = !showBlindRecord" />
   <HandRecord class="z-999999!" :show="showHandRecord" @onClose="showHandRecord = !showHandRecord" />
-
-  <!-- @on-close="showBuyMoney = !showBuyMoney" -->
   <BalanceBet :show="roomStore.buySeatIds.includes(roomStore.sceneMsg.self_seat_id) && roomStore.buyWaitTime > 0" />
-
   <BaoXianBet
     :show="roomStore.baoxianSeatIds.includes(roomStore.sceneMsg.self_seat_id) && roomStore.baoxianSecond > 0" />
-
   <Chat class="z-999999!" :show="showChat" @onClose="showChat = !showChat" />
-
-
   <GameUserInfo class="z-999999!" :show="roomStore.showUser" @onClose="roomStore.showUser = !roomStore.showUser" />
-
   <EnterBuy v-if="userStore.userInfo.tgid != 0" class="z-999999!" :show="roomStore.showBuyEnter"
     @onClose="roomStore.showBuyEnter = !roomStore.showBuyEnter" />
   <CheMa v-if="userStore.userInfo.tgid != 0" class="z-999999!" :show="roomStore.showCheMa"
     @onClose="roomStore.showCheMa = !roomStore.showCheMa" />
-
-
-
-  <Test />
 </template>

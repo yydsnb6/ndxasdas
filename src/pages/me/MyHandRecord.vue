@@ -18,23 +18,11 @@ const recordStore = useRecordStore()
 const btns = [
   {
     type: 0,
-    text: '上一局'
+    text: '账单'
   },
   {
     type: 1,
-    text: '第二局'
-  },
-  {
-    type: 2,
-    text: '第三局'
-  },
-  {
-    type: 3,
-    text: '第四局'
-  },
-  {
-    type: 4,
-    text: '第五局'
+    text: '保险'
   },
 ]
 const selectType = ref(1)
@@ -91,6 +79,9 @@ const getActionText = (action: IOptItem) => {
       str = '下注'
       break;
 
+        case IOptItem.Mang:
+      str = '盲注'
+      break;
     default:
       break;
   }
@@ -105,36 +96,48 @@ const left = () => {
 const right = () => {
   selectType.value++
 }
+
+const titleType = ref(0)
+const clickBtn = (type) => {
+  titleType.value = type
+}
+
+
 </script>
 
 <template>
-  <!-- <div class="flex flex-row justify-between items-center px-2">
-    <v-btn v-for="item in btns" :key="item.type" @click="selectType = item.type"
-      :style="selectType == item.type ? 'background:var(--my-buttonPrimaryBg) ' : 'background:var(--my-buttonSecondaryBg);border:var(--my-buttonSecondaryBorder)'"
-      class="my-2 mx-1 w-[50px]" height="25" min-width="20">
-      <p :class="selectType == item.type ? 'text-[var(--my-buttonPrimaryText)]' : 'text-[var(--my-buttonSecondaryText)]'"
+  <div class="flex flex-row justify-start items-center px-2">
+
+    <v-btn v-for="item in btns" :key="item.type" @click="clickBtn(item.type)"
+      :style="titleType == item.type ? 'background:var(--my-buttonPrimaryBg); border:var(--my-buttonSecondaryBorder)' : 'background:var(--my-buttonSecondaryBg);border:var(--my-buttonSecondaryBorder)'"
+      class="m-2" height="25" min-width="50">
+      <p :class="titleType == item.type ? 'text-[var(--my-buttonPrimaryText)]' : 'text-[var(--my-buttonSecondaryText)]'"
         class="text-[12px] font-bold ">{{ item.text }}</p>
     </v-btn>
-  </div> -->
-  <div class="h-[calc(100vh-50px)]  w-full pos-relative">
+  </div>
+
+  <div class="h-[calc(100vh-100px)]  w-full pos-relative">
+    <div v-if="titleType == 1"
+      class=" bg-[#374047]  py-2 px-2 mx-2 mr-2 text-coolgray flex flex-row justify-between items-center text-[var(--my-text)] text-[10px] font-bold">
+      <p class="w-[20%] text-center">昵称</p>
+      <p class="w-[40%] text-center">行动</p>
+      <p class="w-[20%] text-center">投保</p>
+      <p class="w-[20%] text-center">赔付</p>
+    </div>
     <v-virtual-scroll v-if="recordStore.handList.length > 0" class="h-[calc(100%-50px)] w-full"
       :items="(selectType - 1 < recordStore.handList.length) ? recordStore.handList[selectType - 1] : []">
       <template v-slot:default="{ item }">
-        <v-card class="mt-2 p-2 px-2 " style="background: var(--my-cardBg);">
+        <v-card v-if="titleType == 0" class="mt-2 p-2 px-2 " style="background: var(--my-cardBg);">
           <div class=" flex flex-col justify-between w-full items-center text-[var(--my-text)] text-[10px] font-bold">
-
             <div class="flex flex-row justify-between w-full items-center">
               <div class="flex flex-row justify-between items-center">
                 <p class="  text-[8px] border border-solid text-center p-[2px] rounded bg-[rgba(255,255,255,0.5)] mr-1">
                   {{ seatType[item.seat_type] }}</p>
                 <p>{{ item.first_name }}</p>
                 <p class=" text-center ml-1" :class="Number(item.win_amount) >= 0 ? 'text-[green]' : 'text-[red]'">{{
-              Number(item.win_amount) >0?'+'+    Number(item.win_amount).toFixed(2):Number(item.win_amount).toFixed(2) }}</p>
-
-                <p v-if="Number(item.buy_insurance_amount) > 0" class="ml-2">投保<span class=" text-center text-[green]" >{{
-                  Number(item.buy_insurance_amount).toFixed(2) }}</span></p>
-                   <p v-if="Number(item.insurance_compensation_amount) > 0" class="ml-2">赔付<span class=" text-center text-[green]" >{{
-                  Number(item.insurance_compensation_amount).toFixed(2) }}</span></p>
+                  Number(item.win_amount) > 0 ? '+' + Number(item.win_amount).toFixed(2) :
+                    Number(item.win_amount).toFixed(2)
+                }}</p>
 
               </div>
               <p class=" text-center  ">{{ getActionText(item.action) }}</p>
@@ -146,35 +149,25 @@ const right = () => {
               <div class="flex items-center justify-evenly  text-center">
                 <Poker v-for="p in item.public_cards" :point="p" class="w-[25px]! mx-1" />
               </div>
+            </div>
+          </div>
+        </v-card>
+        <v-card v-else class=" p-2 px-2  " style="background: var(--my-cardBg);">
+          <div class="bg-[#26292b] py-2 px-2 flex flex-row justify-between w-full items-center text-[var(--my-text)] text-[12px] font-bold">
+            <p class="w-[20%] text-center ">{{ item.first_name }}</p>
+            <p class="w-[40%] text-center ">{{ getActionText(item.action) }}</p>
+            <p class="w-[20%] text-center ">{{
+                      Number(item.buy_insurance_amount).toFixed(2) }}</p>
+            <p class="w-[20%] text-center text-[green]">{{
+                      Number(item.insurance_compensation_amount).toFixed(2) }}</p>
 
-            </div>
-
-            <!-- <div class="w-[10%] flex flex-col justify-center items-center pos-relative">
-              <van-image round width="1.5rem" height="1.5rem" :src="item.head_url" />
-            </div>
-            <div class="w-[20%] flex flex-col justify-center items-center">
-              <div class="flex items-center justify-evenly  text-center">
-                <Poker v-for="p in item.cards" :point="p" class="w-[20px]! " />
-              </div>
-              <p>{{ cardType[item.card_type] }}</p>
-            </div>
-            <div class="w-[10%] flex flex-col justify-center items-center">
-              <p class=" text-center  ">{{ getActionText(item.opt_item) }}</p>
-              <p class="   ">{{ item.bet_amount }}</p>
-            </div>
-            <div class="flex items-center justify-evenly w-[35%] text-center">
-              <Poker v-for="p in item.public_card" :point="p" class="w-[25px]! " />
-            </div>
-
-
-            <div class="w-[15%] flex flex-col justify-center items-center">
-              <p class=" text-center  ">{{ item.win_amount }}</p>
-              <p class=" text-center text-nowrap" v-if="item.bet_all_amount">总:{{ item.bet_all_amount }}</p>
-            </div> -->
           </div>
         </v-card>
       </template>
     </v-virtual-scroll>
+
+
+
     <div class="flex flex-row justify-between items-center  w-full pos-absolute bottom-[5px]">
       <div class="flex flex-row flex-1">
         <van-button :disabled="selectType <= 1" @click="selectType = 1" icon="arrow-double-left"

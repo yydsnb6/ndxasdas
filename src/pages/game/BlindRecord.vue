@@ -39,10 +39,10 @@ const emit = defineEmits(['onClose']);
           <div class="  flex flex-col w-[96%] h-[70%]   items-center ">
             <div
               class="p-2 w-full flex flex-row justify-between items-center  text-[12px] text-white bg-[#151f23]  border-solid border-b-0 border-l-0  border-1 border-[rgba(255,255,255,0.1)]">
-              <p class="w-1/4 text-center  ">玩家</p>
-              <p class="w-1/4 text-center">买入</p>
+              <p class="w-[10%] text-center  ">玩家</p>
+              <p class="w-[40%] text-center">买入\撤码</p>
               <p class="w-1/4 text-center">入池率</p>
-              <p class="w-1/4 text-center  ">盈亏</p>
+              <p class="w-1/4 text-center">盈亏</p>
             </div>
             <v-virtual-scroll v-if="roomStore.blindRecored && roomStore.blindRecored?.user_blind_list.length > 0"
               class="h-[calc(100%-50px)] w-full" :items="roomStore.blindRecored?.user_blind_list">
@@ -51,9 +51,9 @@ const emit = defineEmits(['onClose']);
                   <div class="
              border-solid border-t-0 border-1 border-r-0 border-l-0 border-[rgba(255,255,255,0.1)]
             h-[28px]! flex flex-row justify-between w-full">
-                    <p class="flex items-center justify-center text-white   w-1/4 text-center ml-[5px]">{{ item.name }}
+                    <p class="flex items-center justify-center text-white   w-[10%] text-center ml-[5px]">{{ item.name }}
                     </p>
-                    <p class="flex items-center justify-center text-amber w-1/4 text-center">{{
+                    <p class="flex items-center justify-center text-amber w-[40%] text-center">{{
                       Number(item.buy_amount).toFixed(2)
                       }}
                     </p>
@@ -68,7 +68,6 @@ const emit = defineEmits(['onClose']);
               </template>
             </v-virtual-scroll>
             <NoRecord class="mt-30" :size="60" v-else />
-
           </div>
           <div
             class="h-[20px] items-center  flex flex-row justify-between w-[96%] text-[12px] text-white bg-[#151f23]  border-solid border-b-0 border-1 border-[rgba(255,255,255,0.1)]">

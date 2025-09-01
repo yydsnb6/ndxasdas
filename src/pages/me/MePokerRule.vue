@@ -182,7 +182,7 @@ const emit = defineEmits(['onClose', 'changeIndex']);
           <div class=" font-['Noto_Sans_SC']">
             <div v-for="(item, idx) in hands" :key="idx" class="flex items-center mb-1 last:mb-0">
               <div class="flex space-x-1 w-28">
-                <Poker class="w-[40px]" v-for="(img, i) in item.cards" :key="i" :point="img" />
+                <Poker class="w-[40px]" v-for="(img, i) in item.cards" :key="i" :point="Number(img)" />
               </div>
               <div class="ml-5">
                 <div class="flex items-center">

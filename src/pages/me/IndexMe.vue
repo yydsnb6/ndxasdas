@@ -10,7 +10,11 @@ const showPokerRule = ref(false)
 const userStore = useUserStore()
 onMounted(() => {
   userStore.get_customer_url()
+  userStore.update_balance()
+
 })
+
+
 
 const menuList = [
   {
@@ -52,14 +56,13 @@ const menuList = [
       openTelegramLink(userStore.customer_url)
     }
   },
-  {
-    name: '主题设置',
-    icon: 'fas fa-palette',
-    click: () => {
-      router.push('/theme')
-    }
-  },
-
+  // {
+  //   name: '主题设置',
+  //   icon: 'fas fa-palette',
+  //   click: () => {
+  //     router.push('/theme')
+  //   }
+  // },
 ]
 
 
@@ -69,7 +72,7 @@ const menuList = [
 <template>
   <div class="flex flex-col pos-relative items-center">
     <div class=" w-full h-[160px] absolute top-0 z-0 overflow-hidden">
-      <div :border="false" style="background: var(--my-primary);"
+      <div :border="false" style="background: rgba(92, 94, 97,0.6);"
         class="w-[200%] h-[300px]  rounded-b-[50%] absolute bottom-0 left-1/2 -translate-x-1/2"></div>
     </div>
     <div class="flex flex-col z-1 w-full px-3">
@@ -79,13 +82,13 @@ const menuList = [
         <UserAvatr class="ml-5 scale-120 my-5" />
         <UserBalance class="h-[40px] mr-5" />
       </div>
-      <v-card style="background: var(--my-primary);">
+      <v-card style="background: var(--my-cardBg);">
         <div class="flex flex-col w-full ">
           <div @click="item.click" class="w-full" v-for="item in menuList" :key="item.name">
             <div class="  flex flex-row justify-between h-[65px] items-center px-2 " v-ripple="{ class: `text-info` }">
               <div class="flex flex-row justify-between items-center">
                 <!-- <img :src="item.icon" class="w-[22px] h-[22px]" alt="" srcset=""> -->
-                <i :class="item.icon" class="text-[var(--my-accent)] text-[22px] w-[28px]"></i>
+                <i :class="item.icon" class="text-[var(--my-text)] text-[22px] w-[28px]"></i>
                 <p class="text-[12px] font-bold ml-4 text-[var(--my-text)]">{{ item.name }}</p>
               </div>
               <van-icon name="arrow" class="text-[var(--my-text)]!" />

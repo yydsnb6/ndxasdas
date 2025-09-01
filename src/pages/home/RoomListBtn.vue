@@ -8,7 +8,7 @@ const router = useRouter()
 <template>
   <div @click="router.push('/gameRoomList')" class="flex flex-row justify-between w-[96%]"
     v-ripple="{ class: `text-info` }">
-    <v-card style="background: var(--my-primary)" class="w-[100%] pos-relative  shadow-[var(--my-cardShadow)]!"
+    <v-card style="background: var(--my-cardBg)" class="w-[100%] pos-relative  shadow-[var(--my-cardShadow)]!"
       subtitle="现金游戏" title="游戏房间列表">
       <div class=" pos-absolute top-0 right-5 ">
         <svg t="1751910165883" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
@@ -49,11 +49,14 @@ const router = useRouter()
       </div>
       <p class="text-[14px] ml-4 mt-[-5px] text-[var(--my-cardSubText)]">🔥 牌桌即战场,心跳与筹码共舞,胜负一瞬燃爆激情 🔥</p>
       <v-btn style="
-      background: var(--my-buttonSecondaryBg);
-              color: var(--my-buttonSecondaryText);
-              border: var(--my-buttonSecondaryBorder)" height="20" width="60" class="my-1 mb-2 ml-4 ">
-        <p class="text-[10px] text-[var(--my-buttonSecondaryText)]">立即进入</p>
+              background: var(--my-buttonPrimaryBg) ;
+              color: var(--my-buttonPrimaryText) ;
+              border:  var(--my-buttonPrimaryBorder) ;
+            " height="35" width="100" class="my-1 mb-2 ml-4 ">
+        <p class="text-[13px] text-[var(--my-text)] font-bold">立即进入</p>
       </v-btn>
+
+
     </v-card>
   </div>
 </template>

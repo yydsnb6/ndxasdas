@@ -71,6 +71,7 @@ export enum EPlayerStatus {
 export enum IOptItem {
   // 示例字段 - 根据实际业务补充
   No = -1,
+  Mang = 1, // 过牌 2
   OptItemPass = 2, // 过牌 2
   OptItemBet = 3,  // 跟注 3
   OptItemRaise = 4, // 加注 4
@@ -153,6 +154,7 @@ export interface PokerRoomConfig {
   seat_num: number;             // 房间总座位数[1](@ref)
   sit_num: number;              // 当前已入座玩家数[1](@ref)
   straddle_blind?: string;      // 【可选】Straddle盲注金额（特殊下注规则）[1,2](@ref)
+  is_open_insurance:boolean
 }
 
 
