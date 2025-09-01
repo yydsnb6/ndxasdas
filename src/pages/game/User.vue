@@ -92,7 +92,7 @@ const winData = computed(() => {
 
 })
 
-const cardType = [
+const longCardType = [
   ' 高牌',
   ' 一对',
   ' 两对',
@@ -104,6 +104,21 @@ const cardType = [
   ' 同花顺',
   ' 皇家同花顺',
 ]
+
+const shortCardType = [
+  ' 高牌',
+  ' 一对',
+  ' 两对',
+  ' 三条',
+  ' 顺子',
+  ' 葫芦',
+  ' 同花',
+  ' 四条',
+  ' 同花顺',
+  ' 皇家同花顺',
+]
+
+
 
 </script>
 <template>
@@ -117,10 +132,10 @@ const cardType = [
           <img v-if="Number(winData.win_amount) > 0" src="../../assets/imgae/winbg.png"
             class="w-[8rem] h-[8rem]  rotating-bg" alt="" srcset="">
           <van-image class=" !pos-absolute bottom-0 " round width="3rem" height="3rem" :src="props.user.head_url" />
-          <div
+          <div v-if=" Number(props.user.bet_amount) >0"
             class=" pos-absolute left-[3rem] top-[0px] h-[15px] bg-[#000] bg-op-30 rounded-3xl p-[2px] flex flex-row items-center px-[4px]">
             <img class="h-[80%] aspect-ratio-[266/201]" src="../../assets/imgae/chip_icon.png" alt="" srcset="">
-            <p class="text-[11px] text-[#c1b75c] font-bold ml-[2px]">{{ Number(props.user.total_bet_amount).toFixed(2) }}
+            <p class="text-[11px] text-[#c1b75c] font-bold ml-[2px]">{{ Number(props.user.bet_amount).toFixed(2) }}
             </p>
           </div>
 
@@ -148,9 +163,10 @@ const cardType = [
             class="w-[8rem] h-[8rem]  rotating-bg" alt="" srcset="">
           <van-image class=" !pos-absolute bottom-0" round width="3rem" height="3rem" :src="props.user.head_url" />
           <div
+          v-if=" Number(props.user.bet_amount) >0"
             class=" pos-absolute right-[3.5rem] top-[0px] h-[15px] bg-[#000] bg-op-30 rounded-3xl p-[2px] flex flex-row items-center px-[4px]">
             <img class="h-[80%] aspect-ratio-[266/201]" src="../../assets/imgae/chip_icon.png" alt="" srcset="">
-            <p class="text-[11px] text-[#c1b75c] font-bold ml-[2px]">{{ Number(props.user.total_bet_amount).toFixed(2) }}
+            <p class="text-[11px] text-[#c1b75c] font-bold ml-[2px]">{{ Number(props.user.bet_amount).toFixed(2) }}
             </p>
           </div>
         </div>
@@ -177,9 +193,10 @@ const cardType = [
           <img v-if="Number(winData.win_amount) > 0" src="../../assets/imgae/winbg.png"
             class="w-[8rem] h-[8rem]  rotating-bg" alt="" srcset="">
           <div
+          v-if=" Number(props.user.bet_amount) >0"
             class=" pos-absolute left-[50px] top-[15px] h-[15px] bg-[#000] bg-op-30 rounded-3xl p-[2px] flex flex-row items-center px-[4px]">
             <img class="h-[80%] aspect-ratio-[266/201]" src="../../assets/imgae/chip_icon.png" alt="" srcset="">
-            <p class="text-[11px] text-[#c1b75c] font-bold ml-[2px]">{{ Number(props.user.total_bet_amount).toFixed(2) }}
+            <p class="text-[11px] text-[#c1b75c] font-bold ml-[2px]">{{ Number(props.user.bet_amount).toFixed(2) }}
             </p>
           </div>
           <van-image class=" !pos-absolute bottom-0" round width="3rem" height="3rem" :src="props.user.head_url" />
@@ -212,9 +229,10 @@ const cardType = [
             class="w-[8rem] h-[8rem]  rotating-bg" alt="" srcset="">
 
           <div
+          v-if=" Number(props.user.bet_amount) >0"
             class=" pos-absolute left-[50px] top-[15px] h-[15px] bg-[#000] bg-op-30 rounded-3xl p-[2px] flex flex-row items-center px-[4px]">
             <img class="h-[80%] aspect-ratio-[266/201]" src="../../assets/imgae/chip_icon.png" alt="" srcset="">
-            <p class="text-[11px] text-[#c1b75c] font-bold ml-[2px]">{{ Number(props.user.total_bet_amount).toFixed(2) }}
+            <p class="text-[11px] text-[#c1b75c] font-bold ml-[2px]">{{ Number(props.user.bet_amount).toFixed(2) }}
             </p>
           </div>
           <van-image class=" !pos-absolute bottom-0" round width="3rem" height="3rem" :src="props.user.head_url" />
@@ -239,7 +257,7 @@ const cardType = [
 
     <div v-if="winData.win_seat_id != -1 && winData.win_card_type != -1"
       class="absolute  top-[28px] left-[-5px]  text-[12px] text-[white] font-bold  px-1 rounded bg-[#000] bg-op-50 flex justify-center items-center">
-      {{ cardType[winData.win_card_type] }}
+      {{ roomStore.sceneMsg.room_type == 1? longCardType[winData.win_card_type] : shortCardType[winData.win_card_type] }}
     </div>
     <CountDown v-if="roomStore.action_second > 0 && roomStore.action_seat_id == props.seatInfo.seat_id"
       class="!pos-absolute top-[-1px] left-[3.2px] w-[3.2rem]! h-[3.2rem]! z-[9999] bg-[#000] bg-op-50 rounded-full"

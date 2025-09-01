@@ -51,11 +51,11 @@ const emit = defineEmits(['onClose']);
                   <div class="
              border-solid border-t-0 border-1 border-r-0 border-l-0 border-[rgba(255,255,255,0.1)]
             h-[28px]! flex flex-row justify-between w-full">
-                    <p class="flex items-center justify-center text-white   w-[10%] text-center ml-[5px]">{{ item.name }}
+                    <p class="flex items-center justify-center text-white   w-[10%] text-center ml-[5px] overflow-hidden text-ellipsis whitespace-nowrap">{{ item.name }}
                     </p>
                     <p class="flex items-center justify-center text-amber w-[40%] text-center">{{
                       Number(item.buy_amount).toFixed(2)
-                      }}
+                      }}\{{  Number(item.withdraw_amount).toFixed(2) }}
                     </p>
                     <p class="flex items-center justify-center  w-1/4 text-center text-amber mr-[5px]">{{
                       item.bet_number }}

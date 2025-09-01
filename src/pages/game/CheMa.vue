@@ -2,9 +2,7 @@
 import api from '@/api/api';
 import { useSocketStore } from '@/stores/mysocket';
 import { useRoomStore } from '@/stores/room';
-import { useUserStore } from '@/stores/user';
-import { showNotify, showToast } from 'vant';
-import { onMounted, ref } from 'vue';
+import {  ref } from 'vue';
 
 const props = defineProps({
   show: Boolean,
@@ -12,7 +10,7 @@ const props = defineProps({
 
 const emit = defineEmits(['onClose']);
 const socketStore = useSocketStore()
-const userStore = useUserStore()
+const roomStore = useRoomStore()
 const buyMoney = ref(10)
 
 
@@ -35,11 +33,11 @@ const buyAndSitDown = async () => {
         <div class="flex flex-row justify-center w-full items-center">
           <p class="text-[16px] text-[var(--my-text)]">撤码金额</p>
           <div
-            class="flex flex-row justify-evenly items-center w-[100px]  bg-[rgba(255,255,255,0.5)] bg-op-10 rounded-md ml-2">
+            class="flex flex-row justify-evenly items-center w-[100px]  bg-[rgba(255,255,255,0.5)] bg-op-10 rounded-md mx-2">
             <van-field v-model="buyMoney" type="number" :min="0" input-align="center"
               class="bg-[rgba(0,0,0,0)]! text-amber! font-bold  text-center h-[40px]  text-[20px]! w-4/5! bg-op-0!" />
           </div>
-          <p class="text-[16px] text-[var(--my-text)]">余额:{{ userStore.userInfo.balance }}</p>
+          <p class="text-[16px] text-[var(--my-text)]">余额:{{ roomStore.roomUserInfo.balance }}</p>
         </div>
 
 

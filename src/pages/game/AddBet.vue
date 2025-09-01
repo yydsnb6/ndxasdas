@@ -34,7 +34,7 @@ const addBet = () => {
   }else{
     socketStore.doSomething(IOptItem.OptItemRaise, Number(buyMoney.value))
   }
-  buyMoney.value =   Number(roomStore.roomUserInfo.balance)
+  buyMoney.value = roomStore.sceneMsg.pot_amount
 }
 
 </script>

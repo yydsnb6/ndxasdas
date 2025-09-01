@@ -92,6 +92,9 @@ export const useSocketStore = defineStore('socket', () => {
         // 场景消息
         case 1001:
           roomStore.sceneMsg = data
+          if (data.is_open_insurance) {
+            bus.emit('showBaoxian')
+          }
           roomStore.setRoomUserInfo()
           break;
         // 用户坐下
